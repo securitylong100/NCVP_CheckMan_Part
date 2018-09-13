@@ -7,8 +7,8 @@
     <ProjectGuid>{5CC430CB-913F-4F4C-AC32-93E42FA87A6A}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IPQC_Motor</RootNamespace>
-    <AssemblyName>IPQC Motor</AssemblyName>
+    <RootNamespace>IPQC_Part</RootNamespace>
+    <AssemblyName>IPQC Part</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -185,6 +185,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="IPQC Motor_TemporaryKey.pfx" />
     <None Include="Properties\app.manifest" />

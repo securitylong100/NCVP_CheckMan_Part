@@ -19,10 +19,7 @@ namespace IPQC_Motor
             //initialize the DefaultApplicationInitializer
             DefaultApplicationInitializer.GetInstance().Init();
 
-            //login form show
-            frmLogin login = new frmLogin(applicationname);
-            login.Closed += new EventHandler(OnFormClosed);
-            login.Show();
+     
 
         }
 

@@ -15,7 +15,7 @@ namespace IPQC_Motor
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmLogin(Assembly.GetExecutingAssembly().GetName().Name));
+            Application.Run(new frmLogin());
         }
     }
 }
