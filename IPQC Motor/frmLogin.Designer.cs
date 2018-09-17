@@ -71,6 +71,7 @@ namespace IPQC_Motor
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(122, 20);
             this.txtPassword.TabIndex = 11;
+            this.txtPassword.Text = "admin";
             this.txtPassword.UseSystemPasswordChar = true;
             // 
             // lblPass

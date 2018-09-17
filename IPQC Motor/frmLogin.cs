@@ -47,9 +47,9 @@ namespace IPQC_Motor
             string sql = "select distinct user_name from m_user order by user_name";
             con.getComboBoxData(sql, ref cmbUserName);
 
-
+            AcceptButton = btnLogIn;
         }
-        public string UserName = "";
+      
         private void btnLogIn_Click(object sender, EventArgs e)
         {
             TfSQL con = new TfSQL();
@@ -58,9 +58,8 @@ namespace IPQC_Motor
             try
             {
                 if (pass == txtPassword.Text)
-                {
-                    UserName = cmbUserName.Text;
-                    frmItem frm = new frmItem();
+                {               
+                    frmItem frm = new frmItem(cmbUserName.Text);
                     frm.ShowDialog();
                 }
                 else

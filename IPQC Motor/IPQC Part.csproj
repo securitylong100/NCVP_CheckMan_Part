@@ -104,6 +104,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Form\frmFMS.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\frmFMS.Designer.cs">
+      <DependentUpon>frmFMS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmChangePass.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmChangePass.Designer.cs">
+      <DependentUpon>frmChangePass.cs</DependentUpon>
+    </Compile>
     <Compile Include="Class\ApplicationInitializer.cs" />
     <Compile Include="Class\DefaultApplicationContext.cs" />
     <Compile Include="Class\DefaultApplicationInitializer.cs" />
@@ -151,11 +163,23 @@
     <Compile Include="Form\frmScale.Designer.cs">
       <DependentUpon>frmScale.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmRegisterUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRegisterUser.Designer.cs">
+      <DependentUpon>frmRegisterUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Class\TfGeneral.cs" />
     <Compile Include="Class\TfSQL.cs" />
     <Compile Include="Class\VBStrings.cs" />
+    <EmbeddedResource Include="Form\frmFMS.resx">
+      <DependentUpon>frmFMS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmChangePass.resx">
+      <DependentUpon>frmChangePass.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form\frmHioki.resx">
       <DependentUpon>frmHioki.cs</DependentUpon>
     </EmbeddedResource>
@@ -176,6 +200,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form\frmScale.resx">
       <DependentUpon>frmScale.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmRegisterUser.resx">
+      <DependentUpon>frmRegisterUser.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
