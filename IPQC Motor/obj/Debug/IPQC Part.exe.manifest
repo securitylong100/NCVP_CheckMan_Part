@@ -43,14 +43,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="IPQC Part.exe" size="679424">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="IPQC Part.exe" size="680960">
       <assemblyIdentity name="IPQC Part" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>ayyI12Suq+8R7gXPMfSf5imqmbAt3zlCEs/CCF4Lp+k=</dsig:DigestValue>
+        <dsig:DigestValue>TDP+7RwTBq3HXHC2PxxI01u+awqHJJtXjvHzTiWs79U=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

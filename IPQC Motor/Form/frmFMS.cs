@@ -25,7 +25,39 @@ namespace IPQC_Part
 
         private void frmFMS_Load(object sender, EventArgs e)
         {
+            string sql = "select distinct header_procedure from m_header order by header_procedure";
+            IPQC_Motor.TfSQL con = new IPQC_Motor.TfSQL();
+            con.getComboBoxData(sql, ref cmbProcedure);
+        }
+
+        private void btnStartFMS_Click(object sender, EventArgs e)
+        {
+            if (checkdata ())
+            {
+
+
+
+            }
+
+        }
+        bool  checkdata()
+        {
+            if (cmbProcedure.Text == "")
+                return false;
+            if (cmbMethod.SelectedItem == null)
+                return false;
+            if (cmbArea.SelectedItem == null)
+                return false;
+            if (cmbMachineModel.Text == "")
+                return false;
+            return true;
+
+        }
+
+        private void dgvMeasureData_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
 
         }
     }
 }
+ 

@@ -61,7 +61,7 @@ namespace IPQC_Motor
         {
             dtInspectItems.Clear();
        
-            string sql = @"select  b.model_cd ||'-'|| b.model_sub_cd as model, a.dwr_cd, a.dwr_name, a.doc_name, a.registration_date_time from m_drawing a
+            string sql = @"select   b.model_sub_cd as model, a.dwr_cd, a.dwr_name, a.doc_name, a.registration_date_time from m_drawing a
                             left join m_model b on a.model_id = b.model_id
                             where
                         b.model_cd = '" + cmbModel.Text + "' and b.model_sub_cd = '" + cmbSubModel.Text + "' order by dwr_cd";
