@@ -25,15 +25,20 @@ namespace IPQC_Motor
         {
 
             TfSQL con = new TfSQL();
-            string sql = @"select distinct model_cd from m_model a
-                        left join m_user b on a.user_id = b.user_id
-                        where
-                        b.user_name = '" + username + "' order by model_cd";
+            string sql = @"
+select distinct model_cd from(
+select model_cd ,user_dept_cd from m_model a,m_user b where a.user_id = b.user_id )t,m_user a 
+where a.user_dept_cd = t.user_dept_cd and a.user_name = '" + username + "'";
 
             con.getComboBoxData(sql, ref cmbModel);
             cmbModel.Text = "";
             txtUser.Text = username;
             dtInspectItems = new DataTable();
+            if (username == "admin")
+            {
+                btnEditMaster.Visible = true;
+            }
+
         }
 
         private void cmbModel_SelectedIndexChanged(object sender, EventArgs e)
@@ -73,7 +78,11 @@ namespace IPQC_Motor
 
         private void btnEditMaster_Click(object sender, EventArgs e)
         {
-
+        if (dgvMeasureItem.RowCount > 0 && username == "admin")
+            {
+                frmItemMaster frmitemM = new frmItemMaster(dgvMeasureItem.CurrentRow.Cells["dwr_cd"].Value.ToString(), username);
+                frmitemM.ShowDialog();
+            }
         }
 
         private void changePasswordToolStripMenuItem_Click(object sender, EventArgs e)

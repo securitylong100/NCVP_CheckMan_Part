@@ -48,7 +48,7 @@ namespace IPQC_Motor
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(500, 30);
+            this.label3.Location = new System.Drawing.Point(799, 33);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(35, 13);
             this.label3.TabIndex = 6;
@@ -57,7 +57,7 @@ namespace IPQC_Motor
             // txtUser
             // 
             this.txtUser.Enabled = false;
-            this.txtUser.Location = new System.Drawing.Point(503, 50);
+            this.txtUser.Location = new System.Drawing.Point(802, 53);
             this.txtUser.Name = "txtUser";
             this.txtUser.Size = new System.Drawing.Size(130, 20);
             this.txtUser.TabIndex = 1;
@@ -102,12 +102,13 @@ namespace IPQC_Motor
             // 
             // btnEditMaster
             // 
-            this.btnEditMaster.Location = new System.Drawing.Point(639, 47);
+            this.btnEditMaster.Location = new System.Drawing.Point(938, 50);
             this.btnEditMaster.Name = "btnEditMaster";
             this.btnEditMaster.Size = new System.Drawing.Size(91, 23);
             this.btnEditMaster.TabIndex = 13;
             this.btnEditMaster.Text = "Edit Master";
             this.btnEditMaster.UseVisualStyleBackColor = true;
+            this.btnEditMaster.Visible = false;
             this.btnEditMaster.Click += new System.EventHandler(this.btnEditMaster_Click);
             // 
             // dgvMeasureItem
@@ -115,12 +116,12 @@ namespace IPQC_Motor
             this.dgvMeasureItem.AllowUserToAddRows = false;
             this.dgvMeasureItem.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgvMeasureItem.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvMeasureItem.Location = new System.Drawing.Point(0, 101);
+            this.dgvMeasureItem.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.dgvMeasureItem.Location = new System.Drawing.Point(0, 93);
             this.dgvMeasureItem.Name = "dgvMeasureItem";
             this.dgvMeasureItem.ReadOnly = true;
-            this.dgvMeasureItem.Size = new System.Drawing.Size(742, 605);
+            this.dgvMeasureItem.Size = new System.Drawing.Size(1029, 657);
             this.dgvMeasureItem.TabIndex = 14;
-           
             this.dgvMeasureItem.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMeasureItem_CellDoubleClick);
             // 
             // menuStrip1
@@ -129,7 +130,7 @@ namespace IPQC_Motor
             this.userInfoToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(742, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1029, 24);
             this.menuStrip1.TabIndex = 15;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -161,7 +162,7 @@ namespace IPQC_Motor
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(742, 706);
+            this.ClientSize = new System.Drawing.Size(1029, 750);
             this.Controls.Add(this.dgvMeasureItem);
             this.Controls.Add(this.btnEditMaster);
             this.Controls.Add(this.cmbSubModel);

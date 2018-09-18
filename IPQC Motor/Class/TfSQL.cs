@@ -170,7 +170,7 @@ namespace IPQC_Motor
                 int response = command.ExecuteNonQuery();
                 if (response >= 1)
                 {
-                    if (result_message_show) { MessageBox.Show("Successful!", "Database Responce", MessageBoxButtons.OK, MessageBoxIcon.Information); }                    
+                    //if (result_message_show) { MessageBox.Show("Successful!", "Database Responce", MessageBoxButtons.OK, MessageBoxIcon.Information); }                    
                     connection.Close();
                     return true;
                 }
@@ -235,6 +235,87 @@ namespace IPQC_Motor
                 adapter.SelectCommand = command;
                 adapter.Fill(dt);
              }
+        }
+
+        public bool sqlMultipleInsertItem(string DrawingCd, ref DataTable dt,string UserId)
+        {
+            int res1;
+            bool res2 = false;
+            connection = new NpgsqlConnection(conStringIpqcDbP4);
+            connection.Open();
+            NpgsqlTransaction transaction = connection.BeginTransaction(IsolationLevel.ReadCommitted);
+
+            try
+            {
+                string sqlDel = @"delete from m_item where dwr_id = (select dwr_id from m_drawing where dwr_cd = '" + DrawingCd + "') ";
+                System.Diagnostics.Debug.Print(sqlDel);
+                NpgsqlCommand command1 = new NpgsqlCommand(sqlDel, connection);
+                int r1 = command1.ExecuteNonQuery();
+
+                // 登録②：
+                string sql2 = "insert into m_item(item_id, dwr_id , item_measure , item_symbol,item_spec_x, item_lower, item_upper, item_tool , item_detail , item_row , user_id , registration_date_time) " +
+                    @"VALUES (:item_id, :dwr_id, :item_measure, :item_symbol ,:item_spec_x, :item_lower, :item_upper, :item_tool , :item_detail , :item_row , (select user_id from m_user where user_name = :user_name) , now())";
+                NpgsqlCommand command2 = new NpgsqlCommand(sql2, connection);
+
+                command2.Parameters.Add(new NpgsqlParameter("item_id", NpgsqlTypes.NpgsqlDbType.Integer));
+                command2.Parameters.Add(new NpgsqlParameter("dwr_id", NpgsqlTypes.NpgsqlDbType.Integer));
+                command2.Parameters.Add(new NpgsqlParameter("item_measure", NpgsqlTypes.NpgsqlDbType.Integer));
+                command2.Parameters.Add(new NpgsqlParameter("item_symbol", NpgsqlTypes.NpgsqlDbType.Varchar));
+                command2.Parameters.Add(new NpgsqlParameter("item_spec_x", NpgsqlTypes.NpgsqlDbType.Double));
+                command2.Parameters.Add(new NpgsqlParameter("item_lower", NpgsqlTypes.NpgsqlDbType.Double));
+                command2.Parameters.Add(new NpgsqlParameter("item_upper", NpgsqlTypes.NpgsqlDbType.Double));
+                command2.Parameters.Add(new NpgsqlParameter("item_tool", NpgsqlTypes.NpgsqlDbType.Varchar));
+                command2.Parameters.Add(new NpgsqlParameter("item_detail", NpgsqlTypes.NpgsqlDbType.Varchar));
+                command2.Parameters.Add(new NpgsqlParameter("item_row", NpgsqlTypes.NpgsqlDbType.Integer));
+                command2.Parameters.Add(new NpgsqlParameter("user_name", NpgsqlTypes.NpgsqlDbType.Varchar));
+                //command2.Parameters.Add(new NpgsqlParameter("registration_date_time", NpgsqlTypes.NpgsqlDbType.TimestampTZ));
+
+                int k = 1;
+                for (int i = 0; i < dt.Rows.Count ; i++)
+                {
+                    command2.Parameters[0].Value = dt.Rows[i]["item_id"];
+                    command2.Parameters[1].Value = dt.Rows[i]["dwr_id"];
+                    command2.Parameters[2].Value = dt.Rows[i]["item_measure"];
+                    command2.Parameters[3].Value = dt.Rows[i]["item_symbol"];
+                    command2.Parameters[4].Value = dt.Rows[i]["item_spec_x"];
+                    command2.Parameters[5].Value = dt.Rows[i]["item_lower"];
+                    command2.Parameters[6].Value = dt.Rows[i]["item_upper"];
+                    command2.Parameters[7].Value = dt.Rows[i]["item_tool"];
+                    command2.Parameters[8].Value = dt.Rows[i]["item_detail"];
+                    command2.Parameters[9].Value = dt.Rows[i]["item_row"];
+                    command2.Parameters[10].Value = UserId;
+                    //command2.Parameters[11].Value = DateTime.Now;
+
+                    System.Diagnostics.Debug.Print(command2.CommandText);
+                    res1 = command2.ExecuteNonQuery();
+                    if (res1 == -1) res2 = true;
+                    k++;
+                }
+
+                if (!res2)
+                {
+                    transaction.Commit();
+                    MessageBox.Show("Successful!", "Database Responce", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    connection.Close();
+                    return true;
+                }
+                else
+                {
+                    transaction.Rollback();
+                    MessageBox.Show("Not successful!", "Database Responce", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    connection.Close();
+                    transaction.Rollback();
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+                MessageBox.Show("Not successful!" + System.Environment.NewLine + ex.Message
+                                , "Database Responce", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                connection.Close();
+                return false;
+            }
         }
 
         // 測定結果の一括登録

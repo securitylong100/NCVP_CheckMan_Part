@@ -27,7 +27,7 @@ namespace IPQC_Part
         {
             string sql = "select distinct header_procedure from m_header order by header_procedure";
             IPQC_Motor.TfSQL con = new IPQC_Motor.TfSQL();
-            con.getComboBoxData(sql, ref cmbProcedure);
+            con.getComboBoxData(sql, ref cmbQuiTrinh);
         }
 
         private void btnStartFMS_Click(object sender, EventArgs e)
@@ -42,14 +42,14 @@ namespace IPQC_Part
         }
         bool  checkdata()
         {
-            if (cmbProcedure.Text == "")
-                return false;
-            if (cmbMethod.SelectedItem == null)
-                return false;
-            if (cmbArea.SelectedItem == null)
-                return false;
-            if (cmbMachineModel.Text == "")
-                return false;
+            //if (cmbProcedure.Text == "")
+            //    return false;
+            //if (cmbMethod.SelectedItem == null)
+            //    return false;
+            //if (cmbArea.SelectedItem == null)
+            //    return false;
+            //if (cmbMachineModel.Text == "")
+            //    return false;
             return true;
 
         }

@@ -14,63 +14,51 @@ namespace IPQC_Motor
 {
     public partial class frmItemMaster : Form
     {
-        //親フォームへイベント発生を連絡（デレゲート）
-        public delegate void RefreshEventHandler(object sender, EventArgs e);
-        public event RefreshEventHandler RefreshEvent;
-
-        //その他非ローカル変数
-        NpgsqlConnection connection;
-        NpgsqlCommand command;
-        NpgsqlDataAdapter adapter;
-        NpgsqlCommandBuilder cmdbuilder;
-        DataSet ds;
-        DataTable dt;
-        string conStringBoxidDb = @"Server=192.168.145.4;Port=5432;User Id=pqm;Password=dbuser;Database=ip_pqmdb; CommandTimeout=100; Timeout=100;";
-        string model;
-
+        public string Model;
+        public string DrawingCd;
+        public string User;
         // コンストラクタ
-        public frmItemMaster(string p_model)
+        public frmItemMaster(string drawing_cd, string user)
         {
             InitializeComponent();
-            model = p_model;
+            DrawingCd = drawing_cd;
+            User = user;
         }
 
         // ロード時の処理
         private void Form7_2_Load(object sender, EventArgs e)
         {
-            //フォームの場所を指定
-            this.Left = 30;
-            this.Top = 30;
-            defineAndReadTable();
+            LoadItem();
         }
-
-        // サブプロシージャ：テーブルを定義し、ＤＢよりデータを読み込む
-        private void defineAndReadTable()
+        public DataTable dt;
+        public void LoadItem()
         {
-            // ＤＢよりデータを読み込み、ＤＴＡＡＴＡＢＬＥへ格納
-            string sql = "select no, model, process, inspect, description, upper, lower, instrument, clm_set, row_set " +
-                "from tbl_measure_item where model='" + model + "' order by no, process, inspect";
-            connection = new NpgsqlConnection(conStringBoxidDb);
-            connection.Open();
-            command = new NpgsqlCommand(sql, connection);
-            adapter = new NpgsqlDataAdapter(command);
-            cmdbuilder = new NpgsqlCommandBuilder(adapter);
-            adapter.InsertCommand = cmdbuilder.GetInsertCommand();
-            adapter.UpdateCommand = cmdbuilder.GetUpdateCommand();
-            adapter.DeleteCommand = cmdbuilder.GetDeleteCommand();
-            ds = new DataSet();
-            adapter.Fill(ds,"buff");
-            dt = ds.Tables["buff"];
-            
-            // データグリットビューへＤＴＡＡＴＡＢＬＥを格納
+            drw_txt.Text = DrawingCd;
+            string sql = "select item_id,a.dwr_id , item_measure,  item_symbol,item_tool,item_row,item_detail,item_spec_x,  item_lower, item_upper   from m_item a left join m_drawing b on a.dwr_id = b.dwr_id where b.dwr_cd = '" + DrawingCd + "'  ";
+            TfSQL tfSql = new TfSQL();
+            dt = new DataTable();
+            tfSql.sqlDataAdapterFillDatatable(sql, ref dt);
+
             dgvTester.DataSource = dt;
-            dgvTester.ReadOnly = true;
-            btnSave.Enabled = false;
-            dgvTester.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+            //Fix DGV
+
+            //dgvTester.Columns["item_id"].HeaderText = "Id";
+            //dgvTester.Columns["dwr_cd"].HeaderText = "Drawing";
+            dgvTester.Columns["item_id"].Visible = false;
+            dgvTester.Columns["dwr_id"].Visible = false;
+            dgvTester.Columns["item_measure"].HeaderText = "Measure Item";
+            dgvTester.Columns["item_symbol"].HeaderText = "Symbol";
+            dgvTester.Columns["item_spec_x"].HeaderText = "Spec";
+            dgvTester.Columns["item_lower"].HeaderText = "Lower";
+            dgvTester.Columns["item_upper"].HeaderText = "Upper";
+            dgvTester.Columns["item_tool"].HeaderText = "Tool";
+            dgvTester.Columns["item_detail"].HeaderText = "Detail";
+            dgvTester.Columns["item_row"].HeaderText = "Row";
+
             dgvTester.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
 
-        // 新規レコードの追加
         private void btnAdd_Click(object sender, EventArgs e)
         {
             dgvTester.ReadOnly = false;
@@ -83,56 +71,69 @@ namespace IPQC_Motor
         // 既存レコードの削除
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            DialogResult dlg = MessageBox.Show("Do you want to delete this row ?", "Delete", MessageBoxButtons.YesNo);
-            if (dlg == DialogResult.No) return;
-
-            try
+            if (dgvTester.Rows.Count > 0)
             {
-                dgvTester.Rows.RemoveAt(dgvTester.SelectedRows[0].Index);
-                adapter.Update(dt);
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Database Responce", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                int rowIndex = dgvTester.CurrentRow.Index;
+                DialogResult dialog = MessageBox.Show("Do you want to delete Measure item no " + dgvTester.Rows[rowIndex].Cells["item_measure"].Value.ToString(), "Note !", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                if (dialog == DialogResult.Yes)
+                {
+                    TfSQL tfsql = new TfSQL();
+                    bool del = true;
+                    //string dwr_cd = dgvTester.Rows[rowIndex].Cells["dwr_cd"].Value.ToString();
+                    int item_measure = int.Parse(dgvTester.Rows[rowIndex].Cells["item_measure"].Value.ToString());
+                    string sqlDelete = @"delete from m_item where dwr_id = (select dwr_id from m_drawing where dwr_cd = '" + DrawingCd +
+                        "') and item_measure = " + item_measure;
+                    tfsql.sqlExecuteNonQuery(sqlDelete, del);
+                    LoadItem();
+                }
             }
         }
 
         // 保存
         private void btnSave_Click(object sender, EventArgs e)
         {
-            try
+            TfSQL tfsql = new TfSQL();
+
+            bool save = tfsql.sqlMultipleInsertItem(DrawingCd, ref dt, User);
+            if (save)
             {
-                adapter.Update(dt);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Database Responce", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-            finally 
-            {
-                dgvTester.ReadOnly = true;
                 dgvTester.AllowUserToAddRows = false;
+                dgvTester.ReadOnly = true;
                 btnSave.Enabled = false;
                 btnAdd.Enabled = true;
                 btnDelete.Enabled = true;
             }
         }
-
-        // 閉じるボタンやショートカットでの終了を許さない
-        [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.UnmanagedCode)]
-        protected override void WndProc(ref Message m)
+        private void dgvTester_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
-            const int WM_SYSCOMMAND = 0x112;
-            const long SC_CLOSE = 0xF060L;
-            if (m.Msg == WM_SYSCOMMAND && (m.WParam.ToInt64() & 0xFFF0L) == SC_CLOSE) { return; }
-            base.WndProc(ref m);
+            if (btnAdd.Enabled == false)
+            {
+                TfSQL tf = new TfSQL();
+                string itemId = tf.sqlExecuteScalarString("select max(item_id) +1 from m_item");
+                string drwId = tf.sqlExecuteScalarString("select dwr_id from m_drawing where dwr_cd = '" + DrawingCd + "'");
+                if (dgvTester.Rows.Count >= 1)
+                {
+                    dgvTester.Rows[dgvTester.Rows.Count - 2].Cells["item_id"].Value = itemId;
+                    dgvTester.Rows[dgvTester.Rows.Count - 2].Cells["dwr_id"].Value = drwId;
+                }
+                else if (dgvTester.Rows.Count == 0)
+                {
+                    dgvTester.Rows[0].Cells["item_id"].Value = itemId;
+                    dgvTester.Rows[0].Cells["dwr_id"].Value = drwId;
+                }
+            }
         }
 
-        private void btnClose_Click(object sender, EventArgs e)
+        private void frmItemMaster_FormClosing(object sender, FormClosingEventArgs e)
         {
-            //親フォームForm1のデータグリットビューを更新するため、デレゲートイベントを発生させる
-            this.RefreshEvent(this, new EventArgs());
-            this.Close();
+            if (btnSave.Enabled == true)
+            {
+                DialogResult dialog = MessageBox.Show("Data not saved !", "Note !", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+                if (dialog == DialogResult.Cancel)
+                {
+                    e.Cancel = true;
+                }
+            }
         }
     }
 }
