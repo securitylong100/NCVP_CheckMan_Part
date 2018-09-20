@@ -11,9 +11,9 @@ namespace IPQC_Motor
 {
     public class TfSQL
     {
-        NpgsqlConnection connection;
+      public  NpgsqlConnection connection;
         //  static string conStringIpqcDbP4 = @"Server=192.168.193.4;Port=5432;User Id=pqm;Password=dbuser;Database=ip_pqmdb; CommandTimeout=100; Timeout=100;";
-        static string conStringIpqcDbP4 = @"Server=192.168.145.4;Port=5432;User Id=pqm;Password=dbuser;Database=ipqc_partdb; CommandTimeout=100; Timeout=100;";
+     public   static string conStringIpqcDbP4 = @"Server=192.168.145.4;Port=5432;User Id=pqm;Password=dbuser;Database=ipqc_partdb; CommandTimeout=100; Timeout=100;";
 
         public void getComboBoxData(string sql, ref ComboBox cmb)
         {
