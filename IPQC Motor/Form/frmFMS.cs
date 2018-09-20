@@ -15,6 +15,7 @@ namespace IPQC_Part
     {
         public string username;
         public string drawingcd;
+        DataTable dtInspectItems;
         public frmFMS(string username_, string drawingcd_)
         {
             InitializeComponent();
@@ -49,10 +50,9 @@ namespace IPQC_Part
             if (txtUser.Text == "")
                 return false;
             return true;
-
         }
 
-        void insertheader()
+        void insertintodatabase()
         {
             NpgsqlConnection connection = new NpgsqlConnection(IPQC_Motor.TfSQL.conStringIpqcDbP4);
             connection.Open();
@@ -93,7 +93,7 @@ namespace IPQC_Part
                 command2.Parameters.Add(new NpgsqlParameter("footer_datemake", NpgsqlTypes.NpgsqlDbType.Date));     //9
                 command2.Parameters.Add(new NpgsqlParameter("footer_lot", NpgsqlTypes.NpgsqlDbType.Varchar));       //10
                 command2.Parameters.Add(new NpgsqlParameter("user_name", NpgsqlTypes.NpgsqlDbType.Varchar));        //11
-                command2.Parameters.Add(new NpgsqlParameter("page_id", NpgsqlTypes.NpgsqlDbType.Integer));
+                command2.Parameters.Add(new NpgsqlParameter("page_id", NpgsqlTypes.NpgsqlDbType.Integer));          //12
 
                 //header design
                 command2.Parameters[0].Value = cmbMaSoMay.Text;
@@ -111,28 +111,57 @@ namespace IPQC_Part
                 command2.Parameters[11].Value = username;
                 command2.Parameters[12].Value = pageId;
 
-
                 command2.ExecuteNonQuery();
                 connection.Close();
                 MessageBox.Show("Successful!", "Database Responce", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-
             catch (Exception ex)
             {
                 MessageBox.Show("Database not connected + " + ex.ToString(), "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
             }
-
+        }
+        void buildDGV(ref DataGridView dgv)
+        {
+            //create datagipview
+            dtInspectItems = new DataTable();
+            dtInspectItems.Clear(); 
+            string sql = @"
+                        select a.item_measure, a.item_detail, a.item_spec_x, a.item_lower, a.item_upper,
+                       (a.item_upper  - a.item_spec_x) as tolerance_up , (a.item_lower  - a.item_spec_x) as tolerances_low,a.item_tool,  
+                        b.data_1, b.data_2, b.data_3, b.data_4, b.data_5, b.data_x, b.data_est, b.registration_date_time   from m_item a left join
+                        (select dwr_cd,dwr_id, user_dept_cd from m_drawing a, m_user b where a.user_id = b.user_id) c on a.dwr_id = c.dwr_id
+                        left join m_data b on a.item_id = b.item_id where c.dwr_cd = '"+drawingcd+ "' and c.user_dept_cd = (select distinct user_dept_cd from m_user where user_name = '"+username+@"')
+                        order by registration_date_time desc, item_measure asc ";
+            IPQC_Motor.TfSQL con = new IPQC_Motor.TfSQL();
+            con.sqlDataAdapterFillDatatable(sql, ref dtInspectItems);
+            dgv.DataSource = dtInspectItems;
+        }
+        private void defineItemTable(ref DataTable dt)
+        {
+            dt.Columns.Add("item_measure", Type.GetType("System.String"));
+            dt.Columns.Add("item_detail", Type.GetType("System.String"));
+            dt.Columns.Add("item_spec_x", Type.GetType("System.String"));
+            dt.Columns.Add("item_lower", Type.GetType("System.Double"));
+            dt.Columns.Add("item_upper", Type.GetType("System.Double"));
+            dt.Columns.Add("tolerance_up", Type.GetType("System.Double"));
+            dt.Columns.Add("tolerances_low", Type.GetType("System.Double"));
+            dt.Columns.Add("item_tool", Type.GetType("System.String"));
+            dt.Columns.Add("data_1", Type.GetType("System.Double"));
+            dt.Columns.Add("data_2", Type.GetType("System.Double"));
+            dt.Columns.Add("data_3", Type.GetType("System.Double"));
+            dt.Columns.Add("data_4", Type.GetType("System.Double"));
+            dt.Columns.Add("data_5", Type.GetType("System.Double"));
+            dt.Columns.Add("data_x", Type.GetType("System.Double"));
+            dt.Columns.Add("data_est", Type.GetType("System.String"));
+            dt.Columns.Add("registration_date_time", Type.GetType("System.DateTime"));
         }
         private void btnTaoForm_Click(object sender, EventArgs e)
-        {
-           
+        {          
             if (checkdata())
             {
-                //inser to header table
-                insertheader();
-
-               
-
+                //insert data  
+                insertintodatabase();
+                buildDGV(ref dgvMeasureData);
             }
             else
             {
