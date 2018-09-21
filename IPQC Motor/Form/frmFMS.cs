@@ -27,9 +27,19 @@ namespace IPQC_Part
 
         private void frmFMS_Load(object sender, EventArgs e)
         {
-            string sql = "select distinct header_procedure from m_header order by header_procedure";
             IPQC_Motor.TfSQL con = new IPQC_Motor.TfSQL();
-            con.getComboBoxData(sql, ref cmbQuiTrinh);
+            string sqlProcedure = @"
+            select distinct header_procedure from
+            (select header_procedure, user_dept_cd from m_header a, m_user b where a.user_id = b.user_id)t, m_user a
+            where a.user_dept_cd = t.user_dept_cd and a.user_name = '"+username+"' order by header_procedure";          
+            con.getComboBoxData(sqlProcedure, ref cmbQuiTrinh);
+
+            string sqlMachine = @"
+            select distinct header_machine from
+            (select header_machine, user_dept_cd from m_header a, m_user b where a.user_id = b.user_id)t, m_user a
+            where a.user_dept_cd = t.user_dept_cd and a.user_name = '" + username + "' order by header_machine";
+            con.getComboBoxData(sqlMachine, ref cmbMaSo);
+
         }
 
 
@@ -96,7 +106,7 @@ namespace IPQC_Part
                 command2.Parameters.Add(new NpgsqlParameter("page_id", NpgsqlTypes.NpgsqlDbType.Integer));          //12
 
                 //header design
-                command2.Parameters[0].Value = cmbMaSoMay.Text;
+                command2.Parameters[0].Value = cmbMaSo.Text;
                 command2.Parameters[1].Value = dtpKhungGio.Text;
                 command2.Parameters[2].Value = cmbQuiTrinh.Text;
                 command2.Parameters[3].Value = cmbPhuongThuc.Text;

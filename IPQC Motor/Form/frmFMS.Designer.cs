@@ -35,7 +35,7 @@
             this.label23 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
-            this.cmbMaSoMay = new System.Windows.Forms.ComboBox();
+            this.cmbMaSo = new System.Windows.Forms.ComboBox();
             this.label20 = new System.Windows.Forms.Label();
             this.dtpKhungGio = new System.Windows.Forms.DateTimePicker();
             this.label12 = new System.Windows.Forms.Label();
@@ -112,7 +112,7 @@
             this.groupBox2.Controls.Add(this.label23);
             this.groupBox2.Controls.Add(this.label22);
             this.groupBox2.Controls.Add(this.label21);
-            this.groupBox2.Controls.Add(this.cmbMaSoMay);
+            this.groupBox2.Controls.Add(this.cmbMaSo);
             this.groupBox2.Controls.Add(this.label20);
             this.groupBox2.Controls.Add(this.dtpKhungGio);
             this.groupBox2.Controls.Add(this.label12);
@@ -178,22 +178,22 @@
             this.label21.TabIndex = 24;
             this.label21.Text = "(*)";
             // 
-            // cmbMaSoMay
+            // cmbMaSo
             // 
-            this.cmbMaSoMay.FormattingEnabled = true;
-            this.cmbMaSoMay.Location = new System.Drawing.Point(167, 112);
-            this.cmbMaSoMay.Name = "cmbMaSoMay";
-            this.cmbMaSoMay.Size = new System.Drawing.Size(121, 21);
-            this.cmbMaSoMay.TabIndex = 26;
+            this.cmbMaSo.FormattingEnabled = true;
+            this.cmbMaSo.Location = new System.Drawing.Point(167, 112);
+            this.cmbMaSo.Name = "cmbMaSo";
+            this.cmbMaSo.Size = new System.Drawing.Size(121, 21);
+            this.cmbMaSo.TabIndex = 26;
             // 
             // label20
             // 
             this.label20.AutoSize = true;
             this.label20.Location = new System.Drawing.Point(164, 96);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(112, 13);
+            this.label20.Size = new System.Drawing.Size(94, 13);
             this.label20.TabIndex = 25;
-            this.label20.Text = "Mã Số Máy(Nếu Cần):";
+            this.label20.Text = "Mã Máy/Mã Hàng";
             // 
             // dtpKhungGio
             // 
@@ -738,7 +738,7 @@
         private System.Windows.Forms.Button btnTimKiem;
         private System.Windows.Forms.DateTimePicker dtpToDate;
         private System.Windows.Forms.DateTimePicker dtpFromDate;
-        private System.Windows.Forms.ComboBox cmbMaSoMay;
+        private System.Windows.Forms.ComboBox cmbMaSo;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.Label label24;
