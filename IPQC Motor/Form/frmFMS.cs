@@ -8,7 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Npgsql;
-
+using System.Drawing;
+using System.IO;
 namespace IPQC_Part
 {
     public partial class frmFMS : Form
@@ -24,7 +25,27 @@ namespace IPQC_Part
             txtUser.Text = username;
             gpbBanVe.Text = "Bản Vẽ Số: " + drawingcd;
         }
+        void callpic()
+        {
+            IPQC_Motor.TfSQL tfSql = new IPQC_Motor.TfSQL();
+            string bytePic = tfSql.sqlExecuteScalarString("select dwr_image from m_drawing where dwr_cd = '" + drawingcd + "'");
+            if (bytePic != "")
+            {
+                byte[] imgBytes = Convert.FromBase64String(bytePic);
+                MemoryStream ms = new MemoryStream(imgBytes, 0, imgBytes.Length);
+                ms.Write(imgBytes, 0, imgBytes.Length);
+                Image image = Image.FromStream(ms, true);
 
+                picbox.Image = image;
+                picbox.SizeMode = PictureBoxSizeMode.Zoom;
+            }
+        }
+        private void cmbMaSo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string sqlPageID = "select case when max(page_id) is null then 1 else max(page_id) +1 end as maxcode from  m_header";
+            IPQC_Motor.TfSQL con = new IPQC_Motor.TfSQL();
+            con.sqlExecuteScalarString(sqlPageID);
+        }
         private void frmFMS_Load(object sender, EventArgs e)
         {
             IPQC_Motor.TfSQL con = new IPQC_Motor.TfSQL();
@@ -39,6 +60,8 @@ namespace IPQC_Part
             (select header_machine, user_dept_cd from m_header a, m_user b where a.user_id = b.user_id)t, m_user a
             where a.user_dept_cd = t.user_dept_cd and a.user_name = '" + username + "' order by header_machine";
             con.getComboBoxData(sqlMachine, ref cmbMaSo);
+
+            callpic();
 
         }
 
@@ -185,5 +208,7 @@ namespace IPQC_Part
             }
 
         }
+
+      
     }
 }
