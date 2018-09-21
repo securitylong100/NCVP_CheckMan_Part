@@ -31,7 +31,7 @@ namespace IPQC_Part
             string sqlProcedure = @"
             select distinct header_procedure from
             (select header_procedure, user_dept_cd from m_header a, m_user b where a.user_id = b.user_id)t, m_user a
-            where a.user_dept_cd = t.user_dept_cd and a.user_name = '"+username+"' order by header_procedure";          
+            where a.user_dept_cd = t.user_dept_cd and a.user_name = '" + username + "' order by header_procedure";
             con.getComboBoxData(sqlProcedure, ref cmbQuiTrinh);
 
             string sqlMachine = @"
@@ -59,6 +59,11 @@ namespace IPQC_Part
                 return false;
             if (txtUser.Text == "")
                 return false;
+            if (cmbDanhGia.Text == "OK")
+            {
+                MessageBox.Show("Không thể đánh giá OK Khi chưa đo xong Hàng", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+                return false;
+            }
             return true;
         }
 
@@ -66,7 +71,7 @@ namespace IPQC_Part
         {
             NpgsqlConnection connection = new NpgsqlConnection(IPQC_Motor.TfSQL.conStringIpqcDbP4);
             connection.Open();
-           try
+            try
             {
                 //create page id
                 string sqlPageID = "select case when max(page_id) is null then 1 else max(page_id) +1 end as maxcode from  m_header";
@@ -76,10 +81,10 @@ namespace IPQC_Part
                 //insert into m_data
                 string sql1 = @"insert into m_data
                             (page_id, item_id, item_lower, item_upper, data_check, user_id, registration_date_time )
-                            (select " + pageId+@", a.item_id, a.item_lower, a.item_upper,'"+ cmbNgoaiQuan.Text+ @"',(select user_id from m_user where user_name= '"+ username+@"'), now() from m_item a 
+                            (select " + pageId + @", a.item_id, a.item_lower, a.item_upper,'" + cmbNgoaiQuan.Text + @"',(select user_id from m_user where user_name= '" + username + @"'), now() from m_item a 
                             left join m_drawing b  on b.dwr_id = a.dwr_id
                             where 
-                            b.dwr_cd = '"+ drawingcd+ "')";
+                            b.dwr_cd = '" + drawingcd + "')";
                 NpgsqlCommand command1 = new NpgsqlCommand(sql1, connection);
                 command1.ExecuteScalar();
 
@@ -116,7 +121,7 @@ namespace IPQC_Part
                 //footder design
                 command2.Parameters[7].Value = txtGhiChu.Text;
                 command2.Parameters[8].Value = cmbDanhGia.Text;
-                command2.Parameters[9].Value =DateTime.Parse( dtpGiaCong.Value.ToString("yyyy-MM-dd"));
+                command2.Parameters[9].Value = DateTime.Parse(dtpGiaCong.Value.ToString("yyyy-MM-dd"));
                 command2.Parameters[10].Value = txtLot.Text;
                 command2.Parameters[11].Value = username;
                 command2.Parameters[12].Value = pageId;
@@ -134,13 +139,13 @@ namespace IPQC_Part
         {
             //create datagipview
             dtInspectItems = new DataTable();
-            dtInspectItems.Clear(); 
+            dtInspectItems.Clear();
             string sql = @"
                         select a.item_measure, a.item_detail, a.item_spec_x, a.item_lower, a.item_upper,
                        (a.item_upper  - a.item_spec_x) as tolerance_up , (a.item_lower  - a.item_spec_x) as tolerances_low,a.item_tool,  
                         b.data_1, b.data_2, b.data_3, b.data_4, b.data_5, b.data_x, b.data_est, b.registration_date_time   from m_item a left join
                         (select dwr_cd,dwr_id, user_dept_cd from m_drawing a, m_user b where a.user_id = b.user_id) c on a.dwr_id = c.dwr_id
-                        left join m_data b on a.item_id = b.item_id where c.dwr_cd = '"+drawingcd+ "' and c.user_dept_cd = (select distinct user_dept_cd from m_user where user_name = '"+username+@"')
+                        left join m_data b on a.item_id = b.item_id where c.dwr_cd = '" + drawingcd + "' and c.user_dept_cd = (select distinct user_dept_cd from m_user where user_name = '" + username + @"')
                         order by registration_date_time desc, item_measure asc ";
             IPQC_Motor.TfSQL con = new IPQC_Motor.TfSQL();
             con.sqlDataAdapterFillDatatable(sql, ref dtInspectItems);
@@ -166,9 +171,10 @@ namespace IPQC_Part
             dt.Columns.Add("registration_date_time", Type.GetType("System.DateTime"));
         }
         private void btnTaoForm_Click(object sender, EventArgs e)
-        {          
+        {
             if (checkdata())
             {
+
                 //insert data  
                 insertintodatabase();
                 buildDGV(ref dgvMeasureData);
