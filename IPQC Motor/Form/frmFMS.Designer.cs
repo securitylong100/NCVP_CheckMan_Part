@@ -88,6 +88,7 @@
             this.tpHeader = new System.Windows.Forms.TabPage();
             this.tpFootder = new System.Windows.Forms.TabPage();
             this.button1 = new System.Windows.Forms.Button();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMeasureData)).BeginInit();
             this.gpbBanVe.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picbox)).BeginInit();
@@ -424,6 +425,7 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.dateTimePicker1);
             this.groupBox4.Controls.Add(this.label26);
             this.groupBox4.Controls.Add(this.label19);
             this.groupBox4.Controls.Add(this.btnTimKiem);
@@ -704,6 +706,14 @@
             this.button1.Text = "button1";
             this.button1.UseVisualStyleBackColor = true;
             // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dateTimePicker1.Location = new System.Drawing.Point(55, 103);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(93, 20);
+            this.dateTimePicker1.TabIndex = 32;
+            // 
             // frmFMS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -791,5 +801,6 @@
         private System.Windows.Forms.TabPage tpHeader;
         private System.Windows.Forms.TabPage tpFootder;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.DateTimePicker dateTimePicker1;
     }
 }
