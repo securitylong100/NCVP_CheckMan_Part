@@ -62,7 +62,7 @@ namespace IPQC_Part
             con.getComboBoxData(sqlMachine, ref cmbMaSo);
 
             callpic();
-            //comit
+           
         }
 
 
