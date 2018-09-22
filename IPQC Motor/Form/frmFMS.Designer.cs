@@ -87,7 +87,7 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tpHeader = new System.Windows.Forms.TabPage();
             this.tpFootder = new System.Windows.Forms.TabPage();
-            this.button1 = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMeasureData)).BeginInit();
             this.gpbBanVe.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picbox)).BeginInit();
@@ -424,6 +424,7 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.textBox1);
             this.groupBox4.Controls.Add(this.label26);
             this.groupBox4.Controls.Add(this.label19);
             this.groupBox4.Controls.Add(this.btnTimKiem);
@@ -645,7 +646,6 @@
             // tpHeader
             // 
             this.tpHeader.BackColor = System.Drawing.SystemColors.Control;
-            this.tpHeader.Controls.Add(this.button1);
             this.tpHeader.Controls.Add(this.label25);
             this.tpHeader.Controls.Add(this.txtNoiDung);
             this.tpHeader.Controls.Add(this.label24);
@@ -695,14 +695,12 @@
             this.tpFootder.TabIndex = 1;
             this.tpFootder.Text = "Footder";
             // 
-            // button1
+            // textBox1
             // 
-            this.button1.Location = new System.Drawing.Point(136, 134);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 31;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
+            this.textBox1.Location = new System.Drawing.Point(43, 110);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(159, 20);
+            this.textBox1.TabIndex = 32;
             // 
             // frmFMS
             // 
@@ -790,6 +788,6 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tpHeader;
         private System.Windows.Forms.TabPage tpFootder;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
