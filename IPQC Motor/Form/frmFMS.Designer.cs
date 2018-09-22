@@ -62,6 +62,7 @@
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.gpbBanVe = new System.Windows.Forms.GroupBox();
+            this.picbox = new System.Windows.Forms.PictureBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label26 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
@@ -83,14 +84,13 @@
             this.label14 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.cmbNgoaiQuan = new System.Windows.Forms.ComboBox();
-            this.picbox = new System.Windows.Forms.PictureBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tpHeader = new System.Windows.Forms.TabPage();
             this.tpFootder = new System.Windows.Forms.TabPage();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMeasureData)).BeginInit();
             this.gpbBanVe.SuspendLayout();
-            this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picbox)).BeginInit();
+            this.groupBox4.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tpHeader.SuspendLayout();
             this.tpFootder.SuspendLayout();
@@ -196,8 +196,9 @@
             this.txtNoiDung.Location = new System.Drawing.Point(319, 20);
             this.txtNoiDung.Multiline = true;
             this.txtNoiDung.Name = "txtNoiDung";
-            this.txtNoiDung.Size = new System.Drawing.Size(275, 37);
+            this.txtNoiDung.Size = new System.Drawing.Size(275, 105);
             this.txtNoiDung.TabIndex = 19;
+            this.txtNoiDung.TextChanged += new System.EventHandler(this.txtNoiDung_TextChanged);
             // 
             // label1
             // 
@@ -412,6 +413,14 @@
             this.gpbBanVe.TabStop = false;
             this.gpbBanVe.Text = "Bản Vẽ";
             // 
+            // picbox
+            // 
+            this.picbox.Location = new System.Drawing.Point(6, 12);
+            this.picbox.Name = "picbox";
+            this.picbox.Size = new System.Drawing.Size(282, 182);
+            this.picbox.TabIndex = 0;
+            this.picbox.TabStop = false;
+            // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.label26);
@@ -622,14 +631,6 @@
             this.cmbNgoaiQuan.Size = new System.Drawing.Size(99, 21);
             this.cmbNgoaiQuan.TabIndex = 6;
             // 
-            // picbox
-            // 
-            this.picbox.Location = new System.Drawing.Point(6, 12);
-            this.picbox.Name = "picbox";
-            this.picbox.Size = new System.Drawing.Size(282, 182);
-            this.picbox.TabIndex = 0;
-            this.picbox.TabStop = false;
-            // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tpHeader);
@@ -706,9 +707,9 @@
             this.Load += new System.EventHandler(this.frmFMS_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvMeasureData)).EndInit();
             this.gpbBanVe.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picbox)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picbox)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tpHeader.ResumeLayout(false);
             this.tpHeader.PerformLayout();

@@ -209,6 +209,9 @@ namespace IPQC_Part
 
         }
 
-      
+        private void txtNoiDung_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
