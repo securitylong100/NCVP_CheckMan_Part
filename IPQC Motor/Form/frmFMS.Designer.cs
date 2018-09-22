@@ -196,7 +196,7 @@
             this.txtNoiDung.Location = new System.Drawing.Point(319, 20);
             this.txtNoiDung.Multiline = true;
             this.txtNoiDung.Name = "txtNoiDung";
-            this.txtNoiDung.Size = new System.Drawing.Size(275, 105);
+            this.txtNoiDung.Size = new System.Drawing.Size(168, 137);
             this.txtNoiDung.TabIndex = 19;
             this.txtNoiDung.TextChanged += new System.EventHandler(this.txtNoiDung_TextChanged);
             // 
