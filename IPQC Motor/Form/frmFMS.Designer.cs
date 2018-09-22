@@ -87,7 +87,11 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tpHeader = new System.Windows.Forms.TabPage();
             this.tpFootder = new System.Windows.Forms.TabPage();
+<<<<<<< HEAD
             this.textBox1 = new System.Windows.Forms.TextBox();
+=======
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+>>>>>>> 00cf5839fdb1331c31c8503676218b361678bbfc
             ((System.ComponentModel.ISupportInitialize)(this.dgvMeasureData)).BeginInit();
             this.gpbBanVe.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picbox)).BeginInit();
@@ -424,7 +428,11 @@
             // 
             // groupBox4
             // 
+<<<<<<< HEAD
             this.groupBox4.Controls.Add(this.textBox1);
+=======
+            this.groupBox4.Controls.Add(this.dateTimePicker1);
+>>>>>>> 00cf5839fdb1331c31c8503676218b361678bbfc
             this.groupBox4.Controls.Add(this.label26);
             this.groupBox4.Controls.Add(this.label19);
             this.groupBox4.Controls.Add(this.btnTimKiem);
@@ -702,6 +710,14 @@
             this.textBox1.Size = new System.Drawing.Size(159, 20);
             this.textBox1.TabIndex = 32;
             // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dateTimePicker1.Location = new System.Drawing.Point(55, 103);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(93, 20);
+            this.dateTimePicker1.TabIndex = 32;
+            // 
             // frmFMS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -788,6 +804,11 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tpHeader;
         private System.Windows.Forms.TabPage tpFootder;
+<<<<<<< HEAD
         private System.Windows.Forms.TextBox textBox1;
+=======
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+>>>>>>> 00cf5839fdb1331c31c8503676218b361678bbfc
     }
 }
