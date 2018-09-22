@@ -343,7 +343,7 @@
             this.txtGhiChu.Location = new System.Drawing.Point(318, 21);
             this.txtGhiChu.Multiline = true;
             this.txtGhiChu.Name = "txtGhiChu";
-            this.txtGhiChu.Size = new System.Drawing.Size(276, 147);
+            this.txtGhiChu.Size = new System.Drawing.Size(276, 138);
             this.txtGhiChu.TabIndex = 19;
             // 
             // label2
