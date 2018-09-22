@@ -87,11 +87,8 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tpHeader = new System.Windows.Forms.TabPage();
             this.tpFootder = new System.Windows.Forms.TabPage();
-<<<<<<< HEAD
-            this.textBox1 = new System.Windows.Forms.TextBox();
-=======
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
->>>>>>> 00cf5839fdb1331c31c8503676218b361678bbfc
+            this.button1 = new System.Windows.Forms.Button();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMeasureData)).BeginInit();
             this.gpbBanVe.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picbox)).BeginInit();
@@ -428,11 +425,6 @@
             // 
             // groupBox4
             // 
-<<<<<<< HEAD
-            this.groupBox4.Controls.Add(this.textBox1);
-=======
-            this.groupBox4.Controls.Add(this.dateTimePicker1);
->>>>>>> 00cf5839fdb1331c31c8503676218b361678bbfc
             this.groupBox4.Controls.Add(this.label26);
             this.groupBox4.Controls.Add(this.label19);
             this.groupBox4.Controls.Add(this.btnTimKiem);
@@ -703,26 +695,27 @@
             this.tpFootder.TabIndex = 1;
             this.tpFootder.Text = "Footder";
             // 
-            // textBox1
+            // button1
             // 
-            this.textBox1.Location = new System.Drawing.Point(43, 110);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(159, 20);
-            this.textBox1.TabIndex = 32;
+            this.button1.Location = new System.Drawing.Point(0, 0);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 0;
             // 
-            // dateTimePicker1
+            // comboBox1
             // 
-            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateTimePicker1.Location = new System.Drawing.Point(55, 103);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(93, 20);
-            this.dateTimePicker1.TabIndex = 32;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(268, 239);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(99, 21);
+            this.comboBox1.TabIndex = 31;
             // 
             // frmFMS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1263, 695);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.dgvMeasureData);
@@ -804,11 +797,7 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tpHeader;
         private System.Windows.Forms.TabPage tpFootder;
-<<<<<<< HEAD
-        private System.Windows.Forms.TextBox textBox1;
-=======
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
->>>>>>> 00cf5839fdb1331c31c8503676218b361678bbfc
+        private System.Windows.Forms.ComboBox comboBox1;
     }
 }
