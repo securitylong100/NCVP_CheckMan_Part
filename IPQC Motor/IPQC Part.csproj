@@ -121,6 +121,12 @@
     <Compile Include="Form\frmFMS.Designer.cs">
       <DependentUpon>frmFMS.cs</DependentUpon>
     </Compile>
+    <Compile Include="Form\frmContinue.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\frmContinue.designer.cs">
+      <DependentUpon>frmContinue.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmChangePass.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -187,6 +193,9 @@
     <Compile Include="Class\VBStrings.cs" />
     <EmbeddedResource Include="Form\frmFMS.resx">
       <DependentUpon>frmFMS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\frmContinue.resx">
+      <DependentUpon>frmContinue.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmChangePass.resx">
       <DependentUpon>frmChangePass.cs</DependentUpon>
