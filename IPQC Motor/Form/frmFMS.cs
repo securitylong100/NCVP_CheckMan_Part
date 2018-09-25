@@ -20,13 +20,14 @@ namespace IPQC_Part
         public double csvData;
         public int k = 0;
         DataTable dtInspectItems;
-        public frmFMS(string username_, string drawingcd_)
+        public frmFMS(int PageId,string username_, string drawingcd_)
         {
             InitializeComponent();
             username = username_;
             drawingcd = drawingcd_;
             txtUser.Text = username;
             gpbBanVe.Text = "Bản Vẽ Số: " + drawingcd;
+            pageid = PageId;
         }
         void callpic()
         {

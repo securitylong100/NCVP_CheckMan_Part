@@ -34,7 +34,8 @@ where a.user_dept_cd = t.user_dept_cd and a.user_name = '" + username + "'";
             cmbModel.Text = "";
             txtUser.Text = username;
             dtInspectItems = new DataTable();
-            if (username == "admin")
+            string sqlpermision = "select distinct user_permision from m_user where user_name = '" + username+ "'";
+            if (con.sqlExecuteScalarString(sqlpermision) == "admin")
             {
                 btnEditMaster.Visible = true;
             }
@@ -78,7 +79,7 @@ where a.user_dept_cd = t.user_dept_cd and a.user_name = '" + username + "'";
 
         private void btnEditMaster_Click(object sender, EventArgs e)
         {
-        if (dgvMeasureItem.RowCount > 0 && username == "admin")
+        if (dgvMeasureItem.RowCount > 0)
             {
                 frmItemMaster frmitemM = new frmItemMaster(dgvMeasureItem.CurrentRow.Cells["dwr_cd"].Value.ToString(), username);
                 frmitemM.ShowDialog();
@@ -116,7 +117,7 @@ where a.user_dept_cd = t.user_dept_cd and a.user_name = '" + username + "'";
             }
             else if (DialogResult.No == dialog)//đo mới
             {
-                IPQC_Part.frmFMS frmFMS = new IPQC_Part.frmFMS(username, DrawingCd);
+                IPQC_Part.frmFMS frmFMS = new IPQC_Part.frmFMS(0,username, DrawingCd);
                 frmFMS.ShowDialog();
             }
 

@@ -18,13 +18,13 @@ namespace IPQC_Part
     public partial class frmContinue : Form
     {
         public string DrawingCd;
-        public string User;
+        public string Username;
         // ƒRƒ“ƒXƒgƒ‰ƒNƒ^
-        public frmContinue(string drawing_cd, string user)
+        public frmContinue(string drawing_cd, string username_)
         {
             InitializeComponent();
             DrawingCd = drawing_cd;
-            User = user;
+            Username = username_;
         }
         private void frmContinue_Load(object sender, EventArgs e)
         {
@@ -105,7 +105,9 @@ namespace IPQC_Part
 
                 if (checkPage > 0)
                 {
-                    MessageBox.Show(pageId.ToString());
+                    // MessageBox.Show(pageId.ToString());
+                    frmFMS from = new frmFMS(pageId, Username, DrawingCd);
+                    from.ShowDialog();
                 }
             }
             else MessageBox.Show("Hãy chọn một mã máy !", "Note!", MessageBoxButtons.OK, MessageBoxIcon.Information);
