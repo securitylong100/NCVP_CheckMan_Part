@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.dgvMeasureData = new System.Windows.Forms.DataGridView();
             this.label25 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
@@ -48,12 +49,9 @@
             this.cmbPhuongThuc = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
             this.cmbSLMau = new System.Windows.Forms.ComboBox();
-            this.label27 = new System.Windows.Forms.Label();
             this.txtLot = new System.Windows.Forms.TextBox();
             this.dtpDoHang = new System.Windows.Forms.DateTimePicker();
             this.dtpGiaCong = new System.Windows.Forms.DateTimePicker();
-            this.txtUser = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
             this.txtGhiChu = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -86,8 +84,16 @@
             this.cmbNgoaiQuan = new System.Windows.Forms.ComboBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tpHeader = new System.Windows.Forms.TabPage();
+            this.label27 = new System.Windows.Forms.Label();
+            this.txtUser = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtPageId = new System.Windows.Forms.TextBox();
+            this.label29 = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
+            this.label28 = new System.Windows.Forms.Label();
             this.tpFootder = new System.Windows.Forms.TabPage();
             this.button1 = new System.Windows.Forms.Button();
+            this.TimeFMS = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgvMeasureData)).BeginInit();
             this.gpbBanVe.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picbox)).BeginInit();
@@ -132,7 +138,7 @@
             // label23
             // 
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(137, 112);
+            this.label23.Location = new System.Drawing.Point(137, 107);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(17, 13);
             this.label23.TabIndex = 28;
@@ -159,16 +165,15 @@
             // cmbMaSo
             // 
             this.cmbMaSo.FormattingEnabled = true;
-            this.cmbMaSo.Location = new System.Drawing.Point(166, 107);
+            this.cmbMaSo.Location = new System.Drawing.Point(166, 102);
             this.cmbMaSo.Name = "cmbMaSo";
             this.cmbMaSo.Size = new System.Drawing.Size(121, 21);
             this.cmbMaSo.TabIndex = 26;
-            this.cmbMaSo.SelectedIndexChanged += new System.EventHandler(this.cmbMaSo_SelectedIndexChanged);
             // 
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(163, 91);
+            this.label20.Location = new System.Drawing.Point(163, 86);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(94, 13);
             this.label20.TabIndex = 25;
@@ -178,7 +183,7 @@
             // 
             this.dtpKhungGio.CustomFormat = "HH:00";
             this.dtpKhungGio.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpKhungGio.Location = new System.Drawing.Point(16, 106);
+            this.dtpKhungGio.Location = new System.Drawing.Point(16, 101);
             this.dtpKhungGio.Name = "dtpKhungGio";
             this.dtpKhungGio.Size = new System.Drawing.Size(121, 20);
             this.dtpKhungGio.TabIndex = 24;
@@ -186,7 +191,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(13, 91);
+            this.label12.Location = new System.Drawing.Point(13, 86);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(60, 13);
             this.label12.TabIndex = 23;
@@ -199,7 +204,6 @@
             this.txtNoiDung.Name = "txtNoiDung";
             this.txtNoiDung.Size = new System.Drawing.Size(272, 84);
             this.txtNoiDung.TabIndex = 19;
-            this.txtNoiDung.TextChanged += new System.EventHandler(this.txtNoiDung_TextChanged);
             // 
             // label1
             // 
@@ -290,15 +294,6 @@
             this.cmbSLMau.Size = new System.Drawing.Size(121, 21);
             this.cmbSLMau.TabIndex = 6;
             // 
-            // label27
-            // 
-            this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(153, 105);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(17, 13);
-            this.label27.TabIndex = 30;
-            this.label27.Text = "(*)";
-            // 
             // txtLot
             // 
             this.txtLot.Location = new System.Drawing.Point(186, 21);
@@ -321,23 +316,6 @@
             this.dtpGiaCong.Name = "dtpGiaCong";
             this.dtpGiaCong.Size = new System.Drawing.Size(121, 20);
             this.dtpGiaCong.TabIndex = 22;
-            // 
-            // txtUser
-            // 
-            this.txtUser.Enabled = false;
-            this.txtUser.Location = new System.Drawing.Point(32, 102);
-            this.txtUser.Name = "txtUser";
-            this.txtUser.Size = new System.Drawing.Size(121, 20);
-            this.txtUser.TabIndex = 20;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(29, 86);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(35, 13);
-            this.label5.TabIndex = 21;
-            this.label5.Text = "User: ";
             // 
             // txtGhiChu
             // 
@@ -562,6 +540,7 @@
             this.btnBatDau.TabIndex = 12;
             this.btnBatDau.Text = "Bắt Đầu";
             this.btnBatDau.UseVisualStyleBackColor = true;
+            this.btnBatDau.Click += new System.EventHandler(this.btnBatDau_Click);
             // 
             // label15
             // 
@@ -645,6 +624,13 @@
             // tpHeader
             // 
             this.tpHeader.BackColor = System.Drawing.SystemColors.Control;
+            this.tpHeader.Controls.Add(this.label27);
+            this.tpHeader.Controls.Add(this.txtUser);
+            this.tpHeader.Controls.Add(this.label5);
+            this.tpHeader.Controls.Add(this.txtPageId);
+            this.tpHeader.Controls.Add(this.label29);
+            this.tpHeader.Controls.Add(this.label30);
+            this.tpHeader.Controls.Add(this.label28);
             this.tpHeader.Controls.Add(this.label25);
             this.tpHeader.Controls.Add(this.txtNoiDung);
             this.tpHeader.Controls.Add(this.label24);
@@ -671,10 +657,70 @@
             this.tpHeader.TabIndex = 0;
             this.tpHeader.Text = "Header";
             // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(137, 148);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(17, 13);
+            this.label27.TabIndex = 38;
+            this.label27.Text = "(*)";
+            // 
+            // txtUser
+            // 
+            this.txtUser.Enabled = false;
+            this.txtUser.Location = new System.Drawing.Point(16, 145);
+            this.txtUser.Name = "txtUser";
+            this.txtUser.Size = new System.Drawing.Size(121, 20);
+            this.txtUser.TabIndex = 36;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(13, 129);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(35, 13);
+            this.label5.TabIndex = 37;
+            this.label5.Text = "User: ";
+            // 
+            // txtPageId
+            // 
+            this.txtPageId.Location = new System.Drawing.Point(166, 148);
+            this.txtPageId.Name = "txtPageId";
+            this.txtPageId.ReadOnly = true;
+            this.txtPageId.Size = new System.Drawing.Size(121, 20);
+            this.txtPageId.TabIndex = 35;
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(286, 152);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(17, 13);
+            this.label29.TabIndex = 34;
+            this.label29.Text = "(*)";
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(286, 108);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(17, 13);
+            this.label30.TabIndex = 33;
+            this.label30.Text = "(*)";
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(163, 131);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(44, 13);
+            this.label28.TabIndex = 31;
+            this.label28.Text = "Page Id";
+            // 
             // tpFootder
             // 
             this.tpFootder.BackColor = System.Drawing.SystemColors.Control;
-            this.tpFootder.Controls.Add(this.label27);
             this.tpFootder.Controls.Add(this.txtGhiChu);
             this.tpFootder.Controls.Add(this.txtLot);
             this.tpFootder.Controls.Add(this.label11);
@@ -682,9 +728,7 @@
             this.tpFootder.Controls.Add(this.label10);
             this.tpFootder.Controls.Add(this.dtpGiaCong);
             this.tpFootder.Controls.Add(this.label4);
-            this.tpFootder.Controls.Add(this.txtUser);
             this.tpFootder.Controls.Add(this.cmbDanhGia);
-            this.tpFootder.Controls.Add(this.label5);
             this.tpFootder.Controls.Add(this.label3);
             this.tpFootder.Controls.Add(this.label2);
             this.tpFootder.Location = new System.Drawing.Point(4, 22);
@@ -700,6 +744,10 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 0;
+            // 
+            // TimeFMS
+            // 
+            this.TimeFMS.Tick += new System.EventHandler(this.TimeFMS_Tick);
             // 
             // frmFMS
             // 
@@ -739,8 +787,6 @@
         private System.Windows.Forms.ComboBox cmbPhuongThuc;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.ComboBox cmbSLMau;
-        private System.Windows.Forms.TextBox txtUser;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtGhiChu;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
@@ -781,12 +827,19 @@
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.Label label27;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.PictureBox picbox;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tpHeader;
         private System.Windows.Forms.TabPage tpFootder;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.TextBox txtPageId;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.TextBox txtUser;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Timer TimeFMS;
     }
 }

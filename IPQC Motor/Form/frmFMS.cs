@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Npgsql;
-using System.Drawing;
 using System.IO;
 namespace IPQC_Part
 {
@@ -16,6 +15,10 @@ namespace IPQC_Part
     {
         public string username;
         public string drawingcd;
+        public int pageid = 2;
+        public int csvMeasure;
+        public double csvData;
+        public int k = 0;
         DataTable dtInspectItems;
         public frmFMS(string username_, string drawingcd_)
         {
@@ -40,29 +43,61 @@ namespace IPQC_Part
                 picbox.SizeMode = PictureBoxSizeMode.Zoom;
             }
         }
-        private void cmbMaSo_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            string sqlPageID = "select case when max(page_id) is null then 1 else max(page_id) +1 end as maxcode from  m_header";
-            IPQC_Motor.TfSQL con = new IPQC_Motor.TfSQL();
-            con.sqlExecuteScalarString(sqlPageID);
-        }
+
         private void frmFMS_Load(object sender, EventArgs e)
         {
             IPQC_Motor.TfSQL con = new IPQC_Motor.TfSQL();
-            string sqlProcedure = @"
+            if (pageid == 0)
+            {
+                string sqlProcedure = @"
             select distinct header_procedure from
             (select header_procedure, user_dept_cd from m_header a, m_user b where a.user_id = b.user_id)t, m_user a
             where a.user_dept_cd = t.user_dept_cd and a.user_name = '" + username + "' order by header_procedure";
-            con.getComboBoxData(sqlProcedure, ref cmbQuiTrinh);
+                con.getComboBoxData(sqlProcedure, ref cmbQuiTrinh);
 
-            string sqlMachine = @"
+                string sqlMachine = @"
             select distinct header_machine from
             (select header_machine, user_dept_cd from m_header a, m_user b where a.user_id = b.user_id)t, m_user a
             where a.user_dept_cd = t.user_dept_cd and a.user_name = '" + username + "' order by header_machine";
-            con.getComboBoxData(sqlMachine, ref cmbMaSo);
+                con.getComboBoxData(sqlMachine, ref cmbMaSo);
 
+            }
+            else
+            {
+
+                txtPageId.Text = pageid.ToString();
+                string sqlHeaderMachine = "select distinct header_machine from m_header where page_id = '" + pageid + "'";
+                cmbMaSo.Text = con.sqlExecuteScalarString(sqlHeaderMachine);
+                cmbMaSo.Enabled = false;
+                string sqlHeaderTime = "select distinct header_time from m_header where page_id = '" + pageid + "'";
+                dtpKhungGio.Text = con.sqlExecuteScalarString(sqlHeaderTime);
+                dtpKhungGio.Enabled = false;
+                string sqlHeaderProcedure = "select distinct header_procedure from m_header where page_id = '" + pageid + "'";
+                cmbQuiTrinh.Text = con.sqlExecuteScalarString(sqlHeaderProcedure);
+                cmbQuiTrinh.Enabled = false;
+                string sqlHeaderMethod = "select distinct header_method from m_header where page_id = '" + pageid + "'";
+                cmbPhuongThuc.Text = con.sqlExecuteScalarString(sqlHeaderMethod);
+                cmbPhuongThuc.Enabled = false;
+                string sqlHeaderSample = "select distinct header_sample from m_header where page_id = '" + pageid + "'";
+                cmbSLMau.Text = con.sqlExecuteScalarString(sqlHeaderSample);
+                cmbSLMau.Enabled = false;
+                string sqlHeaderArea = "select distinct header_area from m_header where page_id = '" + pageid + "'";
+                cmbKhuVuc.Text = con.sqlExecuteScalarString(sqlHeaderArea);
+                cmbKhuVuc.Enabled = false;
+                string sqlHeaderContent = "select distinct header_content from m_header where page_id = '" + pageid + "'";
+                txtNoiDung.Text = con.sqlExecuteScalarString(sqlHeaderContent);
+                txtNoiDung.ReadOnly = true;
+                string sqlDataCheck = "select distinct data_check from m_data where page_id = '" + pageid + "'";
+                cmbNgoaiQuan.Text = con.sqlExecuteScalarString(sqlDataCheck);
+                cmbNgoaiQuan.Enabled = false;
+
+
+                buildDGV(ref dgvMeasureData);
+            }
+
+            //common
             callpic();
-           
+
         }
 
 
@@ -163,15 +198,20 @@ namespace IPQC_Part
             //create datagipview
             dtInspectItems = new DataTable();
             dtInspectItems.Clear();
-            string sql = @"
+            StringBuilder sql = new StringBuilder();
+            sql.Append(@"
                         select a.item_measure, a.item_detail, a.item_spec_x, a.item_lower, a.item_upper,
                        (a.item_upper  - a.item_spec_x) as tolerance_up , (a.item_lower  - a.item_spec_x) as tolerances_low,a.item_tool,  
                         b.data_1, b.data_2, b.data_3, b.data_4, b.data_5, b.data_x, b.data_est, b.registration_date_time   from m_item a left join
                         (select dwr_cd,dwr_id, user_dept_cd from m_drawing a, m_user b where a.user_id = b.user_id) c on a.dwr_id = c.dwr_id
-                        left join m_data b on a.item_id = b.item_id where c.dwr_cd = '" + drawingcd + "' and c.user_dept_cd = (select distinct user_dept_cd from m_user where user_name = '" + username + @"')
-                        order by registration_date_time desc, item_measure asc ";
+                        left join m_data b on a.item_id = b.item_id where c.dwr_cd = '" + drawingcd + "' and c.user_dept_cd = (select distinct user_dept_cd from m_user where user_name = '" + username + @"')");
+            if (pageid > 0)
+            {
+                sql.Append(" and page_id = '" + pageid + "'");
+            }
+            sql.Append("order by registration_date_time desc, item_measure asc ");
             IPQC_Motor.TfSQL con = new IPQC_Motor.TfSQL();
-            con.sqlDataAdapterFillDatatable(sql, ref dtInspectItems);
+            con.sqlDataAdapterFillDatatable(sql.ToString(), ref dtInspectItems);
             dgv.DataSource = dtInspectItems;
         }
         private void defineItemTable(ref DataTable dt)
@@ -195,23 +235,72 @@ namespace IPQC_Part
         }
         private void btnTaoForm_Click(object sender, EventArgs e)
         {
-            if (checkdata())
+            if (pageid == 0)
             {
+                IPQC_Motor.TfSQL con = new IPQC_Motor.TfSQL();
+                string sqlPageID = "select case when max(page_id) is null then 1 else max(page_id) +1 end as maxcode from  m_header";
+                txtPageId.Text = con.sqlExecuteScalarString(sqlPageID);
+                if (checkdata())
+                {
 
-                //insert data  
-                insertintodatabase();
-                buildDGV(ref dgvMeasureData);
+                    //insert data  
+                    insertintodatabase();
+                    buildDGV(ref dgvMeasureData);
+                }
+                else
+                {
+                    MessageBox.Show("Chọn đầy đủ thông tin có dấu (*) ", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+                }
             }
             else
             {
-                MessageBox.Show("Chọn đầy đủ thông tin có dấu (*) ", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+                MessageBox.Show("Ban đang ở thuộc tính Đo Tiếp. Thoát Form nay và login với New Form để tạo Form", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
             }
-
+        }
+        private void btnBatDau_Click(object sender, EventArgs e)
+        {
+            if (checkdataMeasure())
+            {
+                TimeFMS.Enabled = true;
+            }
+            else
+            {
+                readcsvFMS();
+            }
+        }
+        bool checkdataMeasure()
+        {
+            if (dgvMeasureData.RowCount == 0)
+                return false;
+            if (cmbDongMay.SelectedItem == null)
+            {
+                return false;
+            }
+            return true;
         }
 
-        private void txtNoiDung_TextChanged(object sender, EventArgs e)
+        private void TimeFMS_Tick(object sender, EventArgs e)
         {
+            TimeFMS.Interval = 1000;
+            readcsvFMS();
+        }
+        void readcsvFMS()
+        {
+            var reader = new StreamReader(@"D:\IoT CT\EMAX.csv");
+            StringBuilder searchList = new StringBuilder();
+            while (!reader.EndOfStream)
+            {
+                var line = reader.ReadLine();
+                searchList.Append(line);
+                {//code 
+                    k = k + 1;
 
+
+                }
+                searchList.Append("\n");
+            }
+
+            MessageBox.Show(searchList.ToString());
         }
     }
 }
