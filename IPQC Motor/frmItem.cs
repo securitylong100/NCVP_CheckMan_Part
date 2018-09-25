@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -106,9 +106,23 @@ where a.user_dept_cd = t.user_dept_cd and a.user_name = '" + username + "'";
 
         private void dgvMeasureItem_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-           string DrawingCd = dgvMeasureItem.CurrentRow.Cells[1].Value.ToString();
-            IPQC_Part.frmFMS FMSfrm = new IPQC_Part.frmFMS(username, DrawingCd);
-            FMSfrm.ShowDialog();
+            string DrawingCd = dgvMeasureItem.CurrentRow.Cells[1].Value.ToString();
+            DialogResult dialog = MessageBox.Show("Chọn \"Yes\" để đo tiếp  " + System.Environment.NewLine +
+                             "\"No\" để đo mới", "Note", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information);
+            if (DialogResult.Yes == dialog)//Đo tiếp
+            {
+                IPQC_Part.frmContinue frmC = new IPQC_Part.frmContinue(DrawingCd,username);
+                frmC.ShowDialog();
+            }
+            else if (DialogResult.No == dialog)//đo mới
+            {
+                IPQC_Part.frmFMS frmFMS = new IPQC_Part.frmFMS(username, DrawingCd);
+                frmFMS.ShowDialog();
+            }
+
+           
+            //IPQC_Part.frmFMS FMSfrm = new IPQC_Part.frmFMS(username, DrawingCd);
+            //FMSfrm.ShowDialog();
              
         }
 
