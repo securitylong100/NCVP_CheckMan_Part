@@ -300,7 +300,7 @@ namespace IPQC_Part
                 mang = reader.ReadLine().Split(',');
                 DataRow dr = dtt.NewRow();
                 dr[0] = mang[0];
-                dr[1] = mang[5];
+                dr[1] = mang[6];
                 dtt.Rows.Add(dr);
             }
 
@@ -308,7 +308,7 @@ namespace IPQC_Part
             {
                 for (int i = 0; i < dgvMeasureData.RowCount; i++)
                 {
-                    if(dtt.Rows[j]["ItemMeasure"].ToString().Substring(0,1) == dgvMeasureData.Rows[i].Cells["item_measure"].Value.ToString())
+                    if(dtt.Rows[j]["ItemMeasure"].ToString() == dgvMeasureData.Rows[i].Cells["item_measure"].Value.ToString())
                     {
                         dgvMeasureData.Rows[i].Cells[col].Value = dtt.Rows[j]["ItemData"].ToString();
                     }
