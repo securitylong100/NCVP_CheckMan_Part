@@ -288,7 +288,7 @@ namespace IPQC_Part
         public int col = 8;
         public void readcsvFMS()
         {
-            var reader = new StreamReader(@"D:\NCVP_GIT\EMAX.csv");
+            var reader = new StreamReader(@"D:\EMAX.csv");
             StringBuilder searchList = new StringBuilder();
             //col = 8;//8 <==> data_1
             string[] mang;
