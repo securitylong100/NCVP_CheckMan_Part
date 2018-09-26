@@ -217,21 +217,21 @@ namespace IPQC_Part
         }
         private void defineItemTable(ref DataTable dt)
         {
-            dt.Columns.Add("item_measure", Type.GetType("System.String"));
-            dt.Columns.Add("item_detail", Type.GetType("System.String"));
-            dt.Columns.Add("item_spec_x", Type.GetType("System.String"));
-            dt.Columns.Add("item_lower", Type.GetType("System.Double"));
-            dt.Columns.Add("item_upper", Type.GetType("System.Double"));
-            dt.Columns.Add("tolerance_up", Type.GetType("System.Double"));
-            dt.Columns.Add("tolerances_low", Type.GetType("System.Double"));
-            dt.Columns.Add("item_tool", Type.GetType("System.String"));
-            dt.Columns.Add("data_1", Type.GetType("System.Double"));
-            dt.Columns.Add("data_2", Type.GetType("System.Double"));
-            dt.Columns.Add("data_3", Type.GetType("System.Double"));
-            dt.Columns.Add("data_4", Type.GetType("System.Double"));
-            dt.Columns.Add("data_5", Type.GetType("System.Double"));
-            dt.Columns.Add("data_x", Type.GetType("System.Double"));
-            dt.Columns.Add("data_est", Type.GetType("System.String"));
+            dt.Columns.Add("item_measure", Type.GetType("System.String"));//0
+            dt.Columns.Add("item_detail", Type.GetType("System.String"));//1
+            dt.Columns.Add("item_spec_x", Type.GetType("System.String"));//2
+            dt.Columns.Add("item_lower", Type.GetType("System.Double"));//3
+            dt.Columns.Add("item_upper", Type.GetType("System.Double"));//4
+            dt.Columns.Add("tolerance_up", Type.GetType("System.Double"));//5
+            dt.Columns.Add("tolerances_low", Type.GetType("System.Double"));//6
+            dt.Columns.Add("item_tool", Type.GetType("System.String"));//7
+            dt.Columns.Add("data_1", Type.GetType("System.Double"));//8
+            dt.Columns.Add("data_2", Type.GetType("System.Double"));//9
+            dt.Columns.Add("data_3", Type.GetType("System.Double"));//10
+            dt.Columns.Add("data_4", Type.GetType("System.Double"));//11
+            dt.Columns.Add("data_5", Type.GetType("System.Double"));//12
+            dt.Columns.Add("data_x", Type.GetType("System.Double"));//13
+            dt.Columns.Add("data_est", Type.GetType("System.String"));//14
             dt.Columns.Add("registration_date_time", Type.GetType("System.DateTime"));
         }
         private void btnTaoForm_Click(object sender, EventArgs e)
@@ -282,26 +282,68 @@ namespace IPQC_Part
 
         private void TimeFMS_Tick(object sender, EventArgs e)
         {
-            TimeFMS.Interval = 1000;
+            TimeFMS.Interval = 10000;
             readcsvFMS();
         }
-        void readcsvFMS()
+        public int col = 8;
+        public void readcsvFMS()
         {
-            var reader = new StreamReader(@"D:\IoT CT\EMAX.csv");
+            var reader = new StreamReader(@"D:\NCVP_GIT\EMAX.csv");
             StringBuilder searchList = new StringBuilder();
+            //col = 8;//8 <==> data_1
+            string[] mang;
+            DataTable dtt = new DataTable();
+            dtt.Columns.Add("ItemMeasure",typeof(string));
+            dtt.Columns.Add("ItemData", typeof(string));
             while (!reader.EndOfStream)
             {
-                var line = reader.ReadLine();
-                searchList.Append(line);
-                {//code 
-                    k = k + 1;
-
-
-                }
-                searchList.Append("\n");
+                mang = reader.ReadLine().Split(',');
+                DataRow dr = dtt.NewRow();
+                dr[0] = mang[0];
+                dr[1] = mang[5];
+                dtt.Rows.Add(dr);
             }
 
-            MessageBox.Show(searchList.ToString());
+            for (int j = 1; j < dtt.Rows.Count; j++)//add value from emax.csv to dgvMeasure
+            {
+                for (int i = 0; i < dgvMeasureData.RowCount; i++)
+                {
+                    if(dtt.Rows[j]["ItemMeasure"].ToString().Substring(0,1) == dgvMeasureData.Rows[i].Cells["item_measure"].Value.ToString())
+                    {
+                        dgvMeasureData.Rows[i].Cells[col].Value = dtt.Rows[j]["ItemData"].ToString();
+                    }
+                }
+            }
+        }
+
+        /*get no column dgvMeasure
+            col data_1 ==> stt 8
+            col data_2 ==> stt 9
+            col data_3 ==> stt 10
+            col data_4 ==> stt 11
+            col data_5 ==> stt 12
+            col data_x ==> stt 13
+        */
+        public int colTam;
+        private void dgvMeasureData_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                int currentMouseCol = dgvMeasureData.HitTest(e.X, e.Y).ColumnIndex;
+                if (currentMouseCol >= 8 && currentMouseCol <= 12)
+                {
+                    ContextMenu m = new ContextMenu();
+                    MenuItem Mn = new MenuItem(string.Format("Add data no {0}", (currentMouseCol - 7).ToString()));
+                    m.MenuItems.Add(Mn);
+                    m.Show(dgvMeasureData, new Point(e.X, e.Y));
+                    colTam = currentMouseCol;
+                    Mn.Click += menuItem_Click;
+                }                
+            }
+        }
+        public void menuItem_Click(object sender,EventArgs e)
+        {
+            col = colTam;
         }
     }
 }

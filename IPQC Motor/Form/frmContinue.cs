@@ -64,7 +64,7 @@ namespace IPQC_Part
                     {
                         TreeNode childtree = new TreeNode
                         {
-                            Text = dtChildNode.Rows[j]["header_machine"].ToString() + " " + dtChildNode.Rows[j]["footer_result"].ToString(),
+                            Text = "MM: " + dtChildNode.Rows[j]["header_machine"].ToString() + " -- Page Id: " + dtChildNode.Rows[j]["page_id"].ToString() + " " + dtChildNode.Rows[j]["footer_result"].ToString(),
                             Tag = dtChildNode.Rows[j]["page_id"].ToString(),
                             Checked = false,
                         };
@@ -107,6 +107,7 @@ namespace IPQC_Part
                 {
                     // MessageBox.Show(pageId.ToString());
                     frmFMS from = new frmFMS(pageId, Username, DrawingCd);
+                    this.Hide();
                     from.ShowDialog();
                 }
             }

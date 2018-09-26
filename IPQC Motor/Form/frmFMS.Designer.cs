@@ -116,6 +116,7 @@
             this.dgvMeasureData.ReadOnly = true;
             this.dgvMeasureData.Size = new System.Drawing.Size(1265, 500);
             this.dgvMeasureData.TabIndex = 15;
+            this.dgvMeasureData.MouseClick += new System.Windows.Forms.MouseEventHandler(this.dgvMeasureData_MouseClick);
             // 
             // label25
             // 
