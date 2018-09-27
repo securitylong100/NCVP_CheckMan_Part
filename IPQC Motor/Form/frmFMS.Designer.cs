@@ -93,6 +93,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.TimeFMS = new System.Windows.Forms.Timer(this.components);
             this.menuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgvMeasureData)).BeginInit();
             this.gpbBanVe.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picbox)).BeginInit();
@@ -503,6 +504,7 @@
             this.btnKetNoi.TabIndex = 16;
             this.btnKetNoi.Text = "Kết Nối";
             this.btnKetNoi.UseVisualStyleBackColor = true;
+            this.btnKetNoi.Click += new System.EventHandler(this.btnKetNoi_Click);
             // 
             // label17
             // 
@@ -544,8 +546,10 @@
             this.cmbDongMay.FormattingEnabled = true;
             this.cmbDongMay.Items.AddRange(new object[] {
             "FMS",
-            "PG",
-            "DG"});
+            "PinGau",
+            "DaiGau",
+            "Push",
+            "Pull"});
             this.cmbDongMay.Location = new System.Drawing.Point(87, 45);
             this.cmbDongMay.Name = "cmbDongMay";
             this.cmbDongMay.Size = new System.Drawing.Size(99, 21);
@@ -730,6 +734,10 @@
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(61, 4);
             // 
+            // serialPort1
+            // 
+            this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
+            // 
             // frmFMS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -821,5 +829,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Timer TimeFMS;
         private System.Windows.Forms.ContextMenuStrip menuStrip;
+        private System.IO.Ports.SerialPort serialPort1;
     }
 }

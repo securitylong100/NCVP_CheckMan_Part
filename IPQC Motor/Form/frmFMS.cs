@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using Npgsql;
 using System.IO;
+using System.IO.Ports;
+using System.Threading;
 namespace IPQC_Part
 {
     public partial class frmFMS : Form
@@ -402,6 +404,59 @@ namespace IPQC_Part
                 fr.Show();
                 cl += 1;
             }
+        }
+
+        private void btnKetNoi_Click(object sender, EventArgs e)
+        {
+            string[] PortList = SerialPort.GetPortNames();
+            cmbCOM.Items.Clear();
+            cmbCOM.Text = PortList[0];
+            if (serialPort1.IsOpen) return;
+            serialPort1.PortName = cmbCOM.Text;
+            serialPort1.BaudRate = 9600;
+            serialPort1.DataBits = 8;
+            serialPort1.Parity = Parity.None;
+            serialPort1.StopBits = StopBits.One;
+            serialPort1.Encoding = Encoding.ASCII;
+            try
+            {
+                serialPort1.Open();
+                btnKetNoi.Text = "Đã Kết Nối";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        public string cmdPullData;
+        private void serialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            if (serialPort1.IsOpen == false) return;
+            try
+            {
+                Thread.Sleep(100);
+                cmdPullData = serialPort1.ReadExisting().Substring(6, 5);
+                MessageBox.Show(cmdPullData);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        void data ()
+            {
+            string content1 = "";
+            if (cmbDongMay.Text == "Push")
+            {
+                content1 = "BF" + "\r"; //âm
+            }
+            else if (cmbDongMay.Text == "Pull")
+            {
+                content1 = "BE" + "\r"; //âm
+            }
+            serialPort1.Write(content1);
+            string content = "AE" + "\r";
+            serialPort1.Write(content);
         }
     }
 }
