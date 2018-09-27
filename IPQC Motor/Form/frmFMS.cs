@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
 using Npgsql;
 using System.IO;
 namespace IPQC_Part
@@ -15,11 +16,9 @@ namespace IPQC_Part
     {
         public string username;
         public string drawingcd;
-        public int pageid = 2;
-        public int csvMeasure;
-        public double csvData;
-        public int k = 0;
-        DataTable dtInspectItems;
+        public int pageid;
+  
+        public DataTable dtInspectItems;
         public frmFMS(int PageId,string username_, string drawingcd_)
         {
             InitializeComponent();
@@ -44,7 +43,6 @@ namespace IPQC_Part
                 picbox.SizeMode = PictureBoxSizeMode.Zoom;
             }
         }
-
         private void frmFMS_Load(object sender, EventArgs e)
         {
             IPQC_Motor.TfSQL con = new IPQC_Motor.TfSQL();
@@ -203,7 +201,7 @@ namespace IPQC_Part
             sql.Append(@"
                         select a.item_measure, a.item_detail, a.item_spec_x, a.item_lower, a.item_upper,
                        (a.item_upper  - a.item_spec_x) as tolerance_up , (a.item_lower  - a.item_spec_x) as tolerances_low,a.item_tool,  
-                        b.data_1, b.data_2, b.data_3, b.data_4, b.data_5, b.data_x, b.data_est, b.registration_date_time   from m_item a left join
+                        b.data_1, b.data_2, b.data_3, b.data_4, b.data_5, b.data_x, b.data_est, b.registration_date_time,a.item_id   from m_item a left join
                         (select dwr_cd,dwr_id, user_dept_cd from m_drawing a, m_user b where a.user_id = b.user_id) c on a.dwr_id = c.dwr_id
                         left join m_data b on a.item_id = b.item_id where c.dwr_cd = '" + drawingcd + "' and c.user_dept_cd = (select distinct user_dept_cd from m_user where user_name = '" + username + @"')");
             if (pageid > 0)
@@ -258,17 +256,7 @@ namespace IPQC_Part
                 MessageBox.Show("Ban đang ở thuộc tính Đo Tiếp. Thoát Form nay và login với New Form để tạo Form", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
             }
         }
-        private void btnBatDau_Click(object sender, EventArgs e)
-        {
-            if (checkdataMeasure())
-            {
-                TimeFMS.Enabled = true;
-            }
-            else
-            {
-                readcsvFMS();
-            }
-        }
+    
         bool checkdataMeasure()
         {
             if (dgvMeasureData.RowCount == 0)
@@ -279,18 +267,10 @@ namespace IPQC_Part
             }
             return true;
         }
-
-        private void TimeFMS_Tick(object sender, EventArgs e)
-        {
-            TimeFMS.Interval = 10000;
-            readcsvFMS();
-        }
-        public int col = 8;
-        public void readcsvFMS()
+        public void readcsvFMS(int column)
         {
             var reader = new StreamReader(@"D:\EMAX.csv");
             StringBuilder searchList = new StringBuilder();
-            //col = 8;//8 <==> data_1
             string[] mang;
             DataTable dtt = new DataTable();
             dtt.Columns.Add("ItemMeasure",typeof(string));
@@ -308,29 +288,20 @@ namespace IPQC_Part
             {
                 for (int i = 0; i < dgvMeasureData.RowCount; i++)
                 {
-                    if(dtt.Rows[j]["ItemMeasure"].ToString() == dgvMeasureData.Rows[i].Cells["item_measure"].Value.ToString())
+                    if(dtt.Rows[j]["ItemMeasure"].ToString() == dgvMeasureData.Rows[i].Cells["item_measure"].Value.ToString() && dgvMeasureData.Rows[i].Cells["item_tool"].Value.ToString() == "FMS")
                     {
-                        dgvMeasureData.Rows[i].Cells[col].Value = dtt.Rows[j]["ItemData"].ToString();
+                        dgvMeasureData.Rows[i].Cells[column].Value = dtt.Rows[j]["ItemData"].ToString();
                     }
                 }
             }
         }
-
-        /*get no column dgvMeasure
-            col data_1 ==> stt 8
-            col data_2 ==> stt 9
-            col data_3 ==> stt 10
-            col data_4 ==> stt 11
-            col data_5 ==> stt 12
-            col data_x ==> stt 13
-        */
         public int colTam;
         private void dgvMeasureData_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
             {
                 int currentMouseCol = dgvMeasureData.HitTest(e.X, e.Y).ColumnIndex;
-                if (currentMouseCol >= 8 && currentMouseCol <= 12)
+                if (currentMouseCol >= 8 && currentMouseCol <= 12 && cmbDongMay.Text == "FMS")
                 {
                     ContextMenu m = new ContextMenu();
                     MenuItem Mn = new MenuItem(string.Format("Add data no {0}", (currentMouseCol - 7).ToString()));
@@ -343,7 +314,94 @@ namespace IPQC_Part
         }
         public void menuItem_Click(object sender,EventArgs e)
         {
-            col = colTam;
+            readcsvFMS(colTam);
+            updateData(ref dtInspectItems, pageid);
+        }
+        public void updateData(ref DataTable dtMeasure, int page_Id)
+        {
+            if (dtMeasure.Rows.Count > 0)
+            {
+                IPQC_Motor.TfSQL tfSql = new IPQC_Motor.TfSQL();
+                int t = 0;
+                foreach (DataRow dr in dtMeasure.Rows)
+                {
+                    string updateDGVMeasure = "";
+                    updateDGVMeasure += "update m_data set ";
+                    if (dr[8].ToString() != "" && dr["item_tool"].ToString() == cmbDongMay.Text)
+                    {
+                        updateDGVMeasure += " data_1 = " + double.Parse(dr[8].ToString());
+                        t++;
+                    }
+                    if (dr[9].ToString() != "" && dr["item_tool"].ToString() == cmbDongMay.Text)
+                    {
+                        if (t > 0)
+                        { updateDGVMeasure += ", "; }
+                        updateDGVMeasure += " data_2 = " + dr[9].ToString();
+                        t++;
+                    }
+                    if (dr[10].ToString() != "" && dr["item_tool"].ToString() == cmbDongMay.Text)
+                    {
+                        if (t > 0)
+                        { updateDGVMeasure += ", "; }
+                        updateDGVMeasure += " data_3 = " + double.Parse(dr[10].ToString());
+                        t++;
+                    }
+                    if (dr[11].ToString() != "" && dr["item_tool"].ToString() == cmbDongMay.Text)
+                    {
+                        if (t > 0)
+                        { updateDGVMeasure += ", "; }
+                        updateDGVMeasure += " data_4 = " + double.Parse(dr[11].ToString());
+                        t++;
+                    }
+                    if (dr[12].ToString() != "" && dr["item_tool"].ToString() == cmbDongMay.Text)
+                    {
+                        if (t > 0)
+                        { updateDGVMeasure += ", "; }
+                        updateDGVMeasure += " data_5 = " + double.Parse(dr[12].ToString());
+                        t++;
+                    }
+                    if (dr[13].ToString() != "" && dr["item_tool"].ToString() == cmbDongMay.Text)
+                    {
+                        if (t > 0)
+                        { updateDGVMeasure += ", "; }
+                        updateDGVMeasure += " data_x = " + double.Parse(dr[13].ToString());
+                        t++;
+                    }
+                    if (dr[14].ToString() != "" && dr["item_tool"].ToString() == cmbDongMay.Text)
+                    {
+                        if (t > 0)
+                        { updateDGVMeasure += ", "; }
+                        updateDGVMeasure += " data_est = '" + dr[14].ToString() + "'";
+                        t++;
+                    }
+                    if (t > 0)
+                    {
+                        updateDGVMeasure += " where page_id =" + page_Id + " and item_id = " + int.Parse(dr[16].ToString());
+                        bool up = tfSql.sqlExecuteNonQuery(updateDGVMeasure, true);
+                        if(up) { t = 0; }
+                    }   
+                }
+            }
+
+        }
+        public int cl = 0;
+        frmMenu fr;
+        private void cmbDongMay_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(cl ==0) { fr = new frmMenu(this); }
+            
+            if (cmbDongMay.Text == "PG" || cmbDongMay.Text == "DG")
+            { //DG
+                dgvMeasureData.ReadOnly = false;
+                fr.Close();
+                cl = 0;
+            }
+            else if(cmbDongMay.Text == "FMS")
+            {
+                dgvMeasureData.ReadOnly = true;                
+                fr.Show();
+                cl += 1;
+            }
         }
     }
 }

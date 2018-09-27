@@ -50,3 +50,4 @@ D:\NCVP_GIT\NCVP_CheckMan_Part\IPQC Motor\obj\Debug\IPQC Part.application
 D:\NCVP_GIT\NCVP_CheckMan_Part\IPQC Motor\obj\Debug\IPQC_Part.frmContinue.resources
 D:\GIT\NCVP_CheckMan_Part\IPQC Motor\obj\Debug\IPQC Part.csprojResolveAssemblyReference.cache
 D:\GIT\NCVP_CheckMan_Part\IPQC Motor\obj\Debug\IPQC_Part.frmContinue.resources
+D:\NCVP_GIT\NCVP_CheckMan_Part\IPQC Motor\obj\Debug\IPQC_Part.frmMenu.resources

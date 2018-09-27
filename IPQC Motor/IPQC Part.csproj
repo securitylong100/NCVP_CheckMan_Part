@@ -115,6 +115,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Form\frmMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\frmMenu.Designer.cs">
+      <DependentUpon>frmMenu.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form\frmFMS.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -191,6 +197,9 @@
     <Compile Include="Class\TfGeneral.cs" />
     <Compile Include="Class\TfSQL.cs" />
     <Compile Include="Class\VBStrings.cs" />
+    <EmbeddedResource Include="Form\frmMenu.resx">
+      <DependentUpon>frmMenu.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form\frmFMS.resx">
       <DependentUpon>frmFMS.cs</DependentUpon>
     </EmbeddedResource>

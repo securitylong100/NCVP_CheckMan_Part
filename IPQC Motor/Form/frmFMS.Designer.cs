@@ -74,8 +74,6 @@
             this.label17 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.cmbCOM = new System.Windows.Forms.ComboBox();
-            this.btnBatDau = new System.Windows.Forms.Button();
-            this.label15 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.cmbDongMay = new System.Windows.Forms.ComboBox();
             this.btnTaoForm = new System.Windows.Forms.Button();
@@ -94,6 +92,7 @@
             this.tpFootder = new System.Windows.Forms.TabPage();
             this.button1 = new System.Windows.Forms.Button();
             this.TimeFMS = new System.Windows.Forms.Timer(this.components);
+            this.menuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgvMeasureData)).BeginInit();
             this.gpbBanVe.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picbox)).BeginInit();
@@ -415,8 +414,6 @@
             this.groupBox4.Controls.Add(this.label17);
             this.groupBox4.Controls.Add(this.label18);
             this.groupBox4.Controls.Add(this.cmbCOM);
-            this.groupBox4.Controls.Add(this.btnBatDau);
-            this.groupBox4.Controls.Add(this.label15);
             this.groupBox4.Controls.Add(this.label16);
             this.groupBox4.Controls.Add(this.cmbDongMay);
             this.groupBox4.Controls.Add(this.btnTaoForm);
@@ -533,25 +530,6 @@
             this.cmbCOM.Size = new System.Drawing.Size(99, 21);
             this.cmbCOM.TabIndex = 14;
             // 
-            // btnBatDau
-            // 
-            this.btnBatDau.Location = new System.Drawing.Point(229, 43);
-            this.btnBatDau.Name = "btnBatDau";
-            this.btnBatDau.Size = new System.Drawing.Size(75, 23);
-            this.btnBatDau.TabIndex = 12;
-            this.btnBatDau.Text = "Bắt Đầu";
-            this.btnBatDau.UseVisualStyleBackColor = true;
-            this.btnBatDau.Click += new System.EventHandler(this.btnBatDau_Click);
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(200, 48);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(22, 13);
-            this.label15.TabIndex = 11;
-            this.label15.Text = "--->";
-            // 
             // label16
             // 
             this.label16.AutoSize = true;
@@ -572,6 +550,7 @@
             this.cmbDongMay.Name = "cmbDongMay";
             this.cmbDongMay.Size = new System.Drawing.Size(99, 21);
             this.cmbDongMay.TabIndex = 10;
+            this.cmbDongMay.SelectedIndexChanged += new System.EventHandler(this.cmbDongMay_SelectedIndexChanged);
             // 
             // btnTaoForm
             // 
@@ -746,9 +725,10 @@
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 0;
             // 
-            // TimeFMS
+            // menuStrip
             // 
-            this.TimeFMS.Tick += new System.EventHandler(this.TimeFMS_Tick);
+            this.menuStrip.Name = "menuStrip";
+            this.menuStrip.Size = new System.Drawing.Size(61, 4);
             // 
             // frmFMS
             // 
@@ -809,8 +789,6 @@
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.ComboBox cmbCOM;
-        private System.Windows.Forms.Button btnBatDau;
-        private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.ComboBox cmbDongMay;
         private System.Windows.Forms.Button btnTaoForm;
@@ -842,5 +820,6 @@
         private System.Windows.Forms.TextBox txtUser;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Timer TimeFMS;
+        private System.Windows.Forms.ContextMenuStrip menuStrip;
     }
 }
