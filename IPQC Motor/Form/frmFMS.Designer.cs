@@ -116,6 +116,10 @@
             this.dgvMeasureData.ReadOnly = true;
             this.dgvMeasureData.Size = new System.Drawing.Size(1265, 500);
             this.dgvMeasureData.TabIndex = 15;
+            this.dgvMeasureData.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dgvMeasureData_CellBeginEdit);
+            this.dgvMeasureData.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMeasureData_CellDoubleClick);
+            this.dgvMeasureData.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMeasureData_CellEndEdit);
+            this.dgvMeasureData.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvMeasureData_KeyDown);
             this.dgvMeasureData.MouseClick += new System.Windows.Forms.MouseEventHandler(this.dgvMeasureData_MouseClick);
             // 
             // label25
@@ -749,6 +753,7 @@
             this.Controls.Add(this.gpbBanVe);
             this.Name = "frmFMS";
             this.Text = "frmFMS";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmFMS_FormClosing);
             this.Load += new System.EventHandler(this.frmFMS_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvMeasureData)).EndInit();
             this.gpbBanVe.ResumeLayout(false);
