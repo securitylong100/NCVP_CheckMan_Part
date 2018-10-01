@@ -120,6 +120,7 @@
             this.dgvMeasureData.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMeasureData_CellDoubleClick);
             this.dgvMeasureData.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMeasureData_CellEndEdit);
             this.dgvMeasureData.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvMeasureData_KeyDown);
+            this.dgvMeasureData.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dgvMeasureData_KeyPress);
             this.dgvMeasureData.MouseClick += new System.Windows.Forms.MouseEventHandler(this.dgvMeasureData_MouseClick);
             // 
             // label25

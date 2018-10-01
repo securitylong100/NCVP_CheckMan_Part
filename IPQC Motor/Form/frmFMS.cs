@@ -519,11 +519,20 @@ namespace IPQC_Part
             {
                 NextCell("DG");
             }
+            //MessageBox.Show("cellendedit");
         }
 
         private void dgvMeasureData_KeyDown(object sender, KeyEventArgs e)
         {
-           
+            
+        }
+
+        private void dgvMeasureData_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if(e.KeyChar == (Char)Keys.Enter)
+            {
+                NextCell("DG");
+            }
         }
     }
 }
