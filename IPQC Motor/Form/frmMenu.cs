@@ -45,7 +45,7 @@ namespace IPQC_Part
         {
             item = 1;
             frmFms.readcsvFMS(8);
-            frmFms.updateData(ref frmFms.dtInspectItems,frmFms.pageid);
+            frmFms.updateData(ref frmFms.dtInspectItems,frmFms.pageid,"FMS");
             SetColor(item1_btn, item);
         }
 
@@ -53,7 +53,7 @@ namespace IPQC_Part
         {
             item = 1;
             frmFms.readcsvFMS(9);
-            frmFms.updateData(ref frmFms.dtInspectItems, frmFms.pageid);
+            frmFms.updateData(ref frmFms.dtInspectItems, frmFms.pageid, "FMS");
             SetColor(item2_btn, item);
         }
 
@@ -61,7 +61,7 @@ namespace IPQC_Part
         {
             item = 1;
             frmFms.readcsvFMS(10);
-            frmFms.updateData(ref frmFms.dtInspectItems, frmFms.pageid);
+            frmFms.updateData(ref frmFms.dtInspectItems, frmFms.pageid, "FMS");
             SetColor(item3_btn, item);
         }
 
@@ -69,7 +69,7 @@ namespace IPQC_Part
         {
             item = 1;
             frmFms.readcsvFMS(11);
-            frmFms.updateData(ref frmFms.dtInspectItems, frmFms.pageid);
+            frmFms.updateData(ref frmFms.dtInspectItems, frmFms.pageid, "FMS");
             SetColor(item4_btn, item);
         }
 
@@ -77,7 +77,7 @@ namespace IPQC_Part
         {
             item = 1;
             frmFms.readcsvFMS(12);
-            frmFms.updateData(ref frmFms.dtInspectItems, frmFms.pageid);
+            frmFms.updateData(ref frmFms.dtInspectItems, frmFms.pageid, "FMS");
             SetColor(item5_btn, item);
         }
     }

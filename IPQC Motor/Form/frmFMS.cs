@@ -317,9 +317,9 @@ namespace IPQC_Part
         public void menuItem_Click(object sender,EventArgs e)
         {
             readcsvFMS(colTam);
-            updateData(ref dtInspectItems, pageid);
+            updateData(ref dtInspectItems, pageid, "FMS");
         }
-        public void updateData(ref DataTable dtMeasure, int page_Id)
+        public void updateData(ref DataTable dtMeasure, int page_Id,string dongmay)
         {
             if (dtMeasure.Rows.Count > 0)
             {
@@ -329,47 +329,47 @@ namespace IPQC_Part
                 {
                     string updateDGVMeasure = "";
                     updateDGVMeasure += "update m_data set ";
-                    if (dr[8].ToString() != "" && dr["item_tool"].ToString() == cmbDongMay.Text)
+                    if (dr[8].ToString() != "" && dr["item_tool"].ToString() == dongmay)
                     {
                         updateDGVMeasure += " data_1 = " + double.Parse(dr[8].ToString());
                         t++;
                     }
-                    if (dr[9].ToString() != "" && dr["item_tool"].ToString() == cmbDongMay.Text)
+                    if (dr[9].ToString() != "" && dr["item_tool"].ToString() == dongmay)
                     {
                         if (t > 0)
                         { updateDGVMeasure += ", "; }
                         updateDGVMeasure += " data_2 = " + dr[9].ToString();
                         t++;
                     }
-                    if (dr[10].ToString() != "" && dr["item_tool"].ToString() == cmbDongMay.Text)
+                    if (dr[10].ToString() != "" && dr["item_tool"].ToString() == dongmay)
                     {
                         if (t > 0)
                         { updateDGVMeasure += ", "; }
                         updateDGVMeasure += " data_3 = " + double.Parse(dr[10].ToString());
                         t++;
                     }
-                    if (dr[11].ToString() != "" && dr["item_tool"].ToString() == cmbDongMay.Text)
+                    if (dr[11].ToString() != "" && dr["item_tool"].ToString() == dongmay)
                     {
                         if (t > 0)
                         { updateDGVMeasure += ", "; }
                         updateDGVMeasure += " data_4 = " + double.Parse(dr[11].ToString());
                         t++;
                     }
-                    if (dr[12].ToString() != "" && dr["item_tool"].ToString() == cmbDongMay.Text)
+                    if (dr[12].ToString() != "" && dr["item_tool"].ToString() == dongmay)
                     {
                         if (t > 0)
                         { updateDGVMeasure += ", "; }
                         updateDGVMeasure += " data_5 = " + double.Parse(dr[12].ToString());
                         t++;
                     }
-                    if (dr[13].ToString() != "" && dr["item_tool"].ToString() == cmbDongMay.Text)
+                    if (dr[13].ToString() != "" && dr["item_tool"].ToString() == dongmay)
                     {
                         if (t > 0)
                         { updateDGVMeasure += ", "; }
                         updateDGVMeasure += " data_x = " + double.Parse(dr[13].ToString());
                         t++;
                     }
-                    if (dr[14].ToString() != "" && dr["item_tool"].ToString() == cmbDongMay.Text)
+                    if (dr[14].ToString() != "" && dr["item_tool"].ToString() == dongmay)
                     {
                         if (t > 0)
                         { updateDGVMeasure += ", "; }
@@ -383,6 +383,7 @@ namespace IPQC_Part
                         if(up) { t = 0; }
                     }   
                 }
+                AlarmColor();
             }
 
         }
@@ -421,29 +422,17 @@ namespace IPQC_Part
                 { this.dgvMeasureData.Rows[i].ReadOnly = true; }
             }
         }
-        public void NextCell(string dongmay)//CHuyen tơi  cell kê tiep khi nhâp
-        {
-            int CurrentRow = dgvMeasureData.CurrentCell.RowIndex;
-            int CurrentCol = dgvMeasureData.CurrentCell.ColumnIndex;
-            if (CurrentRow > 0)
-            {
-                for (int i = CurrentRow + 1; i < dgvMeasureData.RowCount; i++)
-                {
-                    if (dgvMeasureData.Rows[i].Cells["item_tool"].Value.ToString() == dongmay)
-                    {
-                        this.dgvMeasureData.Rows[i].Cells[CurrentCol].Selected = true;
-                        dgvMeasureData.CurrentCell = this.dgvMeasureData.Rows[i].Cells[CurrentCol]; break;
-                    }
-                }
-            }
-        }
         public void PutCurrentCell(string dongmay)//Đặt vi tri con trỏ khi chọn dong máy
         {
             dgvMeasureData.ClearSelection();
             for (int i = 0; i < dgvMeasureData.RowCount; i++)
             {
                 if (dgvMeasureData.Rows[i].Cells["item_tool"].Value.ToString() == dongmay)
-                { this.dgvMeasureData.Rows[i].Cells[8].Selected = true; break; }
+                {
+                    this.dgvMeasureData.Rows[i].Cells[8].Selected = true;
+                    this.dgvMeasureData.CurrentCell = dgvMeasureData.Rows[i].Cells[8];
+                    break;
+                }
             }
         }
         private void frmFMS_FormClosing(object sender, FormClosingEventArgs e)
@@ -502,37 +491,64 @@ namespace IPQC_Part
             string content = "AE" + "\r";
             serialPort1.Write(content);
         }
-        int st = 0;
-        private void dgvMeasureData_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            
-        }
-
-        private void dgvMeasureData_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
-        {
-
-        }
-
         private void dgvMeasureData_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            if (dgvMeasureData.CurrentRow.Cells["item_tool"].Value.ToString() == "DG" && cmbDongMay.Text == "DaiGau")
-            {
-                NextCell("DG");
-            }
-            //MessageBox.Show("cellendedit");
+            if (cmbDongMay.Text == "DaiGau") { NextRow("DG"); }
+            else if (cmbDongMay.Text == "PinGau") { NextRow("PG"); }
+            else if (cmbDongMay.Text == "Pull") { NextRow("Pull"); }
+            else if (cmbDongMay.Text == "Push") { NextRow("Push"); }
         }
-
+        public void NextRow(string dongmay)//CHuyen tơi  cell kê tiep khi nhâp
+        {
+            int CurrentRow = dgvMeasureData.CurrentCell.RowIndex;
+            if (CurrentRow > 0 && dgvMeasureData.Rows[CurrentRow].Cells["item_tool"].Value.ToString() == dongmay)
+            {
+                for (int i = CurrentRow + 1; i < dgvMeasureData.RowCount; i++)
+                {
+                    if (dgvMeasureData.Rows[i].Cells["item_tool"].Value.ToString() != dongmay)
+                    {
+                        SendKeys.Send("{down}");
+                    }
+                    else { break; }
+                }
+                updateData(ref dtInspectItems, pageid, dongmay);
+            }
+        }
+        public void AlarmColor()
+        {
+            if (dgvMeasureData.RowCount > 0)
+            {
+                for (int i = 0; i < dgvMeasureData.RowCount; i++)
+                {
+                    double lower = 0;
+                    double upper = 0;
+                    double.TryParse(dgvMeasureData.Rows[i].Cells["item_lower"].Value.ToString(), out lower);
+                    double.TryParse(dgvMeasureData.Rows[i].Cells["item_upper"].Value.ToString(), out upper);
+                    for (int j = 8; j <= 12; j++)
+                    {
+                        double data1 = 0;
+                        bool b = double.TryParse(dgvMeasureData.Rows[i].Cells[j].Value.ToString(), out data1);
+                        if (data1 < lower || data1 > upper)
+                        {
+                            dgvMeasureData.Rows[i].Cells[j].Style.BackColor = Color.Red;
+                        }
+                    }
+                }
+            }
+        }
         private void dgvMeasureData_KeyDown(object sender, KeyEventArgs e)
         {
-            
-        }
-
-        private void dgvMeasureData_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if(e.KeyChar == (Char)Keys.Enter)
+            try
             {
-                NextCell("DG");
+                if (e.KeyCode == Keys.Enter)
+                {
+                    if (cmbDongMay.Text == "DaiGau") { NextRow("DG"); }
+                    else if (cmbDongMay.Text == "PinGau") { NextRow("PG"); }
+                    else if (cmbDongMay.Text == "Pull") { NextRow("Pull"); }
+                    else if (cmbDongMay.Text == "Push") { NextRow("Push"); }
+                }
             }
+            catch { }
         }
     }
 }
