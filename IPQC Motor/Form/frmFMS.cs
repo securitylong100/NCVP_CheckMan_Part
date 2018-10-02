@@ -98,7 +98,7 @@ namespace IPQC_Part
 
             //common
             callpic();
-
+            AlarmColor();
         }
 
 
@@ -493,10 +493,25 @@ namespace IPQC_Part
         }
         private void dgvMeasureData_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            if (cmbDongMay.Text == "DaiGau") { NextRow("DG"); }
-            else if (cmbDongMay.Text == "PinGau") { NextRow("PG"); }
-            else if (cmbDongMay.Text == "Pull") { NextRow("Pull"); }
-            else if (cmbDongMay.Text == "Push") { NextRow("Push"); }
+            string curentCell = dgvMeasureData.CurrentCell.Value.ToString();
+            if (!IsDouble(curentCell))
+            {
+                MessageBox.Show("NotChar");
+            }
+            else
+            {
+                
+                if (cmbDongMay.Text == "DaiGau") { NextRow("DG"); }
+                else if (cmbDongMay.Text == "PinGau") { NextRow("PG"); }
+                else if (cmbDongMay.Text == "Pull") { NextRow("Pull"); }
+                else if (cmbDongMay.Text == "Push") { NextRow("Push"); }
+            }
+        }
+        public bool IsDouble(string Str)
+        {
+            double e;
+            bool i = double.TryParse(Str, out e);
+            return i;
         }
         public void NextRow(string dongmay)//CHuyen tơi  cell kê tiep khi nhâp
         {
@@ -526,12 +541,17 @@ namespace IPQC_Part
                     double.TryParse(dgvMeasureData.Rows[i].Cells["item_upper"].Value.ToString(), out upper);
                     for (int j = 8; j <= 12; j++)
                     {
-                        double data1 = 0;
-                        bool b = double.TryParse(dgvMeasureData.Rows[i].Cells[j].Value.ToString(), out data1);
-                        if (data1 < lower || data1 > upper)
+                        if (dgvMeasureData.Rows[i].Cells[j].Value.ToString() != "")
                         {
-                            dgvMeasureData.Rows[i].Cells[j].Style.BackColor = Color.Red;
+                            double data1 = 0;
+                            bool b = double.TryParse(dgvMeasureData.Rows[i].Cells[j].Value.ToString(), out data1);
+                            if (data1 < lower || data1 > upper)
+                            {
+                                dgvMeasureData.Rows[i].Cells[j].Style.BackColor = Color.Red;
+                            }
+                            else dgvMeasureData.Rows[i].Cells[j].Style.BackColor = SystemColors.Window;
                         }
+                        else dgvMeasureData.Rows[i].Cells[j].Style.BackColor = Color.Yellow;
                     }
                 }
             }
