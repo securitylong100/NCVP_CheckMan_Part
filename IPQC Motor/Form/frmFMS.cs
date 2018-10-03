@@ -94,11 +94,11 @@ namespace IPQC_Part
 
 
                 buildDGV(ref dgvMeasureData);
+                AlarmColor();
             }
 
             //common
             callpic();
-            AlarmColor();
         }
 
 
@@ -199,6 +199,7 @@ namespace IPQC_Part
             //create datagipview
             dtInspectItems = new DataTable();
             dtInspectItems.Clear();
+            dtInspectItems = defineItemTable(ref dtInspectItems);
             StringBuilder sql = new StringBuilder();
             sql.Append(@"
                         select a.item_measure, a.item_detail, a.item_spec_x, a.item_lower, a.item_upper,
@@ -215,7 +216,7 @@ namespace IPQC_Part
             con.sqlDataAdapterFillDatatable(sql.ToString(), ref dtInspectItems);
             dgv.DataSource = dtInspectItems;
         }
-        private void defineItemTable(ref DataTable dt)
+        private DataTable defineItemTable(ref DataTable dt)
         {
             dt.Columns.Add("item_measure", Type.GetType("System.String"));//0
             dt.Columns.Add("item_detail", Type.GetType("System.String"));//1
@@ -225,14 +226,16 @@ namespace IPQC_Part
             dt.Columns.Add("tolerance_up", Type.GetType("System.Double"));//5
             dt.Columns.Add("tolerances_low", Type.GetType("System.Double"));//6
             dt.Columns.Add("item_tool", Type.GetType("System.String"));//7
-            dt.Columns.Add("data_1", Type.GetType("System.Double"));//8
-            dt.Columns.Add("data_2", Type.GetType("System.Double"));//9
-            dt.Columns.Add("data_3", Type.GetType("System.Double"));//10
-            dt.Columns.Add("data_4", Type.GetType("System.Double"));//11
-            dt.Columns.Add("data_5", Type.GetType("System.Double"));//12
+            dt.Columns.Add("data_1", Type.GetType("System.String"));//8
+            dt.Columns.Add("data_2", Type.GetType("System.String"));//9
+            dt.Columns.Add("data_3", Type.GetType("System.String"));//10
+            dt.Columns.Add("data_4", Type.GetType("System.String"));//11
+            dt.Columns.Add("data_5", Type.GetType("System.String"));//12
             dt.Columns.Add("data_x", Type.GetType("System.Double"));//13
             dt.Columns.Add("data_est", Type.GetType("System.String"));//14
             dt.Columns.Add("registration_date_time", Type.GetType("System.DateTime"));
+
+            return dt;
         }
         private void btnTaoForm_Click(object sender, EventArgs e)
         {
@@ -296,6 +299,7 @@ namespace IPQC_Part
                     }
                 }
             }
+            CalculatorDataX();
         }
         public int colTam;
         private void dgvMeasureData_MouseClick(object sender, MouseEventArgs e)
@@ -391,24 +395,27 @@ namespace IPQC_Part
         frmMenu frmenu;
         private void cmbDongMay_SelectedIndexChanged(object sender, EventArgs e)
         {//DG FMS PinGau DaiGau Push Pull
-            if (cl == 0) { frmenu = new frmMenu(this); }
-            
-            if (cmbDongMay.Text == "DaiGau" || cmbDongMay.Text == "PinGau")
-            { 
-                if (cl == 1) { frmenu.Close(); cl = 0; }
-                if (cmbDongMay.Text == "DaiGau") { DisableReadOnlyDGV("DG"); PutCurrentCell("DG"); }
-                else if (cmbDongMay.Text == "PinGau") { DisableReadOnlyDGV("PG"); PutCurrentCell("PG"); }
-            }
-            else if (cmbDongMay.Text == "Pull" || cmbDongMay.Text == "Push")
+            if (cmbSLMau.Text != "")
             {
-                dgvMeasureData.ReadOnly = false;
-                if (cl == 1) { frmenu.Close(); cl = 0; }
-                DisableReadOnlyDGV(cmbDongMay.Text);
-            }
-            else if(cmbDongMay.Text == "FMS")
-            {
-                dgvMeasureData.ReadOnly = true;
-                if (cl == 0) { frmenu.Show(); cl += 1; }
+                if (cl == 0) { frmenu = new frmMenu(this,int.Parse(cmbSLMau.Text)); }
+
+                if (cmbDongMay.Text == "DaiGau" || cmbDongMay.Text == "PinGau")
+                {
+                    if (cl == 1) { frmenu.Close(); cl = 0; }
+                    if (cmbDongMay.Text == "DaiGau") { DisableReadOnlyDGV("DG"); PutCurrentCell("DG"); }
+                    else if (cmbDongMay.Text == "PinGau") { DisableReadOnlyDGV("PG"); PutCurrentCell("PG"); }
+                }
+                else if (cmbDongMay.Text == "Pull" || cmbDongMay.Text == "Push")
+                {
+                    dgvMeasureData.ReadOnly = false;
+                    if (cl == 1) { frmenu.Close(); cl = 0; }
+                    DisableReadOnlyDGV(cmbDongMay.Text);
+                }
+                else if (cmbDongMay.Text == "FMS")
+                {
+                    dgvMeasureData.ReadOnly = true;
+                    if (cl == 0) { frmenu.Show(); cl += 1; }
+                }
             }
         }
         public void DisableReadOnlyDGV(string dongmay)//On/Off ReadOnly DGVMeasure
@@ -420,6 +427,14 @@ namespace IPQC_Part
                 { this.dgvMeasureData.Rows[i].ReadOnly = false; }
                 else
                 { this.dgvMeasureData.Rows[i].ReadOnly = true; }
+            }
+            if(cmbSLMau.Text != "")
+            {
+                int slMau = 5 - int.Parse(cmbSLMau.Text);
+                for (int i = 1; i <= slMau; i++)
+                {
+                    dgvMeasureData.Columns[13 - i].ReadOnly = true;
+                }
             }
         }
         public void PutCurrentCell(string dongmay)//Đặt vi tri con trỏ khi chọn dong máy
@@ -493,21 +508,22 @@ namespace IPQC_Part
         }
         private void dgvMeasureData_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            string curentCell = dgvMeasureData.CurrentCell.Value.ToString();
-            if (!IsDouble(curentCell))
+            if (!IsDouble(dgvMeasureData.CurrentCell.Value.ToString()))
             {
-                MessageBox.Show("NotChar");
+                MessageBox.Show("Dữ liệu phải dạng số !", "Info", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                dgvMeasureData.CurrentCell.Value = null;
+                SendKeys.Send("{up}");
+                AlarmColor();
             }
             else
             {
-                
                 if (cmbDongMay.Text == "DaiGau") { NextRow("DG"); }
                 else if (cmbDongMay.Text == "PinGau") { NextRow("PG"); }
                 else if (cmbDongMay.Text == "Pull") { NextRow("Pull"); }
                 else if (cmbDongMay.Text == "Push") { NextRow("Push"); }
             }
         }
-        public bool IsDouble(string Str)
+        public bool IsDouble(string Str)//kiểm tra du liêu nhap vào cell dgv
         {
             double e;
             bool i = double.TryParse(Str, out e);
@@ -526,10 +542,11 @@ namespace IPQC_Part
                     }
                     else { break; }
                 }
+                CalculatorDataX();
                 updateData(ref dtInspectItems, pageid, dongmay);
             }
         }
-        public void AlarmColor()
+        public void AlarmColor()//cảnh báo màu
         {
             if (dgvMeasureData.RowCount > 0)
             {
@@ -539,7 +556,7 @@ namespace IPQC_Part
                     double upper = 0;
                     double.TryParse(dgvMeasureData.Rows[i].Cells["item_lower"].Value.ToString(), out lower);
                     double.TryParse(dgvMeasureData.Rows[i].Cells["item_upper"].Value.ToString(), out upper);
-                    for (int j = 8; j <= 12; j++)
+                    for (int j = 8; j <= (int.Parse(cmbSLMau.Text) + 8); j++)
                     {
                         if (dgvMeasureData.Rows[i].Cells[j].Value.ToString() != "")
                         {
@@ -551,7 +568,7 @@ namespace IPQC_Part
                             }
                             else dgvMeasureData.Rows[i].Cells[j].Style.BackColor = SystemColors.Window;
                         }
-                        else dgvMeasureData.Rows[i].Cells[j].Style.BackColor = Color.Yellow;
+                        else dgvMeasureData.Rows[i].Cells[j].Style.BackColor = SystemColors.Window;
                     }
                 }
             }
@@ -569,6 +586,37 @@ namespace IPQC_Part
                 }
             }
             catch { }
+        }
+        public void CalculatorDataX()
+        {
+            if (dgvMeasureData.RowCount > 0)
+            {
+                foreach (DataRow dr in dtInspectItems.Rows)
+                {
+                    double datatb = 0;
+                    if(dr[8].ToString()!= "")
+                    {
+                        datatb += double.Parse(dr[8].ToString());
+                    }
+                    if (dr[9].ToString() != "")
+                    {
+                        datatb += double.Parse(dr[9].ToString());
+                    }
+                    if (dr[10].ToString() != "")
+                    {
+                        datatb += double.Parse(dr[10].ToString());
+                    }
+                    if (dr[11].ToString() != "")
+                    {
+                        datatb += double.Parse(dr[11].ToString());
+                    }
+                    if (dr[12].ToString() != "")
+                    {
+                        datatb += double.Parse(dr[12].ToString());
+                    }
+                    dr[13] = Math.Round((datatb / int.Parse(cmbSLMau.Text)),4);
+                }
+            }
         }
     }
 }

@@ -109,6 +109,7 @@
             this.Controls.Add(this.item3_btn);
             this.Controls.Add(this.item2_btn);
             this.Controls.Add(this.item1_btn);
+            this.MinimizeBox = false;
             this.Name = "frmMenu";
             this.Text = "Item No";
             this.Load += new System.EventHandler(this.frmMenu_Load);

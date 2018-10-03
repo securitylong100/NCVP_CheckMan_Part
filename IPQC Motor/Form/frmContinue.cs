@@ -109,6 +109,7 @@ namespace IPQC_Part
                     frmFMS from = new frmFMS(pageId, Username, DrawingCd);
                     this.Hide();
                     from.ShowDialog();
+                    this.Show();
                 }
             }
             else MessageBox.Show("Hãy chọn một mã máy !", "Note!", MessageBoxButtons.OK, MessageBoxIcon.Information);

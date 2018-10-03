@@ -109,14 +109,14 @@
             this.dgvMeasureData.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgvMeasureData.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgvMeasureData.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvMeasureData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvMeasureData.Location = new System.Drawing.Point(0, 212);
             this.dgvMeasureData.Name = "dgvMeasureData";
             this.dgvMeasureData.ReadOnly = true;
+            this.dgvMeasureData.RowHeadersVisible = false;
             this.dgvMeasureData.Size = new System.Drawing.Size(1265, 500);
             this.dgvMeasureData.TabIndex = 15;
-
             this.dgvMeasureData.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMeasureData_CellEndEdit);
             this.dgvMeasureData.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvMeasureData_KeyDown);
             this.dgvMeasureData.MouseClick += new System.Windows.Forms.MouseEventHandler(this.dgvMeasureData_MouseClick);

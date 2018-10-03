@@ -26,15 +26,26 @@ namespace IPQC_Part
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
         frmFMS frmFms;
-        public frmMenu(frmFMS frmfms_)
+        int SLMau;
+        public frmMenu(frmFMS frmfms_, int SLMau_)
         {
             InitializeComponent();
-            frmFms = frmfms_; 
+            frmFms = frmfms_;
+            SLMau = SLMau_;
         }
 
         private void frmMenu_Load(object sender, EventArgs e)
         {
             SetWindowPos(this.Handle, HWND_TOPMOST, 0, 0, 0, 0, TOPMOST_FLAGS);
+            Button[] btn = new Button[] { item1_btn, item2_btn, item3_btn, item4_btn, item5_btn };
+            if (SLMau > 0 && SLMau < 6)
+            {
+                for (int i = SLMau; i <= 4; i++)
+                {
+                    btn[i].Visible = false;
+                }
+            }
+            else { foreach (Button n in btn) { n.Visible = false; } }
         }
         public void SetColor(Button btn,int color)
         {
