@@ -63,8 +63,11 @@ where a.user_dept_cd = t.user_dept_cd and a.user_name = '" + username + "'";
             dt.Columns.Add("doc_name", Type.GetType("System.String"));
             dt.Columns.Add("registration_date_time", Type.GetType("System.DateTime"));
         }
+        DataGridViewButtonColumn colNew;
+        DataGridViewButtonColumn colCon;
         public void updateDataGripViews(ref DataGridView dgv, bool load)
         {
+            dgvMeasureItem.DataSource = null;
             dtInspectItems.Clear();
        
             string sql = @"select   b.model_sub_cd as model, a.dwr_cd, a.dwr_name, a.doc_name, a.registration_date_time from m_drawing a
@@ -75,6 +78,21 @@ where a.user_dept_cd = t.user_dept_cd and a.user_name = '" + username + "'";
             TfSQL tf = new TfSQL();
             tf.sqlDataAdapterFillDatatable(sql, ref dtInspectItems);
             dgv.DataSource = dtInspectItems;
+            if(dgv.RowCount > 0)
+            {                
+                colNew = new DataGridViewButtonColumn {
+                    Text = "New",
+                    UseColumnTextForButtonValue = true,
+                    Width = 25};
+                colCon = new DataGridViewButtonColumn {
+                    Text = "Continue",
+                    UseColumnTextForButtonValue = true,
+                    Width = 25
+                };
+                dgv.Columns.Add(colNew);
+                dgv.Columns.Add(colCon);
+                dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            }
         }
 
         private void btnEditMaster_Click(object sender, EventArgs e)
@@ -127,6 +145,13 @@ where a.user_dept_cd = t.user_dept_cd and a.user_name = '" + username + "'";
              
         }
 
-   
+        private void dgvMeasureItem_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int curRow = dgvMeasureItem.CurrentRow.Index;
+            if (dgvMeasureItem.Columns[e.ColumnIndex] == colNew && curRow >= 0)
+            {
+
+            }
+        }
     }
 }

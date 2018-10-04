@@ -41,6 +41,7 @@ namespace IPQC_Motor
             this.userInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changePasswordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.registerUserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.listTV = new System.Windows.Forms.TreeView();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMeasureItem)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -114,14 +115,13 @@ namespace IPQC_Motor
             // dgvMeasureItem
             // 
             this.dgvMeasureItem.AllowUserToAddRows = false;
-            this.dgvMeasureItem.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgvMeasureItem.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvMeasureItem.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.dgvMeasureItem.Location = new System.Drawing.Point(0, 93);
+            this.dgvMeasureItem.Location = new System.Drawing.Point(0, 94);
             this.dgvMeasureItem.Name = "dgvMeasureItem";
             this.dgvMeasureItem.ReadOnly = true;
-            this.dgvMeasureItem.Size = new System.Drawing.Size(1029, 657);
+            this.dgvMeasureItem.Size = new System.Drawing.Size(630, 611);
             this.dgvMeasureItem.TabIndex = 14;
+            this.dgvMeasureItem.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMeasureItem_CellContentClick);
             this.dgvMeasureItem.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMeasureItem_CellDoubleClick);
             // 
             // menuStrip1
@@ -157,12 +157,20 @@ namespace IPQC_Motor
             this.registerUserToolStripMenuItem.Text = "RegisterUser";
             this.registerUserToolStripMenuItem.Click += new System.EventHandler(this.registerUserToolStripMenuItem_Click);
             // 
+            // listTV
+            // 
+            this.listTV.Location = new System.Drawing.Point(631, 94);
+            this.listTV.Name = "listTV";
+            this.listTV.Size = new System.Drawing.Size(398, 611);
+            this.listTV.TabIndex = 16;
+            // 
             // frmItem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(1029, 750);
+            this.ClientSize = new System.Drawing.Size(1029, 708);
+            this.Controls.Add(this.listTV);
             this.Controls.Add(this.dgvMeasureItem);
             this.Controls.Add(this.btnEditMaster);
             this.Controls.Add(this.cmbSubModel);
@@ -199,6 +207,7 @@ namespace IPQC_Motor
         private System.Windows.Forms.ToolStripMenuItem userInfoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem changePasswordToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem registerUserToolStripMenuItem;
+        private System.Windows.Forms.TreeView listTV;
     }
 }
 

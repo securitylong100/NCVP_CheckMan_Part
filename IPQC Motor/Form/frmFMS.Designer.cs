@@ -94,6 +94,8 @@
             this.TimeFMS = new System.Windows.Forms.Timer(this.components);
             this.menuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
+            this.tbHistory = new System.Windows.Forms.TabPage();
+            this.listTV = new System.Windows.Forms.TreeView();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMeasureData)).BeginInit();
             this.gpbBanVe.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picbox)).BeginInit();
@@ -101,6 +103,7 @@
             this.tabControl1.SuspendLayout();
             this.tpHeader.SuspendLayout();
             this.tpFootder.SuspendLayout();
+            this.tbHistory.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgvMeasureData
@@ -457,6 +460,7 @@
             this.btnTimKiem.TabIndex = 25;
             this.btnTimKiem.Text = "Tìm Kiếm";
             this.btnTimKiem.UseVisualStyleBackColor = true;
+            this.btnTimKiem.Click += new System.EventHandler(this.btnTimKiem_Click);
             // 
             // dtpToDate
             // 
@@ -602,6 +606,7 @@
             // 
             this.tabControl1.Controls.Add(this.tpHeader);
             this.tabControl1.Controls.Add(this.tpFootder);
+            this.tabControl1.Controls.Add(this.tbHistory);
             this.tabControl1.Location = new System.Drawing.Point(12, 6);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -741,6 +746,26 @@
             // 
             this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
             // 
+            // tbHistory
+            // 
+            this.tbHistory.Controls.Add(this.listTV);
+            this.tbHistory.Location = new System.Drawing.Point(4, 22);
+            this.tbHistory.Name = "tbHistory";
+            this.tbHistory.Padding = new System.Windows.Forms.Padding(3);
+            this.tbHistory.Size = new System.Drawing.Size(597, 174);
+            this.tbHistory.TabIndex = 2;
+            this.tbHistory.Text = "History";
+            this.tbHistory.UseVisualStyleBackColor = true;
+            // 
+            // listTV
+            // 
+            this.listTV.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listTV.Location = new System.Drawing.Point(3, 3);
+            this.listTV.Name = "listTV";
+            this.listTV.Size = new System.Drawing.Size(591, 168);
+            this.listTV.TabIndex = 1;
+            this.listTV.DoubleClick += new System.EventHandler(this.listTV_DoubleClick);
+            // 
             // frmFMS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -764,6 +789,7 @@
             this.tpHeader.PerformLayout();
             this.tpFootder.ResumeLayout(false);
             this.tpFootder.PerformLayout();
+            this.tbHistory.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -834,5 +860,7 @@
         private System.Windows.Forms.Timer TimeFMS;
         private System.Windows.Forms.ContextMenuStrip menuStrip;
         private System.IO.Ports.SerialPort serialPort1;
+        private System.Windows.Forms.TabPage tbHistory;
+        private System.Windows.Forms.TreeView listTV;
     }
 }
