@@ -119,10 +119,11 @@ namespace IPQC_Motor
             this.dgvMeasureItem.Location = new System.Drawing.Point(0, 94);
             this.dgvMeasureItem.Name = "dgvMeasureItem";
             this.dgvMeasureItem.ReadOnly = true;
-            this.dgvMeasureItem.Size = new System.Drawing.Size(630, 611);
+            this.dgvMeasureItem.RowHeadersVisible = false;
+            this.dgvMeasureItem.Size = new System.Drawing.Size(712, 611);
             this.dgvMeasureItem.TabIndex = 14;
             this.dgvMeasureItem.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMeasureItem_CellContentClick);
-            this.dgvMeasureItem.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMeasureItem_CellDoubleClick);
+
             // 
             // menuStrip1
             // 
@@ -159,10 +160,12 @@ namespace IPQC_Motor
             // 
             // listTV
             // 
-            this.listTV.Location = new System.Drawing.Point(631, 94);
+            this.listTV.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listTV.Location = new System.Drawing.Point(713, 94);
             this.listTV.Name = "listTV";
-            this.listTV.Size = new System.Drawing.Size(398, 611);
+            this.listTV.Size = new System.Drawing.Size(316, 611);
             this.listTV.TabIndex = 16;
+            this.listTV.DoubleClick += new System.EventHandler(this.listTV_DoubleClick);
             // 
             // frmItem
             // 

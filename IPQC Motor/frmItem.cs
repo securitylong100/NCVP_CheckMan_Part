@@ -25,8 +25,7 @@ namespace IPQC_Motor
         {
 
             TfSQL con = new TfSQL();
-            string sql = @"
-select distinct model_cd from(
+            string sql = @"select distinct model_cd from(
 select model_cd ,user_dept_cd from m_model a,m_user b where a.user_id = b.user_id )t,m_user a 
 where a.user_dept_cd = t.user_dept_cd and a.user_name = '" + username + "'";
 
@@ -39,7 +38,6 @@ where a.user_dept_cd = t.user_dept_cd and a.user_name = '" + username + "'";
             {
                 btnEditMaster.Visible = true;
             }
-
         }
 
         private void cmbModel_SelectedIndexChanged(object sender, EventArgs e)
@@ -122,36 +120,100 @@ where a.user_dept_cd = t.user_dept_cd and a.user_name = '" + username + "'";
                 MessageBox.Show("Your have not permision", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
             }          
         }
-
-        private void dgvMeasureItem_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            string DrawingCd = dgvMeasureItem.CurrentRow.Cells[1].Value.ToString();
-            DialogResult dialog = MessageBox.Show("Chọn \"Yes\" để đo tiếp  " + System.Environment.NewLine +
-                             "\"No\" để đo mới", "Note", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information);
-            if (DialogResult.Yes == dialog)//Đo tiếp
-            {
-                IPQC_Part.frmContinue frmC = new IPQC_Part.frmContinue(DrawingCd,username);
-                frmC.ShowDialog();
-            }
-            else if (DialogResult.No == dialog)//đo mới
-            {
-                IPQC_Part.frmFMS frmFMS = new IPQC_Part.frmFMS(0,username, DrawingCd);
-                frmFMS.ShowDialog();
-            }
-
-           
-            //IPQC_Part.frmFMS FMSfrm = new IPQC_Part.frmFMS(username, DrawingCd);
-            //FMSfrm.ShowDialog();
-             
-        }
-
+        public string DrawingCd;
         private void dgvMeasureItem_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            int curRow = dgvMeasureItem.CurrentRow.Index;
-            if (dgvMeasureItem.Columns[e.ColumnIndex] == colNew && curRow >= 0)
+            if (dgvMeasureItem.RowCount > 0)
             {
-
+                int curRow = dgvMeasureItem.CurrentRow.Index;
+                DrawingCd = dgvMeasureItem.CurrentRow.Cells[1].Value.ToString();
+                if (dgvMeasureItem.Columns[e.ColumnIndex] == colNew && curRow >= 0)//đo mới
+                {
+                    IPQC_Part.frmFMS frmFMS = new IPQC_Part.frmFMS(0, username, DrawingCd);
+                    this.Hide();
+                    frmFMS.ShowDialog();
+                    this.Show();
+                }
+                else if (dgvMeasureItem.Columns[e.ColumnIndex] == colCon && curRow >= 0)//đo tiep
+                {
+                    TreeView(DrawingCd);
+                }
             }
+        }
+        private void TreeView(string dwr_cd)
+        {
+            DataTable dtTreeNode = new DataTable();
+            listTV.Nodes.Clear();
+            IPQC_Motor.TfSQL tfSql = new IPQC_Motor.TfSQL();
+            string sqlTV = @"select a.page_id, header_machine,footer_result, cast(a.registration_date_time as date) dates,a.registration_date_time date 
+                            from m_header a left join m_data b on a.page_id = b.page_id left join m_item c on b.item_id = c.item_id 
+                            where c.dwr_id = (select dwr_id from m_drawing where dwr_cd = '" + dwr_cd + "') group by a.page_id,a.registration_date_time, header_machine, footer_result order by a.registration_date_time desc ";
+            tfSql.sqlDataAdapterFillDatatable(sqlTV, ref dtTreeNode);
+
+            if (dtTreeNode.Rows.Count > 0)
+            {
+                TreeNode[] headerN = new TreeNode[dtTreeNode.Rows.Count];
+                for (int i = 0; i < dtTreeNode.Rows.Count; i++)
+                {
+                    TreeNode tree = new TreeNode
+                    {
+                        Text = DateTime.Parse(dtTreeNode.Rows[i]["dates"].ToString()).ToString("yyyy-MM-dd"),
+                        Tag = DateTime.Parse(dtTreeNode.Rows[i]["dates"].ToString()).ToString("yyyy-MM-dd")
+                    };
+                    headerN[i] = tree;
+                    //listTV.Nodes.Add(child);
+                    DataTable dtChildNode = new DataTable();
+                    string sqlNodeChild = @"select * from (select a.page_id, header_machine, footer_result, cast(a.registration_date_time as date) dates,a.registration_date_time date 
+                            from m_header a left join m_data b on a.page_id = b.page_id left join m_item c on b.item_id = c.item_id where c.dwr_id = (select dwr_id from m_drawing where dwr_cd = '" + dwr_cd + "') group by a.page_id,a.registration_date_time, header_machine, footer_result) tb where tb.dates = '" + headerN[i].Text + "'";
+                    tfSql.sqlDataAdapterFillDatatable(sqlNodeChild, ref dtChildNode);
+
+                    TreeNode[] headerchild = new TreeNode[dtChildNode.Rows.Count];
+                    for (int j = 0; j < dtChildNode.Rows.Count; j++)
+                    {
+                        TreeNode childtree = new TreeNode
+                        {
+                            Text = "MM: " + dtChildNode.Rows[j]["header_machine"].ToString() + " -- Page Id: " + dtChildNode.Rows[j]["page_id"].ToString() + " " + dtChildNode.Rows[j]["footer_result"].ToString(),
+                            Tag = dtChildNode.Rows[j]["page_id"].ToString(),
+                            Checked = false,
+                        };
+
+                        headerchild[j] = childtree;
+
+                        if (dtChildNode.Rows[j]["footer_result"].ToString() == "NG")
+                        {
+                            headerchild[j].BackColor = Color.Red;
+                        }
+                        else if (dtChildNode.Rows[j]["footer_result"].ToString() == "OK")
+                        {                            
+                            headerchild[j].Text = childtree.Text;
+                        }
+                        else headerchild[j].BackColor = Color.Yellow;
+
+                        tree.Nodes.Add(childtree);
+                        listTV.Nodes.Add(tree);
+                    }
+                }
+            }
+        }
+
+        private void listTV_DoubleClick(object sender, EventArgs e)
+        {
+            int pageId = 0;
+            if (int.TryParse(listTV.SelectedNode.Tag.ToString(), out pageId))
+            {
+                IPQC_Motor.TfSQL tf = new IPQC_Motor.TfSQL();
+                string tagNode = "select count(*) from m_header where page_id = " + pageId;
+                long checkPage = tf.sqlExecuteScalarLong(tagNode);
+
+                if (checkPage > 0)
+                {
+                    IPQC_Part.frmFMS from = new IPQC_Part.frmFMS(pageId, username, DrawingCd);
+                    this.Hide();
+                    from.ShowDialog();
+                    this.Show();
+                }
+            }
+            else MessageBox.Show("Hãy chọn một mã máy !", "Note!", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }
