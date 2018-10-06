@@ -152,19 +152,23 @@ where a.user_dept_cd = t.user_dept_cd and a.user_name = '" + username + "'";
                 }
                 else if (dgvMeasureItem.Columns[e.ColumnIndex] == colCon && curRow >= 0)//đo tiep
                 {
-                    TreeView(DrawingCd);
+                    DateTime dateNow = DateTime.Now;
+                    TreeView(DrawingCd, dateNow.AddYears(-1).ToString(), dateNow.ToString(), 7);
+                    boolTV = true;
                 }
             }
         }
-        private void TreeView(string dwr_cd)
+        private void TreeView(string dwr_cd, string dateFrom, string dateTo, int limit)
         {
             DataTable dtTreeNode = new DataTable();
             listTV.Nodes.Clear();
             IPQC_Motor.TfSQL tfSql = new IPQC_Motor.TfSQL();
-            string sqlTV = @"select a.page_id, header_machine,footer_result, cast(a.registration_date_time as date) dates,a.registration_date_time date 
-                            from m_header a left join m_data b on a.page_id = b.page_id left join m_item c on b.item_id = c.item_id 
-                            where c.dwr_id = (select dwr_id from m_drawing where dwr_cd = '" + dwr_cd + "') group by a.page_id,a.registration_date_time, header_machine, footer_result order by a.registration_date_time desc ";
-            tfSql.sqlDataAdapterFillDatatable(sqlTV, ref dtTreeNode);
+            StringBuilder sqlTV = new StringBuilder();
+            sqlTV.Append(@"select cast(a.registration_date_time as date) dates
+                            from m_header a left join m_data b on a.page_id = b.page_id left join m_item c on b.item_id = c.item_id ");
+            sqlTV.Append(@"where c.dwr_id = (select dwr_id from m_drawing where dwr_cd = '" + dwr_cd + "') and a.registration_date_time >= '" + dateFrom.ToString() + "' and cast(a.registration_date_time as date) <= '" + dateTo.ToString() + "' ");
+            sqlTV.Append("group by dates order by dates desc limit " + limit);
+            tfSql.sqlDataAdapterFillDatatable(sqlTV.ToString(), ref dtTreeNode);
 
             if (dtTreeNode.Rows.Count > 0)
             {
@@ -200,14 +204,14 @@ where a.user_dept_cd = t.user_dept_cd and a.user_name = '" + username + "'";
                             headerchild[j].BackColor = Color.Red;
                         }
                         else if (dtChildNode.Rows[j]["footer_result"].ToString() == "OK")
-                        {                            
+                        {
                             headerchild[j].Text = childtree.Text;
                         }
                         else headerchild[j].BackColor = Color.Yellow;
 
                         tree.Nodes.Add(childtree);
-                        listTV.Nodes.Add(tree);
                     }
+                    listTV.Nodes.Add(tree);
                 }
             }
         }
@@ -230,6 +234,21 @@ where a.user_dept_cd = t.user_dept_cd and a.user_name = '" + username + "'";
                 }
             }
             else MessageBox.Show("Hãy chọn một mã máy !", "Note!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void btnTimKiem_Click(object sender, EventArgs e)
+        {
+            
+        }
+        public bool boolTV = false;
+        private void dtpFromDate_ValueChanged(object sender, EventArgs e)
+        {
+            if (boolTV) { TreeView(DrawingCd, dtpFromDate.Value.ToString(), dtpToDate.Value.ToString(), 30); }
+        }
+
+        private void dtpToDate_ValueChanged(object sender, EventArgs e)
+        {
+            if (boolTV) { TreeView(DrawingCd, dtpFromDate.Value.ToString(), dtpToDate.Value.ToString(), 30); }
         }
     }
 }

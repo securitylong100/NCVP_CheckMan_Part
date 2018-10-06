@@ -63,10 +63,6 @@
             this.picbox = new System.Windows.Forms.PictureBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label26 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
-            this.btnTimKiem = new System.Windows.Forms.Button();
-            this.dtpToDate = new System.Windows.Forms.DateTimePicker();
-            this.dtpFromDate = new System.Windows.Forms.DateTimePicker();
             this.btnLuuXuat = new System.Windows.Forms.Button();
             this.txtNoiLuu = new System.Windows.Forms.TextBox();
             this.btnNoiLuu = new System.Windows.Forms.Button();
@@ -90,8 +86,6 @@
             this.label30 = new System.Windows.Forms.Label();
             this.label28 = new System.Windows.Forms.Label();
             this.tpFootder = new System.Windows.Forms.TabPage();
-            this.tbHistory = new System.Windows.Forms.TabPage();
-            this.listTV = new System.Windows.Forms.TreeView();
             this.button1 = new System.Windows.Forms.Button();
             this.TimeFMS = new System.Windows.Forms.Timer(this.components);
             this.menuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -103,7 +97,6 @@
             this.tabControl1.SuspendLayout();
             this.tpHeader.SuspendLayout();
             this.tpFootder.SuspendLayout();
-            this.tbHistory.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgvMeasureData
@@ -411,10 +404,6 @@
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.label26);
-            this.groupBox4.Controls.Add(this.label19);
-            this.groupBox4.Controls.Add(this.btnTimKiem);
-            this.groupBox4.Controls.Add(this.dtpToDate);
-            this.groupBox4.Controls.Add(this.dtpFromDate);
             this.groupBox4.Controls.Add(this.btnLuuXuat);
             this.groupBox4.Controls.Add(this.txtNoiLuu);
             this.groupBox4.Controls.Add(this.btnNoiLuu);
@@ -443,41 +432,6 @@
             this.label26.Size = new System.Drawing.Size(17, 13);
             this.label26.TabIndex = 31;
             this.label26.Text = "(*)";
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(107, 143);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(22, 13);
-            this.label19.TabIndex = 26;
-            this.label19.Text = "--->";
-            // 
-            // btnTimKiem
-            // 
-            this.btnTimKiem.Location = new System.Drawing.Point(231, 138);
-            this.btnTimKiem.Name = "btnTimKiem";
-            this.btnTimKiem.Size = new System.Drawing.Size(73, 23);
-            this.btnTimKiem.TabIndex = 25;
-            this.btnTimKiem.Text = "Tìm Kiếm";
-            this.btnTimKiem.UseVisualStyleBackColor = true;
-            this.btnTimKiem.Click += new System.EventHandler(this.btnTimKiem_Click);
-            // 
-            // dtpToDate
-            // 
-            this.dtpToDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpToDate.Location = new System.Drawing.Point(131, 141);
-            this.dtpToDate.Name = "dtpToDate";
-            this.dtpToDate.Size = new System.Drawing.Size(94, 20);
-            this.dtpToDate.TabIndex = 24;
-            // 
-            // dtpFromDate
-            // 
-            this.dtpFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpFromDate.Location = new System.Drawing.Point(8, 141);
-            this.dtpFromDate.Name = "dtpFromDate";
-            this.dtpFromDate.Size = new System.Drawing.Size(93, 20);
-            this.dtpFromDate.TabIndex = 23;
             // 
             // btnLuuXuat
             // 
@@ -607,7 +561,6 @@
             // 
             this.tabControl1.Controls.Add(this.tpHeader);
             this.tabControl1.Controls.Add(this.tpFootder);
-            this.tabControl1.Controls.Add(this.tbHistory);
             this.tabControl1.Location = new System.Drawing.Point(12, 6);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -731,26 +684,6 @@
             this.tpFootder.TabIndex = 1;
             this.tpFootder.Text = "Footder";
             // 
-            // tbHistory
-            // 
-            this.tbHistory.Controls.Add(this.listTV);
-            this.tbHistory.Location = new System.Drawing.Point(4, 22);
-            this.tbHistory.Name = "tbHistory";
-            this.tbHistory.Padding = new System.Windows.Forms.Padding(3);
-            this.tbHistory.Size = new System.Drawing.Size(597, 174);
-            this.tbHistory.TabIndex = 2;
-            this.tbHistory.Text = "History";
-            this.tbHistory.UseVisualStyleBackColor = true;
-            // 
-            // listTV
-            // 
-            this.listTV.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listTV.Location = new System.Drawing.Point(3, 3);
-            this.listTV.Name = "listTV";
-            this.listTV.Size = new System.Drawing.Size(591, 168);
-            this.listTV.TabIndex = 1;
-            this.listTV.DoubleClick += new System.EventHandler(this.listTV_DoubleClick);
-            // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(0, 0);
@@ -790,7 +723,6 @@
             this.tpHeader.PerformLayout();
             this.tpFootder.ResumeLayout(false);
             this.tpFootder.PerformLayout();
-            this.tbHistory.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -834,10 +766,6 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.ComboBox cmbNgoaiQuan;
-        private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.Button btnTimKiem;
-        private System.Windows.Forms.DateTimePicker dtpToDate;
-        private System.Windows.Forms.DateTimePicker dtpFromDate;
         private System.Windows.Forms.ComboBox cmbMaSo;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label25;
@@ -861,7 +789,5 @@
         private System.Windows.Forms.Timer TimeFMS;
         private System.Windows.Forms.ContextMenuStrip menuStrip;
         private System.IO.Ports.SerialPort serialPort1;
-        private System.Windows.Forms.TabPage tbHistory;
-        private System.Windows.Forms.TreeView listTV;
     }
 }

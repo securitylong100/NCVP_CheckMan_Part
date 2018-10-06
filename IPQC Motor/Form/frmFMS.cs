@@ -296,23 +296,7 @@ namespace IPQC_Part
                 {
                     if (dtt.Rows[rowdtt]["ItemMeasure"].ToString() == dgvMeasureData.Rows[i].Cells["item_measure"].Value.ToString() && dgvMeasureData.Rows[i].Cells["item_tool"].Value.ToString() == "FMS")
                     {
-                        if (dgvMeasureData.Rows[i].Cells["item_detail"].Value.ToString() == "LEFT")
-                        {
-                            dgvMeasureData.Rows[i].Cells[column].Value = dtt.Rows[rowdtt]["ItemData"].ToString();
-                        }
-                        else if (dgvMeasureData.Rows[i].Cells["item_detail"].Value.ToString() == "RIGHT")
-                        {
-                            dgvMeasureData.Rows[i].Cells[column].Value = dtt.Rows[rowdtt]["ItemData"].ToString();
-                        }
-                        else if (dgvMeasureData.Rows[i].Cells["item_detail"].Value.ToString() == "UP")
-                        {
-                            dgvMeasureData.Rows[i].Cells[column].Value = dtt.Rows[rowdtt]["ItemData"].ToString();
-                        }
-                        else if (dgvMeasureData.Rows[i].Cells["item_detail"].Value.ToString() == "DOWN")
-                        {
-                            dgvMeasureData.Rows[i].Cells[column].Value = dtt.Rows[rowdtt]["ItemData"].ToString();
-                        }
-                        else if (dgvMeasureData.Rows[i].Cells["item_detail"].Value.ToString() == "MIN" || dgvMeasureData.Rows[i].Cells["item_detail"].Value.ToString() == "MAX")
+                        if (dgvMeasureData.Rows[i].Cells["item_detail"].Value.ToString() == "MIN" || dgvMeasureData.Rows[i].Cells["item_detail"].Value.ToString() == "MAX")
                         {
                             double datai = double.Parse(dtt.Rows[rowdtt]["ItemData"].ToString());
                             dgvMeasureData.Rows[i].Cells[column].Value = datai;
@@ -328,8 +312,8 @@ namespace IPQC_Part
                             }
                         }
                         else dgvMeasureData.Rows[i].Cells[column].Value = dtt.Rows[rowdtt]["ItemData"].ToString();
-                    }
-                    rowdtt++;
+                        rowdtt++;
+                    }                    
                 }
             }
             CalculatorDataX();
@@ -654,89 +638,8 @@ namespace IPQC_Part
 
         private void btnTimKiem_Click(object sender, EventArgs e)
         {
-            TreeView();
-            tabControl1.SelectedTab = tabControl1.TabPages[2];
+            
         }
-        private void TreeView()
-        {
-            DataTable dtTreeNode = new DataTable();
-            listTV.Nodes.Clear();
-            IPQC_Motor.TfSQL tfSql = new IPQC_Motor.TfSQL();
-            string sqlTV = @"select a.page_id, header_machine,footer_result, cast(a.registration_date_time as date) dates,a.registration_date_time date 
-                            from m_header a left join m_data b on a.page_id = b.page_id left join m_item c on b.item_id = c.item_id 
-                            where c.dwr_id = (select dwr_id from m_drawing where dwr_cd = '" + drawingcd + "') and a.registration_date_time > '" + dtpFromDate.Value.ToString() + "' and a.registration_date_time < '" + dtpToDate.Value.ToString() + "' group by a.page_id,a.registration_date_time, header_machine, footer_result ";
-            tfSql.sqlDataAdapterFillDatatable(sqlTV, ref dtTreeNode);
-
-            if (dtTreeNode.Rows.Count > 0)
-            {
-                TreeNode[] headerN = new TreeNode[dtTreeNode.Rows.Count];
-                for (int i = 0; i < dtTreeNode.Rows.Count; i++)
-                {
-                    TreeNode tree = new TreeNode
-                    {
-                        Text = DateTime.Parse(dtTreeNode.Rows[i]["dates"].ToString()).ToString("yyyy-MM-dd"),
-                        Tag = DateTime.Parse(dtTreeNode.Rows[i]["dates"].ToString()).ToString("yyyy-MM-dd")
-                    };
-                    headerN[i] = tree;
-                    DataTable dtChildNode = new DataTable();
-                    string sqlNodeChild = @"select * from (select a.page_id, header_machine, footer_result, cast(a.registration_date_time as date) dates,a.registration_date_time date 
-                            from m_header a left join m_data b on a.page_id = b.page_id left join m_item c on b.item_id = c.item_id where c.dwr_id = (select dwr_id from m_drawing where dwr_cd = '" + drawingcd + "') group by a.page_id,a.registration_date_time, header_machine, footer_result) tb where tb.dates = '" + headerN[i].Text + "'";
-                    tfSql.sqlDataAdapterFillDatatable(sqlNodeChild, ref dtChildNode);
-
-                    TreeNode[] headerchild = new TreeNode[dtChildNode.Rows.Count];
-                    for (int j = 0; j < dtChildNode.Rows.Count; j++)
-                    {
-                        TreeNode childtree = new TreeNode
-                        {
-                            Text = "MM: " + dtChildNode.Rows[j]["header_machine"].ToString() + " -- Page Id: " + dtChildNode.Rows[j]["page_id"].ToString() + " " + dtChildNode.Rows[j]["footer_result"].ToString(),
-                            Tag = dtChildNode.Rows[j]["page_id"].ToString(),
-                            Checked = false,
-                        };
-                        headerchild[j] = childtree;
-                        if (headerchild[j].Tag.ToString() == pageid.ToString())
-                        {
-                            headerchild[j].Text = childtree.Text + " is open";
-                            headerchild[j].BackColor = Color.Yellow;
-                        }
-                        
-                        tree.Nodes.Add(childtree);
-                        listTV.Nodes.Add(tree);
-                        if (headerchild[j].Text.Substring(headerchild[j].Text.Length - 2, 2) != "OK")
-                        {
-                            listTV.Nodes.Remove(childtree);
-                        }
-                    }
-                }
-            }
-        }
-        bool Page_id(string page)
-        {
-            int r;
-            bool pa = int.TryParse(page, out r);
-            return pa;
-        }
-        private void listTV_DoubleClick(object sender, EventArgs e)
-        {
-            if (Page_id(listTV.SelectedNode.Tag.ToString()))
-            {
-                IPQC_Motor.TfSQL tf = new IPQC_Motor.TfSQL();
-                int pageId = int.Parse(listTV.SelectedNode.Tag.ToString());
-                string tagNode = "select count(*) from m_header where page_id = " + pageId;
-                long checkPage = tf.sqlExecuteScalarLong(tagNode);
-
-                if (checkPage > 0)
-                {
-                    pageid = pageId;
-                    buildDGV(ref dgvMeasureData);
-                    int a = listTV.SelectedNode.Parent.Index;
-                    txtPageId.Text = pageid.ToString();
-                    TreeView();
-                    listTV.Nodes[a].Expand();
-                }
-            }
-            else MessageBox.Show("Hãy chọn một mã máy !", "Note!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
         private void cmbDanhGia_SelectedIndexChanged(object sender, EventArgs e)
         {
             int tb = 0;

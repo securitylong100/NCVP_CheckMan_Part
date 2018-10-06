@@ -1,4 +1,4 @@
-namespace IPQC_Motor
+﻿namespace IPQC_Motor
 {
     partial class frmItem
     {
@@ -43,6 +43,9 @@ namespace IPQC_Motor
             this.changePasswordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.registerUserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listTV = new System.Windows.Forms.TreeView();
+            this.label19 = new System.Windows.Forms.Label();
+            this.dtpToDate = new System.Windows.Forms.DateTimePicker();
+            this.dtpFromDate = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMeasureItem)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -50,7 +53,7 @@ namespace IPQC_Motor
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(799, 33);
+            this.label3.Location = new System.Drawing.Point(799, 24);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(35, 13);
             this.label3.TabIndex = 6;
@@ -59,7 +62,7 @@ namespace IPQC_Motor
             // txtUser
             // 
             this.txtUser.Enabled = false;
-            this.txtUser.Location = new System.Drawing.Point(802, 53);
+            this.txtUser.Location = new System.Drawing.Point(802, 44);
             this.txtUser.Name = "txtUser";
             this.txtUser.Size = new System.Drawing.Size(130, 20);
             this.txtUser.TabIndex = 1;
@@ -104,7 +107,7 @@ namespace IPQC_Motor
             // 
             // btnEditMaster
             // 
-            this.btnEditMaster.Location = new System.Drawing.Point(938, 50);
+            this.btnEditMaster.Location = new System.Drawing.Point(938, 41);
             this.btnEditMaster.Name = "btnEditMaster";
             this.btnEditMaster.Size = new System.Drawing.Size(91, 23);
             this.btnEditMaster.TabIndex = 13;
@@ -175,12 +178,44 @@ namespace IPQC_Motor
             this.listTV.TabIndex = 16;
             this.listTV.DoubleClick += new System.EventHandler(this.listTV_DoubleClick);
             // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(812, 72);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(22, 13);
+            this.label19.TabIndex = 30;
+            this.label19.Text = "--->";
+            // 
+            // dtpToDate
+            // 
+            this.dtpToDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpToDate.Location = new System.Drawing.Point(836, 70);
+            this.dtpToDate.Name = "dtpToDate";
+            this.dtpToDate.Size = new System.Drawing.Size(94, 20);
+            this.dtpToDate.TabIndex = 28;
+            this.dtpToDate.Value = new System.DateTime(2018, 10, 6, 0, 0, 0, 0);
+            this.dtpToDate.ValueChanged += new System.EventHandler(this.dtpToDate_ValueChanged);
+            // 
+            // dtpFromDate
+            // 
+            this.dtpFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpFromDate.Location = new System.Drawing.Point(713, 70);
+            this.dtpFromDate.Name = "dtpFromDate";
+            this.dtpFromDate.Size = new System.Drawing.Size(93, 20);
+            this.dtpFromDate.TabIndex = 27;
+            this.dtpFromDate.Value = new System.DateTime(2018, 10, 6, 0, 0, 0, 0);
+            this.dtpFromDate.ValueChanged += new System.EventHandler(this.dtpFromDate_ValueChanged);
+            // 
             // frmItem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(1029, 708);
+            this.Controls.Add(this.label19);
+            this.Controls.Add(this.dtpToDate);
+            this.Controls.Add(this.dtpFromDate);
             this.Controls.Add(this.listTV);
             this.Controls.Add(this.dgvMeasureItem);
             this.Controls.Add(this.btnEditMaster);
@@ -219,6 +254,9 @@ namespace IPQC_Motor
         private System.Windows.Forms.ToolStripMenuItem changePasswordToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem registerUserToolStripMenuItem;
         private System.Windows.Forms.TreeView listTV;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.DateTimePicker dtpToDate;
+        private System.Windows.Forms.DateTimePicker dtpFromDate;
     }
 }
 
