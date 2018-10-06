@@ -215,6 +215,33 @@ namespace IPQC_Part
             IPQC_Motor.TfSQL con = new IPQC_Motor.TfSQL();
             con.sqlDataAdapterFillDatatable(sql.ToString(), ref dtInspectItems);
             dgv.DataSource = dtInspectItems;
+            if(dgv.Columns.Count > 0)
+            {
+                foreach (DataGridViewColumn cl in dgv.Columns) { cl.SortMode = DataGridViewColumnSortMode.NotSortable; };
+                dgv.Columns["item_measure"].HeaderText = "Item";//0
+                dgv.Columns["item_spec_x"].HeaderText = "Spec";//1
+                dgv.Columns["item_lower"].HeaderText = "Lower";//2
+                dgv.Columns["item_upper"].HeaderText = "Upper";//3
+                dgv.Columns["tolerance_up"].HeaderText = "Tor Up";//4
+                dgv.Columns["tolerance_up"].DefaultCellStyle.Format = "#,###0.###";
+                dgv.Columns["tolerances_low"].HeaderText = "Tor Down";//5
+                dgv.Columns["tolerances_low"].DefaultCellStyle.Format = "#,###0.###";
+                dgv.Columns["item_tool"].HeaderText = "Tool";//6
+                dgv.Columns["item_detail"].HeaderText = "Detail";//7
+                dgv.Columns["data_1"].HeaderText = "SP1";//8
+                dgv.Columns["data_2"].HeaderText = "SP2";//9
+                dgv.Columns["data_3"].HeaderText = "SP3";//10
+                dgv.Columns["data_4"].HeaderText = "SP4";//11
+                dgv.Columns["data_5"].HeaderText = "SP5";//12
+                dgv.Columns["data_x"].HeaderText = "SPX";//13
+                dgv.Columns["data_est"].HeaderText = "EST";//14
+                dgv.Columns["registration_date_time"].HeaderText = "Date Time";//15
+                dgv.Columns["item_id"].Visible = false;
+                
+                dgv.Columns["registration_date_time"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            }
+
             AlarmColor();
         }
         private DataTable defineItemTable(ref DataTable dt)
