@@ -90,12 +90,12 @@
             this.label30 = new System.Windows.Forms.Label();
             this.label28 = new System.Windows.Forms.Label();
             this.tpFootder = new System.Windows.Forms.TabPage();
+            this.tbHistory = new System.Windows.Forms.TabPage();
+            this.listTV = new System.Windows.Forms.TreeView();
             this.button1 = new System.Windows.Forms.Button();
             this.TimeFMS = new System.Windows.Forms.Timer(this.components);
             this.menuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
-            this.tbHistory = new System.Windows.Forms.TabPage();
-            this.listTV = new System.Windows.Forms.TreeView();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMeasureData)).BeginInit();
             this.gpbBanVe.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picbox)).BeginInit();
@@ -361,6 +361,7 @@
             this.cmbDanhGia.Name = "cmbDanhGia";
             this.cmbDanhGia.Size = new System.Drawing.Size(121, 21);
             this.cmbDanhGia.TabIndex = 17;
+            this.cmbDanhGia.SelectedIndexChanged += new System.EventHandler(this.cmbDanhGia_SelectedIndexChanged);
             // 
             // label4
             // 
@@ -730,22 +731,6 @@
             this.tpFootder.TabIndex = 1;
             this.tpFootder.Text = "Footder";
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(0, 0);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 0;
-            // 
-            // menuStrip
-            // 
-            this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(61, 4);
-            // 
-            // serialPort1
-            // 
-            this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
-            // 
             // tbHistory
             // 
             this.tbHistory.Controls.Add(this.listTV);
@@ -765,6 +750,22 @@
             this.listTV.Size = new System.Drawing.Size(591, 168);
             this.listTV.TabIndex = 1;
             this.listTV.DoubleClick += new System.EventHandler(this.listTV_DoubleClick);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(0, 0);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 0;
+            // 
+            // menuStrip
+            // 
+            this.menuStrip.Name = "menuStrip";
+            this.menuStrip.Size = new System.Drawing.Size(61, 4);
+            // 
+            // serialPort1
+            // 
+            this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
             // 
             // frmFMS
             // 

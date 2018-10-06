@@ -49,7 +49,7 @@ where a.user_dept_cd = t.user_dept_cd and a.user_name = '" + username + "'";
         private void cmbSubModel_SelectedIndexChanged(object sender, EventArgs e)
         {
             dtInspectItems = new DataTable();
-            defineItemTable(ref dtInspectItems);
+            //defineItemTable(ref dtInspectItems);
             updateDataGripViews(ref dgvMeasureItem, true);
         }
 
@@ -65,9 +65,10 @@ where a.user_dept_cd = t.user_dept_cd and a.user_name = '" + username + "'";
         DataGridViewButtonColumn colCon;
         public void updateDataGripViews(ref DataGridView dgv, bool load)
         {
-            dgvMeasureItem.DataSource = null;
+            dgv.DataSource = null;
+            dgv.Columns.Clear();
             dtInspectItems.Clear();
-       
+            dgv.RowTemplate.MinimumHeight = 28;
             string sql = @"select   b.model_sub_cd as model, a.dwr_cd, a.dwr_name, a.doc_name, a.registration_date_time from m_drawing a
                             left join m_model b on a.model_id = b.model_id
                             where
@@ -80,15 +81,30 @@ where a.user_dept_cd = t.user_dept_cd and a.user_name = '" + username + "'";
             {                
                 colNew = new DataGridViewButtonColumn {
                     Text = "New",
-                    UseColumnTextForButtonValue = true,
-                    Width = 25};
+                    UseColumnTextForButtonValue = true
+                };
                 colCon = new DataGridViewButtonColumn {
                     Text = "Continue",
                     UseColumnTextForButtonValue = true,
-                    Width = 25
                 };
                 dgv.Columns.Add(colNew);
                 dgv.Columns.Add(colCon);
+
+                dgv.Columns["model"].HeaderText = "Model";
+                dgv.Columns["dwr_cd"].HeaderText = "Drawing Code";
+                dgv.Columns["dwr_name"].HeaderText = "Drawing Name";
+                dgv.Columns["doc_name"].HeaderText = "Document";
+                dgv.Columns["registration_date_time"].HeaderText = "Date";
+                dgv.Columns[5].HeaderText = "New";
+                dgv.Columns[6].HeaderText = "Continue";
+
+                dgv.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+                dgv.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                dgv.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                dgv.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                dgv.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                dgv.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
                 dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             }
         }

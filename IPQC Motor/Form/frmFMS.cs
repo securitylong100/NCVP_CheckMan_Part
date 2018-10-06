@@ -202,8 +202,8 @@ namespace IPQC_Part
             dtInspectItems = defineItemTable(ref dtInspectItems);
             StringBuilder sql = new StringBuilder();
             sql.Append(@"
-                        select a.item_measure, a.item_detail, a.item_spec_x, a.item_lower, a.item_upper,
-                       (a.item_upper  - a.item_spec_x) as tolerance_up , (a.item_lower  - a.item_spec_x) as tolerances_low,a.item_tool,  
+                        select a.item_measure, a.item_spec_x, a.item_lower, a.item_upper,
+                       (a.item_upper  - a.item_spec_x) as tolerance_up , (a.item_lower  - a.item_spec_x) as tolerances_low,a.item_tool, a.item_detail,  
                         b.data_1, b.data_2, b.data_3, b.data_4, b.data_5, b.data_x, b.data_est, b.registration_date_time,a.item_id   from m_item a left join
                         (select dwr_cd,dwr_id, user_dept_cd from m_drawing a, m_user b where a.user_id = b.user_id) c on a.dwr_id = c.dwr_id
                         left join m_data b on a.item_id = b.item_id where c.dwr_cd = '" + drawingcd + "' and c.user_dept_cd = (select distinct user_dept_cd from m_user where user_name = '" + username + @"')");
@@ -220,13 +220,13 @@ namespace IPQC_Part
         private DataTable defineItemTable(ref DataTable dt)
         {
             dt.Columns.Add("item_measure", Type.GetType("System.String"));//0
-            dt.Columns.Add("item_detail", Type.GetType("System.String"));//1
-            dt.Columns.Add("item_spec_x", Type.GetType("System.String"));//2
-            dt.Columns.Add("item_lower", Type.GetType("System.Double"));//3
-            dt.Columns.Add("item_upper", Type.GetType("System.Double"));//4
-            dt.Columns.Add("tolerance_up", Type.GetType("System.Double"));//5
-            dt.Columns.Add("tolerances_low", Type.GetType("System.Double"));//6
-            dt.Columns.Add("item_tool", Type.GetType("System.String"));//7
+            dt.Columns.Add("item_spec_x", Type.GetType("System.String"));//1
+            dt.Columns.Add("item_lower", Type.GetType("System.Double"));//2
+            dt.Columns.Add("item_upper", Type.GetType("System.Double"));//3
+            dt.Columns.Add("tolerance_up", Type.GetType("System.Double"));//4
+            dt.Columns.Add("tolerances_low", Type.GetType("System.Double"));//5
+            dt.Columns.Add("item_tool", Type.GetType("System.String"));//6
+            dt.Columns.Add("item_detail", Type.GetType("System.String"));//7
             dt.Columns.Add("data_1", Type.GetType("System.String"));//8
             dt.Columns.Add("data_2", Type.GetType("System.String"));//9
             dt.Columns.Add("data_3", Type.GetType("System.String"));//10
@@ -279,7 +279,7 @@ namespace IPQC_Part
             StringBuilder searchList = new StringBuilder();
             string[] mang;
             DataTable dtt = new DataTable();
-            dtt.Columns.Add("ItemMeasure",typeof(string));
+            dtt.Columns.Add("ItemMeasure", typeof(string));
             dtt.Columns.Add("ItemData", typeof(string));
             while (!reader.EndOfStream)
             {
@@ -289,15 +289,47 @@ namespace IPQC_Part
                 dr[1] = mang[6];
                 dtt.Rows.Add(dr);
             }
-
-            for (int j = 1; j < dtt.Rows.Count; j++)//add value from emax.csv to dgvMeasure
+            int rowdtt = 1;
+            for (int i = 0; i < dgvMeasureData.RowCount; i++)
             {
-                for (int i = 0; i < dgvMeasureData.RowCount; i++)
+                if (dtt.Rows.Count > 0 && rowdtt < dtt.Rows.Count)
                 {
-                    if(dtt.Rows[j]["ItemMeasure"].ToString() == dgvMeasureData.Rows[i].Cells["item_measure"].Value.ToString() && dgvMeasureData.Rows[i].Cells["item_tool"].Value.ToString() == "FMS")
+                    if (dtt.Rows[rowdtt]["ItemMeasure"].ToString() == dgvMeasureData.Rows[i].Cells["item_measure"].Value.ToString() && dgvMeasureData.Rows[i].Cells["item_tool"].Value.ToString() == "FMS")
                     {
-                        dgvMeasureData.Rows[i].Cells[column].Value = dtt.Rows[j]["ItemData"].ToString();
+                        if (dgvMeasureData.Rows[i].Cells["item_detail"].Value.ToString() == "LEFT")
+                        {
+                            dgvMeasureData.Rows[i].Cells[column].Value = dtt.Rows[rowdtt]["ItemData"].ToString();
+                        }
+                        else if (dgvMeasureData.Rows[i].Cells["item_detail"].Value.ToString() == "RIGHT")
+                        {
+                            dgvMeasureData.Rows[i].Cells[column].Value = dtt.Rows[rowdtt]["ItemData"].ToString();
+                        }
+                        else if (dgvMeasureData.Rows[i].Cells["item_detail"].Value.ToString() == "UP")
+                        {
+                            dgvMeasureData.Rows[i].Cells[column].Value = dtt.Rows[rowdtt]["ItemData"].ToString();
+                        }
+                        else if (dgvMeasureData.Rows[i].Cells["item_detail"].Value.ToString() == "DOWN")
+                        {
+                            dgvMeasureData.Rows[i].Cells[column].Value = dtt.Rows[rowdtt]["ItemData"].ToString();
+                        }
+                        else if (dgvMeasureData.Rows[i].Cells["item_detail"].Value.ToString() == "MIN" || dgvMeasureData.Rows[i].Cells["item_detail"].Value.ToString() == "MAX")
+                        {
+                            double datai = double.Parse(dtt.Rows[rowdtt]["ItemData"].ToString());
+                            dgvMeasureData.Rows[i].Cells[column].Value = datai;
+                            if (rowdtt < dtt.Rows.Count - 1)//kiem tra dtt đến dong cuối chưa 
+                            {
+                                double dataii = double.Parse(dtt.Rows[rowdtt + 1]["ItemData"].ToString());//lay gia tri dong ke tiep
+                                double max = datai > dataii ? datai : dataii;//get max
+                                double min = datai > dataii ? dataii : datai;//get min
+                                dgvMeasureData.Rows[i].Cells[column].Value = (dgvMeasureData.Rows[i].Cells["item_detail"].Value.ToString() == "MAX") ? max : min;
+                                dgvMeasureData.Rows[i + 1].Cells[column].Value = (dgvMeasureData.Rows[i + 1].Cells["item_detail"].Value.ToString() == "MAX") ? max : min;
+                                i++;
+                                rowdtt++;
+                            }
+                        }
+                        else dgvMeasureData.Rows[i].Cells[column].Value = dtt.Rows[rowdtt]["ItemData"].ToString();
                     }
+                    rowdtt++;
                 }
             }
             CalculatorDataX();
@@ -703,6 +735,39 @@ namespace IPQC_Part
                 }
             }
             else MessageBox.Show("Hãy chọn một mã máy !", "Note!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void cmbDanhGia_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int tb = 0;
+            if (dgvMeasureData.RowCount > 0)
+            {
+                for (int i = 0; i < dgvMeasureData.RowCount; i++)
+                {
+                    if (tb == 1)
+                    {
+                        tb = 0;
+                        break;
+                    }
+                    else
+                    {
+                        int slmau = int.Parse(cmbSLMau.Text);
+                        for (int j = 8; j < slmau + 8; j++)
+                        {
+                            if (dgvMeasureData.Rows[i].Cells[j].Value.ToString() == "")
+                            {
+                                MessageBox.Show("Hạng mục vẫn chưa đo xong !", "Note", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                tb = 1;
+                                break;
+                            }
+                            if (i == dgvMeasureData.RowCount - 1 && j == (slmau + 7))
+                            {
+                                //update
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

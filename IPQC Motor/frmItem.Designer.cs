@@ -28,6 +28,7 @@ namespace IPQC_Motor
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmItem));
             this.label3 = new System.Windows.Forms.Label();
             this.txtUser = new System.Windows.Forms.TextBox();
@@ -115,7 +116,15 @@ namespace IPQC_Motor
             // dgvMeasureItem
             // 
             this.dgvMeasureItem.AllowUserToAddRows = false;
-            this.dgvMeasureItem.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvMeasureItem.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvMeasureItem.ColumnHeadersHeight = 30;
             this.dgvMeasureItem.Location = new System.Drawing.Point(0, 94);
             this.dgvMeasureItem.Name = "dgvMeasureItem";
             this.dgvMeasureItem.ReadOnly = true;
@@ -123,7 +132,6 @@ namespace IPQC_Motor
             this.dgvMeasureItem.Size = new System.Drawing.Size(712, 611);
             this.dgvMeasureItem.TabIndex = 14;
             this.dgvMeasureItem.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMeasureItem_CellContentClick);
-
             // 
             // menuStrip1
             // 
