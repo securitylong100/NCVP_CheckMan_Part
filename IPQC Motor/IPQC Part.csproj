@@ -84,10 +84,6 @@
     <DelaySign>true</DelaySign>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Interop.Microsoft.Office.Core">
-      <HintPath>C:\Users\mt-fa29\Desktop\long\checksheet new\ipqc_pqm Q7\MovieDB\bin\Debug\Interop.Microsoft.Office.Core.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
     <Reference Include="Interop.VBIDE">
       <HintPath>C:\Users\mt-fa29\Desktop\long\checksheet new\ipqc_pqm Q7\MovieDB\bin\Debug\Interop.VBIDE.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>

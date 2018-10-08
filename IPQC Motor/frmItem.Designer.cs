@@ -46,6 +46,7 @@
             this.label19 = new System.Windows.Forms.Label();
             this.dtpToDate = new System.Windows.Forms.DateTimePicker();
             this.dtpFromDate = new System.Windows.Forms.DateTimePicker();
+            this.btnTimKiem = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMeasureItem)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -62,7 +63,7 @@
             // txtUser
             // 
             this.txtUser.Enabled = false;
-            this.txtUser.Location = new System.Drawing.Point(802, 44);
+            this.txtUser.Location = new System.Drawing.Point(802, 42);
             this.txtUser.Name = "txtUser";
             this.txtUser.Size = new System.Drawing.Size(130, 20);
             this.txtUser.TabIndex = 1;
@@ -107,9 +108,9 @@
             // 
             // btnEditMaster
             // 
-            this.btnEditMaster.Location = new System.Drawing.Point(938, 41);
+            this.btnEditMaster.Location = new System.Drawing.Point(942, 39);
             this.btnEditMaster.Name = "btnEditMaster";
-            this.btnEditMaster.Size = new System.Drawing.Size(91, 23);
+            this.btnEditMaster.Size = new System.Drawing.Size(79, 23);
             this.btnEditMaster.TabIndex = 13;
             this.btnEditMaster.Text = "Edit Master";
             this.btnEditMaster.UseVisualStyleBackColor = true;
@@ -190,7 +191,7 @@
             // dtpToDate
             // 
             this.dtpToDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpToDate.Location = new System.Drawing.Point(836, 70);
+            this.dtpToDate.Location = new System.Drawing.Point(838, 70);
             this.dtpToDate.Name = "dtpToDate";
             this.dtpToDate.Size = new System.Drawing.Size(94, 20);
             this.dtpToDate.TabIndex = 28;
@@ -207,12 +208,23 @@
             this.dtpFromDate.Value = new System.DateTime(2018, 10, 6, 0, 0, 0, 0);
             this.dtpFromDate.ValueChanged += new System.EventHandler(this.dtpFromDate_ValueChanged);
             // 
+            // btnTimKiem
+            // 
+            this.btnTimKiem.Location = new System.Drawing.Point(942, 68);
+            this.btnTimKiem.Name = "btnTimKiem";
+            this.btnTimKiem.Size = new System.Drawing.Size(79, 23);
+            this.btnTimKiem.TabIndex = 31;
+            this.btnTimKiem.Text = "Tìm Kiếm";
+            this.btnTimKiem.UseVisualStyleBackColor = true;
+            this.btnTimKiem.Click += new System.EventHandler(this.btnTimKiem_Click);
+            // 
             // frmItem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(1029, 708);
+            this.Controls.Add(this.btnTimKiem);
             this.Controls.Add(this.label19);
             this.Controls.Add(this.dtpToDate);
             this.Controls.Add(this.dtpFromDate);
@@ -257,6 +269,7 @@
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.DateTimePicker dtpToDate;
         private System.Windows.Forms.DateTimePicker dtpFromDate;
+        private System.Windows.Forms.Button btnTimKiem;
     }
 }
 

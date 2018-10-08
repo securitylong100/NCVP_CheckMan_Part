@@ -65,7 +65,6 @@ namespace IPQC_Part
             }
             else
             {
-
                 txtPageId.Text = pageid.ToString();
                 string sqlHeaderMachine = "select distinct header_machine from m_header where page_id = '" + pageid + "'";
                 cmbMaSo.Text = con.sqlExecuteScalarString(sqlHeaderMachine);
@@ -235,6 +234,7 @@ namespace IPQC_Part
                 dgv.Columns["data_5"].HeaderText = "SP5";//12
                 dgv.Columns["data_x"].HeaderText = "SPX";//13
                 dgv.Columns["data_est"].HeaderText = "EST";//14
+                dgv.Columns["data_est"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 dgv.Columns["registration_date_time"].HeaderText = "Date Time";//15
                 dgv.Columns["item_id"].Visible = false;
                 
@@ -616,6 +616,7 @@ namespace IPQC_Part
                     }
                 }
             }
+            CalculatorEst();
         }
         private void dgvMeasureData_KeyDown(object sender, KeyEventArgs e)
         {
@@ -662,6 +663,38 @@ namespace IPQC_Part
                 }
             }
         }
+        public void CalculatorEst()//tinh est
+        {
+            if (dgvMeasureData.RowCount > 0)
+            {
+                for (int i = 0; i < dgvMeasureData.RowCount; i++)
+                {
+                    int estx = 0;
+                    if (dgvMeasureData.Rows[i].Cells["data_1"].Style.BackColor == Color.Red) { ++estx; }
+                    if (dgvMeasureData.Rows[i].Cells["data_2"].Style.BackColor == Color.Red) { ++estx; }
+                    if (dgvMeasureData.Rows[i].Cells["data_3"].Style.BackColor == Color.Red) { ++estx; }
+                    if (dgvMeasureData.Rows[i].Cells["data_4"].Style.BackColor == Color.Red) { ++estx; }
+                    if (dgvMeasureData.Rows[i].Cells["data_5"].Style.BackColor == Color.Red) { ++estx; }
+
+                    if(estx > 0)
+                    {
+                        dgvMeasureData.Rows[i].Cells["data_est"].Value = "X";
+                    }
+
+                    int esto = 0;
+                    if (dgvMeasureData.Rows[i].Cells["data_1"].Value.ToString() != "" && dgvMeasureData.Rows[i].Cells["data_1"].Style.BackColor == SystemColors.Window) { esto++; }
+                    if (dgvMeasureData.Rows[i].Cells["data_2"].Value.ToString() != "" && dgvMeasureData.Rows[i].Cells["data_2"].Style.BackColor == SystemColors.Window) { esto++; }
+                    if (dgvMeasureData.Rows[i].Cells["data_3"].Value.ToString() != "" && dgvMeasureData.Rows[i].Cells["data_3"].Style.BackColor == SystemColors.Window) { esto++; }
+                    if (dgvMeasureData.Rows[i].Cells["data_4"].Value.ToString() != "" && dgvMeasureData.Rows[i].Cells["data_4"].Style.BackColor == SystemColors.Window) { esto++; }
+                    if (dgvMeasureData.Rows[i].Cells["data_5"].Value.ToString() != "" && dgvMeasureData.Rows[i].Cells["data_5"].Style.BackColor == SystemColors.Window) { esto++; }
+
+                    if (estx == 0 && esto > 0)
+                    {
+                        dgvMeasureData.Rows[i].Cells["data_est"].Value = "O";
+                    }
+                }
+            }
+        }
 
         private void btnTimKiem_Click(object sender, EventArgs e)
         {
@@ -672,6 +705,9 @@ namespace IPQC_Part
             int tb = 0;
             if (dgvMeasureData.RowCount > 0)
             {
+                IPQC_Motor.TfSQL tfSQL = new IPQC_Motor.TfSQL();
+                string sqlUpdate = sqlUpdate = "update m_header set footer_result = '" + cmbDanhGia.Text + "' where page_id = " + pageid;
+                int mau = 0;
                 for (int i = 0; i < dgvMeasureData.RowCount; i++)
                 {
                     if (tb == 1)
@@ -686,13 +722,30 @@ namespace IPQC_Part
                         {
                             if (dgvMeasureData.Rows[i].Cells[j].Value.ToString() == "")
                             {
-                                MessageBox.Show("Hạng mục vẫn chưa đo xong !", "Note", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                DialogResult Mess = MessageBox.Show("Hạng mục vẫn chưa đo xong !" + System.Environment.NewLine + "Bạn vẫn muốn lưu đánh giá ?", "Note", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
+                                if (DialogResult.Yes == Mess)//chưa hoàn thành cảnh báo
+                                {
+                                    tfSQL.sqlExecuteNonQuery(sqlUpdate, false);
+                                }
                                 tb = 1;
                                 break;
                             }
+                            if (dgvMeasureData.Rows[i].Cells[j].Style.BackColor == Color.Red)
+                            {
+                                mau++;
+                            }
                             if (i == dgvMeasureData.RowCount - 1 && j == (slmau + 7))
                             {
-                                //update
+                                if (cmbDanhGia.Text == "OK" && mau > 0)
+                                {
+                                    DialogResult Mess = MessageBox.Show("Có hạng mục NG !" + System.Environment.NewLine + "Bạn vẫn muốn lưu đánh giá ?", "Note", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
+                                    if (DialogResult.Yes == Mess)
+                                    {
+                                        tfSQL.sqlExecuteNonQuery(sqlUpdate, false);
+                                    }
+                                }
+                                tb = 1;
+                                break;
                             }
                         }
                     }

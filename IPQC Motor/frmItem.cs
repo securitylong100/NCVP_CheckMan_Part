@@ -25,9 +25,8 @@ namespace IPQC_Motor
         {
 
             TfSQL con = new TfSQL();
-            string sql = @"select distinct model_cd from(
-select model_cd ,user_dept_cd from m_model a,m_user b where a.user_id = b.user_id )t,m_user a 
-where a.user_dept_cd = t.user_dept_cd and a.user_name = '" + username + "'";
+            string sql = @"select distinct model_cd from(select model_cd ,user_dept_cd from m_model a,m_user b where a.user_id = b.user_id )t,m_user a 
+            where a.user_dept_cd = t.user_dept_cd and a.user_name = '" + username + "'";
 
             con.getComboBoxData(sql, ref cmbModel);
             cmbModel.Text = "";
@@ -80,7 +79,7 @@ where a.user_dept_cd = t.user_dept_cd and a.user_name = '" + username + "'";
             if(dgv.RowCount > 0)
             {                
                 colNew = new DataGridViewButtonColumn {
-                    Text = "New",
+                    Text = "Measure New",
                     UseColumnTextForButtonValue = true
                 };
                 colCon = new DataGridViewButtonColumn {
@@ -165,9 +164,9 @@ where a.user_dept_cd = t.user_dept_cd and a.user_name = '" + username + "'";
             IPQC_Motor.TfSQL tfSql = new IPQC_Motor.TfSQL();
             StringBuilder sqlTV = new StringBuilder();
             sqlTV.Append(@"select cast(a.registration_date_time as date) dates
-                            from m_header a left join m_data b on a.page_id = b.page_id left join m_item c on b.item_id = c.item_id ");
-            sqlTV.Append(@"where c.dwr_id = (select dwr_id from m_drawing where dwr_cd = '" + dwr_cd + "') and a.registration_date_time >= '" + dateFrom.ToString() + "' and cast(a.registration_date_time as date) <= '" + dateTo.ToString() + "' ");
-            sqlTV.Append("group by dates order by dates desc limit " + limit);
+                            from m_header a left join m_data b on a.page_id = b.page_id left join m_item c on b.item_id = c.item_id 
+                            where c.dwr_id = (select dwr_id from m_drawing where dwr_cd = '" + dwr_cd + "') and a.registration_date_time >= '" + dateFrom.ToString() + 
+                            "' and cast(a.registration_date_time as date) <= '" + dateTo.ToString() + "' group by dates order by dates desc limit " + limit);
             tfSql.sqlDataAdapterFillDatatable(sqlTV.ToString(), ref dtTreeNode);
 
             if (dtTreeNode.Rows.Count > 0)
@@ -218,28 +217,28 @@ where a.user_dept_cd = t.user_dept_cd and a.user_name = '" + username + "'";
 
         private void listTV_DoubleClick(object sender, EventArgs e)
         {
-            int pageId = 0;
-            if (int.TryParse(listTV.SelectedNode.Tag.ToString(), out pageId))
+            try
             {
-                IPQC_Motor.TfSQL tf = new IPQC_Motor.TfSQL();
-                string tagNode = "select count(*) from m_header where page_id = " + pageId;
-                long checkPage = tf.sqlExecuteScalarLong(tagNode);
-
-                if (checkPage > 0)
+                int pageId = 0;
+                if (int.TryParse(listTV.SelectedNode.Tag.ToString(), out pageId))
                 {
-                    IPQC_Part.frmFMS from = new IPQC_Part.frmFMS(pageId, username, DrawingCd);
-                    this.Hide();
-                    from.ShowDialog();
-                    this.Show();
-                }
-            }
-            else MessageBox.Show("Hãy chọn một mã máy !", "Note!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
+                    IPQC_Motor.TfSQL tf = new IPQC_Motor.TfSQL();
+                    string tagNode = "select count(*) from m_header where page_id = " + pageId;
+                    long checkPage = tf.sqlExecuteScalarLong(tagNode);
 
-        private void btnTimKiem_Click(object sender, EventArgs e)
-        {
-            
+                    if (checkPage > 0)
+                    {
+                        IPQC_Part.frmFMS from = new IPQC_Part.frmFMS(pageId, username, DrawingCd);
+                        this.Hide();
+                        from.ShowDialog();
+                        this.Show();
+                    }
+                }
+                else MessageBox.Show("Hãy chọn một mã máy !", "Note!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch { return; }
         }
+        
         public bool boolTV = false;
         private void dtpFromDate_ValueChanged(object sender, EventArgs e)
         {
@@ -249,6 +248,88 @@ where a.user_dept_cd = t.user_dept_cd and a.user_name = '" + username + "'";
         private void dtpToDate_ValueChanged(object sender, EventArgs e)
         {
             if (boolTV) { TreeView(DrawingCd, dtpFromDate.Value.ToString(), dtpToDate.Value.ToString(), 30); }
+        }
+
+        private void btnTimKiem_Click(object sender, EventArgs e)
+        {
+            TreeView2(dtpFromDate.Value.ToString(), dtpToDate.Value.ToString(), 30);
+        }
+        private void TreeView2( string dateFrom, string dateTo, int limit)
+        {
+            DataTable dtTV = new DataTable();
+            listTV.Nodes.Clear();
+            IPQC_Motor.TfSQL tfSql = new IPQC_Motor.TfSQL();
+
+            string sqlTreeDr = "select dwr_cd, dwr_name from m_drawing where model_id in (select model_id from m_model where model_sub_cd = '" + cmbSubModel.Text + "')";
+            tfSql.sqlDataAdapterFillDatatable(sqlTreeDr, ref dtTV);
+            if (dtTV.Rows.Count > 0)
+            {
+                TreeNode[] header = new TreeNode[dtTV.Rows.Count];
+                for (int k = 0; k < dtTV.Rows.Count; k++)
+                {
+                    DataTable dtTreeNode = new DataTable();
+                    string a = dtTV.Rows[k]["dwr_cd"].ToString();
+                    header[k].Text = "Drawing CD: ";
+                    header[k].Tag = dtTV.Rows[k]["dwr_cd"].ToString();
+
+                    StringBuilder sqlTV = new StringBuilder();
+                    sqlTV.Append(@"select cast(a.registration_date_time as date) dates
+                            from m_header a left join m_data b on a.page_id = b.page_id left join m_item c on b.item_id = c.item_id 
+                            where c.dwr_id = (select dwr_id from m_drawing where dwr_cd = '" + header[k].Tag + "') and a.registration_date_time >= '" + dateFrom.ToString() +
+                                    "' and cast(a.registration_date_time as date) <= '" + dateTo.ToString() + "' group by dates order by dates desc limit " + limit);
+                    tfSql.sqlDataAdapterFillDatatable(sqlTV.ToString(), ref dtTreeNode);
+
+                    if (dtTreeNode.Rows.Count > 0)
+                    {
+                        TreeNode[] headerN = new TreeNode[dtTreeNode.Rows.Count];
+                        for (int i = 0; i < dtTreeNode.Rows.Count; i++)
+                        {
+                            headerN[i].Text = DateTime.Parse(dtTreeNode.Rows[i]["dates"].ToString()).ToString("yyyy-MM-dd");
+                            header[k].Nodes.Add(headerN[i].Text);
+
+                            DataTable dtChildNode = new DataTable();
+                            string sqlNodeChild = @"select * from (select a.page_id, header_machine, footer_result, cast(a.registration_date_time as date) dates,a.registration_date_time date 
+                            from m_header a left join m_data b on a.page_id = b.page_id left join m_item c on b.item_id = c.item_id where c.dwr_id = (select dwr_id from m_drawing where dwr_cd = '" + header[k].Tag + "') group by a.page_id,a.registration_date_time, header_machine, footer_result) tb where tb.dates = '" + headerN[i].Text + "'";
+                            tfSql.sqlDataAdapterFillDatatable(sqlNodeChild, ref dtChildNode);
+
+                            TreeNode[] headerchild = new TreeNode[dtChildNode.Rows.Count];
+                            for (int j = 0; j < dtChildNode.Rows.Count; j++)
+                            {
+                                headerchild[j].Text = "MM: " + dtChildNode.Rows[j]["header_machine"].ToString() + " -- Page Id: " + dtChildNode.Rows[j]["page_id"].ToString() + " " + dtChildNode.Rows[j]["footer_result"].ToString();
+                                headerchild[j].Tag = dtChildNode.Rows[j]["page_id"].ToString();
+
+                                if (dtChildNode.Rows[j]["footer_result"].ToString() == "NG")
+                                {
+                                    headerchild[j].BackColor = Color.Red;
+                                }
+                                else if (dtChildNode.Rows[j]["footer_result"].ToString() == "OK")
+                                {
+
+                                }
+                                else headerchild[j].BackColor = Color.Yellow;
+
+                                headerN[i].Nodes.Add(headerchild[j].Text);
+                            }
+                        }
+                        listTV.Nodes.Add(header[k]);
+                    }
+                }
+            }
+        }
+        private void TreeViewTimKiem()
+        {
+            if (cmbModel.Text.Length > 0 && cmbSubModel.Text.Length > 0)
+            {
+                DataTable dtTreeDrawing = new DataTable();
+                listTV.Nodes.Clear();
+                IPQC_Motor.TfSQL tfSql = new IPQC_Motor.TfSQL();
+                string sqlDrawing = "select dwr_cd, dwr_name from m_drawing where model_id = (select model_id from m_model where model_sub_cd = '" + cmbSubModel.Text + "')";
+                tfSql.sqlDataAdapterFillDatatable(sqlDrawing, ref dtTreeDrawing);
+                if(dtTreeDrawing.Rows.Count > 0)
+                {
+
+                }
+            }            
         }
     }
 }
