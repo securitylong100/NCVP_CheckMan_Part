@@ -210,7 +210,7 @@ namespace IPQC_Part
             {
                 sql.Append(" and page_id = '" + pageid + "'");
             }
-            sql.Append("order by registration_date_time desc, item_measure asc ");
+            sql.Append("order by registration_date_time desc, item_measure,item_id asc ");
             IPQC_Motor.TfSQL con = new IPQC_Motor.TfSQL();
             con.sqlDataAdapterFillDatatable(sql.ToString(), ref dtInspectItems);
             dgv.DataSource = dtInspectItems;
@@ -343,6 +343,7 @@ namespace IPQC_Part
                     }                    
                 }
             }
+            //File.Delete(@"D:\EMAX.csv");
             CalculatorDataX();
         }
         public int colTam;
@@ -751,6 +752,26 @@ namespace IPQC_Part
                     }
                 }
             }
+        }
+        string path;
+        private void btnNoiLuu_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog folder = new FolderBrowserDialog();
+            folder.SelectedPath = "D:\\";
+            if(folder.ShowDialog() == DialogResult.OK)
+            {
+                txtNoiLuu.Text = folder.SelectedPath;
+            }
+        }
+
+        private void btnLuuXuat_Click(object sender, EventArgs e)
+        {
+            IPQC_Motor.ExcelClassFMS ex = new IPQC_Motor.ExcelClassFMS();
+            IPQC_Motor.TfSQL tfSql = new IPQC_Motor.TfSQL();
+            string model = tfSql.sqlExecuteScalarString("select model_cd from m_model where model_id = (select model_id from m_drawing where dwr_cd = '" + drawingcd + "')");
+            string DocName = tfSql.sqlExecuteScalarString("select doc_name from m_drawing where dwr_cd = '" + drawingcd + "'");
+            
+            ex.exportExcel(model, drawingcd, DocName, cmbQuiTrinh.Text, int.Parse(cmbSLMau.Text), "Phuong Thuc", "KV SX", dgvMeasureData, cmbDanhGia.Text, dtpGiaCong.Value.ToString(), txtLot.Text, dtpDoHang.Value.ToString(), "", username, txtNoiLuu.Text + DocName);
         }
     }
 }

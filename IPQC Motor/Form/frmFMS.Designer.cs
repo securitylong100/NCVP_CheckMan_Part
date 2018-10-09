@@ -440,6 +440,7 @@
             this.btnLuuXuat.TabIndex = 19;
             this.btnLuuXuat.Text = "Lưu và Xuất";
             this.btnLuuXuat.UseVisualStyleBackColor = true;
+            this.btnLuuXuat.Click += new System.EventHandler(this.btnLuuXuat_Click);
             // 
             // txtNoiLuu
             // 
@@ -456,6 +457,7 @@
             this.btnNoiLuu.TabIndex = 17;
             this.btnNoiLuu.Text = "Nơi Lưu";
             this.btnNoiLuu.UseVisualStyleBackColor = true;
+            this.btnNoiLuu.Click += new System.EventHandler(this.btnNoiLuu_Click);
             // 
             // btnKetNoi
             // 
