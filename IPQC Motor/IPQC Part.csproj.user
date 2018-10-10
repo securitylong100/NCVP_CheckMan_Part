@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectView>ShowAllFiles</ProjectView>
+    <PublishUrlHistory>\\192.168.145.7\checkmanpart\|\192.168.145.7\checkmanpart\|ftp://iottechno.com/public_html/hoang/|\\192.168.145.7\459qb2\code\|ftp://iottechno.com/</PublishUrlHistory>
+    <InstallUrlHistory>\\192.168.145.7\checkmanpart\|http://192.168.145.7/checkmanpart/|http://192.168.145.7/checkmanpart/publish.html/|//iottechno.com/public_html/hoang/|http://192.168.145.7/checmanpart/publish.html/</InstallUrlHistory>
+    <SupportUrlHistory />
+    <UpdateUrlHistory />
+    <BootstrapperUrlHistory />
+    <ErrorReportUrlHistory />
+    <FallbackCulture>en-US</FallbackCulture>
+    <VerifyUploadedFiles>false</VerifyUploadedFiles>
+  </PropertyGroup>
+</Project>
