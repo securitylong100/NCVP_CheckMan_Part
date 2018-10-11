@@ -56,8 +56,7 @@ namespace IPQC_Part
         {
             item = 1;
             frmFms.readcsvFMS(8);
-            frmFms.updateData(ref frmFms.dtInspectItems,frmFms.pageid,"FMS");
-            frmFms.deleteEmax();
+            frmFms.updateData(ref frmFms.dtInspectItems, frmFms.pageid, "FMS");
             SetColor(item1_btn, item);
         }
 

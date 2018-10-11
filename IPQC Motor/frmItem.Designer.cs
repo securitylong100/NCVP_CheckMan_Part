@@ -36,7 +36,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.cmbSubModel = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.btnEditMaster = new System.Windows.Forms.Button();
             this.dgvMeasureItem = new System.Windows.Forms.DataGridView();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.userInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -111,18 +110,6 @@
             this.label2.Size = new System.Drawing.Size(80, 15);
             this.label2.TabIndex = 11;
             this.label2.Text = "Sub Model:";
-            // 
-            // btnEditMaster
-            // 
-            this.btnEditMaster.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEditMaster.Location = new System.Drawing.Point(942, 39);
-            this.btnEditMaster.Name = "btnEditMaster";
-            this.btnEditMaster.Size = new System.Drawing.Size(79, 23);
-            this.btnEditMaster.TabIndex = 13;
-            this.btnEditMaster.Text = "Edit Master";
-            this.btnEditMaster.UseVisualStyleBackColor = true;
-            this.btnEditMaster.Visible = false;
-            this.btnEditMaster.Click += new System.EventHandler(this.btnEditMaster_Click);
             // 
             // dgvMeasureItem
             // 
@@ -244,7 +231,6 @@
             this.Controls.Add(this.dtpFromDate);
             this.Controls.Add(this.listTV);
             this.Controls.Add(this.dgvMeasureItem);
-            this.Controls.Add(this.btnEditMaster);
             this.Controls.Add(this.cmbSubModel);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.cmbModel);
@@ -273,7 +259,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cmbSubModel;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button btnEditMaster;
         private System.Windows.Forms.DataGridView dgvMeasureItem;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem userInfoToolStripMenuItem;

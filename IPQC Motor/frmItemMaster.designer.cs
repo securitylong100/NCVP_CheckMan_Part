@@ -38,7 +38,6 @@ namespace IPQC_Motor
             this.txtDwr = new System.Windows.Forms.TextBox();
             this.picbox = new System.Windows.Forms.PictureBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btnSaveImg = new System.Windows.Forms.Button();
             this.txtLink = new System.Windows.Forms.TextBox();
             this.btnBrowser = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -134,7 +133,6 @@ namespace IPQC_Motor
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.btnSaveImg);
             this.groupBox1.Controls.Add(this.txtLink);
             this.groupBox1.Controls.Add(this.btnBrowser);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -145,25 +143,14 @@ namespace IPQC_Motor
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Image";
             // 
-            // btnSaveImg
-            // 
-            this.btnSaveImg.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSaveImg.Location = new System.Drawing.Point(331, 25);
-            this.btnSaveImg.Name = "btnSaveImg";
-            this.btnSaveImg.Size = new System.Drawing.Size(90, 33);
-            this.btnSaveImg.TabIndex = 16;
-            this.btnSaveImg.Text = "Save Image";
-            this.btnSaveImg.UseVisualStyleBackColor = true;
-            this.btnSaveImg.Click += new System.EventHandler(this.btnSaveImg_Click);
-            // 
             // txtLink
             // 
             this.txtLink.Enabled = false;
             this.txtLink.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtLink.Location = new System.Drawing.Point(89, 19);
+            this.txtLink.Location = new System.Drawing.Point(107, 16);
             this.txtLink.Multiline = true;
             this.txtLink.Name = "txtLink";
-            this.txtLink.Size = new System.Drawing.Size(236, 51);
+            this.txtLink.Size = new System.Drawing.Size(320, 51);
             this.txtLink.TabIndex = 15;
             // 
             // btnBrowser
@@ -171,9 +158,9 @@ namespace IPQC_Motor
             this.btnBrowser.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnBrowser.Location = new System.Drawing.Point(6, 25);
             this.btnBrowser.Name = "btnBrowser";
-            this.btnBrowser.Size = new System.Drawing.Size(74, 33);
+            this.btnBrowser.Size = new System.Drawing.Size(95, 33);
             this.btnBrowser.TabIndex = 12;
-            this.btnBrowser.Text = "Browser:";
+            this.btnBrowser.Text = "Choose Image";
             this.btnBrowser.UseVisualStyleBackColor = true;
             this.btnBrowser.Click += new System.EventHandler(this.btnBrowser_Click);
             // 
@@ -231,7 +218,6 @@ namespace IPQC_Motor
         private System.Windows.Forms.TextBox txtDwr;
         private System.Windows.Forms.PictureBox picbox;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button btnSaveImg;
         private System.Windows.Forms.TextBox txtLink;
         private System.Windows.Forms.Button btnBrowser;
         private System.Windows.Forms.GroupBox groupBox2;

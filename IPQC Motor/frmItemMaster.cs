@@ -27,8 +27,7 @@ namespace IPQC_Motor
             DrawingCd = drawing_cd;
             User = user;
         }
-
-        // ÉçÅ[ÉhéûÇÃèàóù
+        
         private void Form7_2_Load(object sender, EventArgs e)
         {
             LoadItem();
@@ -45,9 +44,7 @@ namespace IPQC_Motor
             dgvTester.DataSource = dt;
 
             //Fix DGV
-
-            //dgvTester.Columns["item_id"].HeaderText = "Id";
-            //dgvTester.Columns["dwr_cd"].HeaderText = "Drawing";
+            
             dgvTester.Columns["item_id"].Visible = false;
             dgvTester.Columns["dwr_id"].Visible = false;
             dgvTester.Columns["item_measure"].HeaderText = "Measure Item";
@@ -60,7 +57,6 @@ namespace IPQC_Motor
             dgvTester.Columns["item_row"].HeaderText = "Row";
 
             dgvTester.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            //dgvTester.Columns["item_measure"].AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
             dgvTester.Columns["item_measure"].Width = 100;
 
             //Load Image to picture box
@@ -179,12 +175,21 @@ namespace IPQC_Motor
 
                     if (doing == true)
                     {
-
                         byte[] img = System.IO.File.ReadAllBytes(txtLink.Text);
                         MemoryStream meStream = new MemoryStream(img);
 
                         picbox.Image = new Bitmap(meStream);
                         picbox.SizeMode = PictureBoxSizeMode.Zoom;
+
+                        FileStream fs = new FileStream(txtLink.Text, FileMode.Open, FileAccess.Read);
+                        byte[] pic = new byte[fs.Length];
+                        fs.Read(pic, 0, System.Convert.ToInt32(fs.Length));
+                        fs.Close();
+
+                        TfSQL sql = new TfSQL();
+                        int dwrId = int.Parse(sql.sqlExecuteScalarString("select dwr_id from m_drawing where dwr_cd = '" + DrawingCd + "'"));
+                        string sqlEx = "update m_drawing set dwr_image = '" + Convert.ToBase64String(pic) + "' where dwr_id = " + dwrId;
+                        sql.sqlExecuteNonQueryInt(sqlEx, false);
 
                         doing = false;
                     }
@@ -194,28 +199,6 @@ namespace IPQC_Motor
                     MessageBox.Show("No file selected!", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     txtLink.Text = "";
                 }
-            }
-        }
-
-        private void btnSaveImg_Click(object sender, EventArgs e)
-        {
-            if (txtLink.Text != "")
-            {
-                FileStream fs = new FileStream(txtLink.Text, FileMode.Open, FileAccess.Read);
-                byte[] pic = new byte[fs.Length];
-                fs.Read(pic, 0, System.Convert.ToInt32(fs.Length));
-                fs.Close();
-
-                TfSQL sql = new TfSQL();
-                int dwrId = int.Parse(sql.sqlExecuteScalarString("select dwr_id from m_drawing where dwr_cd = '" + DrawingCd + "'"));
-                string sqlEx = "update m_drawing set dwr_image = '" + Convert.ToBase64String(pic) + "' where dwr_id = " + dwrId;
-                bool bsave = true;
-                sql.sqlExecuteNonQueryInt(sqlEx, bsave);
-            }
-            else
-            {
-                MessageBox.Show("Select a file !", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtLink.Text = "";
             }
         }
     }

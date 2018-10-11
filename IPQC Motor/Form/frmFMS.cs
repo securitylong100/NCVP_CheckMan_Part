@@ -90,9 +90,15 @@ namespace IPQC_Part
                 string sqlDataCheck = "select distinct data_check from m_data where page_id = '" + pageid + "'";
                 cmbNgoaiQuan.Text = con.sqlExecuteScalarString(sqlDataCheck);
                 cmbNgoaiQuan.Enabled = false;
-
+                string sqlDateDoHang = "select footer_datemake from m_header where page_id = '" + pageid + "'";
+                dtpGiaCong.Value = DateTime.Parse(con.sqlExecuteScalarString(sqlDateDoHang));
+                string sqlLot = "select footer_lot from m_header where page_id = '" + pageid + "'";
+                txtLot.Text = con.sqlExecuteScalarString(sqlLot);
+                string sqlDanhGia = "select footer_result from m_header where page_id = '" + pageid + "'";
+                cmbDanhGia.Text = con.sqlExecuteScalarString(sqlDanhGia);
 
                 buildDGV(ref dgvMeasureData);
+                btnTaoForm.Enabled = false;
                 AlarmColor();
             }
 
@@ -277,7 +283,9 @@ namespace IPQC_Part
 
                     //insert data  
                     insertintodatabase();
+                    pageid = int.Parse(txtPageId.Text);
                     buildDGV(ref dgvMeasureData);
+                    btnTaoForm.Enabled = false;
                 }
                 else
                 {
@@ -318,6 +326,7 @@ namespace IPQC_Part
                     dr[1] = mang[6];
                     dtt.Rows.Add(dr);
                 }
+                reader.Close();
                 int rowdtt = 1;
                 for (int i = 0; i < dgvMeasureData.RowCount; i++)
                 {
@@ -345,6 +354,7 @@ namespace IPQC_Part
                         }
                     }
                 }
+                File.Delete(SaveEmax);
                 CalculatorDataX();
             }
             else {
@@ -762,7 +772,6 @@ namespace IPQC_Part
                 }
             }
         }
-        string path;
         private void btnNoiLuu_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog folder = new FolderBrowserDialog();
