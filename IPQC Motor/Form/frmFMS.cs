@@ -27,13 +27,13 @@ namespace IPQC_Part
             username = username_;
             drawingcd = drawingcd_;
             txtUser.Text = username;
-            gpbBanVe.Text = "Bản Vẽ Số: " + drawingcd;
+            lblDwr.Text = drawingcd;
             pageid = PageId;
         }
-        void callpic()
+        public void callpic(string bytePic,PictureBox pic)
         {
-            IPQC_Motor.TfSQL tfSql = new IPQC_Motor.TfSQL();
-            string bytePic = tfSql.sqlExecuteScalarString("select dwr_image from m_drawing where dwr_cd = '" + drawingcd + "'");
+            //IPQC_Motor.TfSQL tfSql = new IPQC_Motor.TfSQL();
+            //string bytePic = tfSql.sqlExecuteScalarString("select dwr_image from m_drawing where dwr_cd = '" + drawingcd + "'");
             if (bytePic != "")
             {
                 byte[] imgBytes = Convert.FromBase64String(bytePic);
@@ -41,8 +41,8 @@ namespace IPQC_Part
                 ms.Write(imgBytes, 0, imgBytes.Length);
                 Image image = Image.FromStream(ms, true);
 
-                picbox.Image = image;
-                picbox.SizeMode = PictureBoxSizeMode.Zoom;
+                pic.Image = image;
+                pic.SizeMode = PictureBoxSizeMode.Zoom;
             }
         }
         private void frmFMS_Load(object sender, EventArgs e)
@@ -101,9 +101,10 @@ namespace IPQC_Part
                 btnTaoForm.Enabled = false;
                 AlarmColor();
             }
-
-            //common
-            callpic();
+            string byteMeasure = con.sqlExecuteScalarString("select dwr_image from m_drawing where dwr_cd = '" + drawingcd + "'");
+            callpic(byteMeasure, picMeasure);
+            string byteMain = con.sqlExecuteScalarString("select dwr_image_main from m_drawing where dwr_cd = '" + drawingcd + "'");
+            callpic(byteMain, picMain);
         }
 
 
@@ -308,7 +309,7 @@ namespace IPQC_Part
             }
             return true;
         }
-        public string SaveEmax = @"D:\EMAX.csv";
+        public string SaveEmax = @"C:\E-MAX\DATA\UNTITLED\EMAX.csv";
         public void readcsvFMS(int column)
         {
             if (File.Exists(SaveEmax))
@@ -330,9 +331,11 @@ namespace IPQC_Part
                 int rowdtt = 1;
                 for (int i = 0; i < dgvMeasureData.RowCount; i++)
                 {
+                    
                     if (dtt.Rows.Count > 0 && rowdtt < dtt.Rows.Count)
                     {
-                        if (dtt.Rows[rowdtt]["ItemMeasure"].ToString() == dgvMeasureData.Rows[i].Cells["item_measure"].Value.ToString() && dgvMeasureData.Rows[i].Cells["item_tool"].Value.ToString() == "FMS")
+                        string a = dtt.Rows[rowdtt]["ItemMeasure"].ToString();
+                        if (a.Substring(1,a.Length-2) == dgvMeasureData.Rows[i].Cells["item_measure"].Value.ToString() && dgvMeasureData.Rows[i].Cells["item_tool"].Value.ToString() == "FMS")
                         {
                             if (dgvMeasureData.Rows[i].Cells["item_detail"].Value.ToString() == "MIN" || dgvMeasureData.Rows[i].Cells["item_detail"].Value.ToString() == "MAX")
                             {
@@ -791,7 +794,7 @@ namespace IPQC_Part
                 string model = tfSql.sqlExecuteScalarString("select model_cd from m_model where model_id = (select model_id from m_drawing where dwr_cd = '" + drawingcd + "')");
                 string DocName = tfSql.sqlExecuteScalarString("select doc_name from m_drawing where dwr_cd = '" + drawingcd + "'");
 
-                ex.exportExcel(model, drawingcd, DocName, cmbQuiTrinh.Text, int.Parse(cmbSLMau.Text), cmbPhuongThuc.Text, cmbKhuVuc.Text, cmbNgoaiQuan.Text, dgvMeasureData, cmbDanhGia.Text, dtpGiaCong.Value.ToString("yyyy-MM-dd"), txtLot.Text, dtpDoHang.Value.ToString("yyyy-MM-dd"), "", username, txtNoiLuu.Text + DocName);
+                ex.exportExcel(model, drawingcd, DocName, cmbQuiTrinh.Text, int.Parse(cmbSLMau.Text), cmbPhuongThuc.Text, cmbKhuVuc.Text, cmbNgoaiQuan.Text, dgvMeasureData, cmbDanhGia.Text, dtpGiaCong.Value.ToString("yyyy-MM-dd"), txtLot.Text, dtpDoHang.Value.ToString("yyyy-MM-dd"), "", username, txtNoiLuu.Text + DocName+DateTime.Now.ToString(" yyyy-MM-dd HH.mm"));
             }
 
             else MessageBox.Show("Đường dẫn không hợp lệ !" + System.Environment.NewLine + "Hãy chọn lại thư mục lưu trữ ", "Note", MessageBoxButtons.OK, MessageBoxIcon.Warning);

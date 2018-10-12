@@ -60,9 +60,9 @@ namespace IPQC_Motor
             // btnLogIn
             // 
             this.btnLogIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLogIn.Location = new System.Drawing.Point(69, 124);
+            this.btnLogIn.Location = new System.Drawing.Point(72, 115);
             this.btnLogIn.Name = "btnLogIn";
-            this.btnLogIn.Size = new System.Drawing.Size(122, 25);
+            this.btnLogIn.Size = new System.Drawing.Size(113, 31);
             this.btnLogIn.TabIndex = 12;
             this.btnLogIn.Text = "Log In";
             this.btnLogIn.UseVisualStyleBackColor = true;
@@ -75,7 +75,6 @@ namespace IPQC_Motor
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(122, 21);
             this.txtPassword.TabIndex = 11;
-            this.txtPassword.Text = "admin";
             this.txtPassword.UseSystemPasswordChar = true;
             // 
             // lblPass
@@ -101,9 +100,10 @@ namespace IPQC_Motor
             // Version_lbl
             // 
             this.Version_lbl.AutoSize = true;
-            this.Version_lbl.Location = new System.Drawing.Point(12, 185);
+            this.Version_lbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Version_lbl.Location = new System.Drawing.Point(3, 180);
             this.Version_lbl.Name = "Version_lbl";
-            this.Version_lbl.Size = new System.Drawing.Size(48, 13);
+            this.Version_lbl.Size = new System.Drawing.Size(57, 13);
             this.Version_lbl.TabIndex = 16;
             this.Version_lbl.Text = " Version:";
             // 
@@ -112,7 +112,7 @@ namespace IPQC_Motor
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(262, 203);
+            this.ClientSize = new System.Drawing.Size(259, 196);
             this.Controls.Add(this.Version_lbl);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.cmbUserName);

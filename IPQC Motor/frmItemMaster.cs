@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -20,7 +20,7 @@ namespace IPQC_Motor
         public string Model;
         public string DrawingCd;
         public string User;
-        // ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+        // Æ’RÆ’â€œÆ’XÆ’gÆ’â€°Æ’NÆ’^
         public frmItemMaster(string drawing_cd, string user)
         {
             InitializeComponent();
@@ -40,14 +40,12 @@ namespace IPQC_Motor
             TfSQL tfSql = new TfSQL();
             dt = new DataTable();
             tfSql.sqlDataAdapterFillDatatable(sql, ref dt);
-
             dgvTester.DataSource = dt;
 
-            //Fix DGV
-            
+            //Fix DGV            
             dgvTester.Columns["item_id"].Visible = false;
             dgvTester.Columns["dwr_id"].Visible = false;
-            dgvTester.Columns["item_measure"].HeaderText = "Measure Item";
+            dgvTester.Columns["item_measure"].HeaderText = "Item";
             dgvTester.Columns["item_symbol"].HeaderText = "Symbol";
             dgvTester.Columns["item_spec_x"].HeaderText = "Spec";
             dgvTester.Columns["item_lower"].HeaderText = "Lower";
@@ -55,13 +53,19 @@ namespace IPQC_Motor
             dgvTester.Columns["item_tool"].HeaderText = "Tool";
             dgvTester.Columns["item_detail"].HeaderText = "Detail";
             dgvTester.Columns["item_row"].HeaderText = "Row";
-
+            
             dgvTester.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvTester.Columns["item_measure"].Width = 100;
 
             //Load Image to picture box
-
             string bytePic = tfSql.sqlExecuteScalarString("select dwr_image from m_drawing where dwr_cd = '" + DrawingCd + "'");
+            ShowImage(bytePic, picbox);
+
+            string bytePicMain = tfSql.sqlExecuteScalarString("select dwr_image_main from m_drawing where dwr_cd = '" + DrawingCd + "'");
+            ShowImage(bytePicMain, picbox_main);
+        }
+        public void ShowImage(string bytePic, PictureBox picture)
+        {
             if (bytePic != "")
             {
                 byte[] imgBytes = Convert.FromBase64String(bytePic);
@@ -69,8 +73,10 @@ namespace IPQC_Motor
                 ms.Write(imgBytes, 0, imgBytes.Length);
                 Image image = Image.FromStream(ms, true);
 
-                picbox.Image = image;
-                picbox.SizeMode = PictureBoxSizeMode.Zoom;
+                picture.Image = image;
+                picture.SizeMode = PictureBoxSizeMode.Zoom;
+
+                ms.Close();
             }
         }
 
@@ -83,7 +89,7 @@ namespace IPQC_Motor
             btnDelete.Enabled = false;
         }
 
-        // Šù‘¶ƒŒƒR[ƒh‚Ìíœ
+        // Å Ã¹â€˜Â¶Æ’Å’Æ’RÂ[Æ’hâ€šÃŒÂÃ­ÂÅ“
         private void btnDelete_Click(object sender, EventArgs e)
         {
             if (dgvTester.Rows.Count > 0)
@@ -103,7 +109,7 @@ namespace IPQC_Motor
             }
         }
 
-        // •Û‘¶
+        // â€¢Ã›â€˜Â¶
         private void btnSave_Click(object sender, EventArgs e)
         {
             TfSQL tfsql = new TfSQL();
@@ -149,8 +155,7 @@ namespace IPQC_Motor
                 }
             }
         }
-
-        private void btnBrowser_Click(object sender, EventArgs e)
+        public void SaveImage(PictureBox pic, string column)
         {
             OpenFileDialog file = new OpenFileDialog();
             file.Title = "Open Image File";
@@ -160,8 +165,8 @@ namespace IPQC_Motor
             {
                 if (file.FileName != "")
                 {
-                    txtLink.Text = file.FileName.ToString();
-                    long size = new System.IO.FileInfo(txtLink.Text).Length / 1024;
+                    string fileName = file.FileName.ToString();
+                    long size = new System.IO.FileInfo(fileName).Length / 1024;
                     bool doing = false;
                     if (size > 310)
                     {
@@ -175,20 +180,20 @@ namespace IPQC_Motor
 
                     if (doing == true)
                     {
-                        byte[] img = System.IO.File.ReadAllBytes(txtLink.Text);
+                        byte[] img = System.IO.File.ReadAllBytes(fileName);
                         MemoryStream meStream = new MemoryStream(img);
 
-                        picbox.Image = new Bitmap(meStream);
-                        picbox.SizeMode = PictureBoxSizeMode.Zoom;
+                        pic.Image = new Bitmap(meStream);
+                        pic.SizeMode = PictureBoxSizeMode.Zoom;
 
-                        FileStream fs = new FileStream(txtLink.Text, FileMode.Open, FileAccess.Read);
-                        byte[] pic = new byte[fs.Length];
-                        fs.Read(pic, 0, System.Convert.ToInt32(fs.Length));
+                        FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+                        byte[] picbyte = new byte[fs.Length];
+                        fs.Read(picbyte, 0, System.Convert.ToInt32(fs.Length));
                         fs.Close();
 
                         TfSQL sql = new TfSQL();
                         int dwrId = int.Parse(sql.sqlExecuteScalarString("select dwr_id from m_drawing where dwr_cd = '" + DrawingCd + "'"));
-                        string sqlEx = "update m_drawing set dwr_image = '" + Convert.ToBase64String(pic) + "' where dwr_id = " + dwrId;
+                        string sqlEx = "update m_drawing set " + column + " = '" + Convert.ToBase64String(picbyte) + "' where dwr_id = " + dwrId;
                         sql.sqlExecuteNonQueryInt(sqlEx, false);
 
                         doing = false;
@@ -197,9 +202,17 @@ namespace IPQC_Motor
                 else
                 {
                     MessageBox.Show("No file selected!", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    txtLink.Text = "";
                 }
             }
+        }
+        private void btn_imageMeasure_Click(object sender, EventArgs e)
+        {
+            SaveImage(picbox, "dwr_image");
+        }
+
+        private void btn_imageMain_Click(object sender, EventArgs e)
+        {
+            SaveImage(picbox_main, "dwr_image_main");
         }
     }
 }

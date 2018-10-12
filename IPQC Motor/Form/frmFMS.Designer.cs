@@ -60,8 +60,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
-            this.gpbBanVe = new System.Windows.Forms.GroupBox();
-            this.picbox = new System.Windows.Forms.PictureBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label26 = new System.Windows.Forms.Label();
             this.btnLuuXuat = new System.Windows.Forms.Button();
@@ -91,13 +89,24 @@
             this.TimeFMS = new System.Windows.Forms.Timer(this.components);
             this.menuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
+            this.tabControl2 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.picMeasure = new System.Windows.Forms.PictureBox();
+            this.picMain = new System.Windows.Forms.PictureBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.lblDwr = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMeasureData)).BeginInit();
-            this.gpbBanVe.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picbox)).BeginInit();
             this.groupBox4.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tpHeader.SuspendLayout();
             this.tpFootder.SuspendLayout();
+            this.tabControl2.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picMeasure)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picMain)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgvMeasureData
@@ -382,24 +391,6 @@
             this.label11.Size = new System.Drawing.Size(78, 13);
             this.label11.TabIndex = 5;
             this.label11.Text = "Ngày Đo Hàng";
-            // 
-            // gpbBanVe
-            // 
-            this.gpbBanVe.Controls.Add(this.picbox);
-            this.gpbBanVe.Location = new System.Drawing.Point(960, 6);
-            this.gpbBanVe.Name = "gpbBanVe";
-            this.gpbBanVe.Size = new System.Drawing.Size(294, 200);
-            this.gpbBanVe.TabIndex = 23;
-            this.gpbBanVe.TabStop = false;
-            this.gpbBanVe.Text = "Bản Vẽ";
-            // 
-            // picbox
-            // 
-            this.picbox.Location = new System.Drawing.Point(6, 12);
-            this.picbox.Name = "picbox";
-            this.picbox.Size = new System.Drawing.Size(282, 182);
-            this.picbox.TabIndex = 0;
-            this.picbox.TabStop = false;
             // 
             // groupBox4
             // 
@@ -702,24 +693,89 @@
             // 
             this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
             // 
+            // tabControl2
+            // 
+            this.tabControl2.Controls.Add(this.tabPage1);
+            this.tabControl2.Controls.Add(this.tabPage2);
+            this.tabControl2.Location = new System.Drawing.Point(960, 6);
+            this.tabControl2.Multiline = true;
+            this.tabControl2.Name = "tabControl2";
+            this.tabControl2.SelectedIndex = 0;
+            this.tabControl2.Size = new System.Drawing.Size(305, 200);
+            this.tabControl2.TabIndex = 25;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.picMeasure);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(297, 174);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Bản vẽ đo";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.picMain);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(297, 174);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Bản vẽ kích thước";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // picMeasure
+            // 
+            this.picMeasure.Location = new System.Drawing.Point(0, 0);
+            this.picMeasure.Name = "picMeasure";
+            this.picMeasure.Size = new System.Drawing.Size(297, 174);
+            this.picMeasure.TabIndex = 1;
+            this.picMeasure.TabStop = false;
+            // 
+            // picMain
+            // 
+            this.picMain.Location = new System.Drawing.Point(0, 0);
+            this.picMain.Name = "picMain";
+            this.picMain.Size = new System.Drawing.Size(297, 178);
+            this.picMain.TabIndex = 1;
+            this.picMain.TabStop = false;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.lblDwr);
+            this.panel1.Location = new System.Drawing.Point(1128, 7);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(133, 19);
+            this.panel1.TabIndex = 32;
+            // 
+            // lblDwr
+            // 
+            this.lblDwr.AutoSize = true;
+            this.lblDwr.Location = new System.Drawing.Point(3, 4);
+            this.lblDwr.Name = "lblDwr";
+            this.lblDwr.Size = new System.Drawing.Size(46, 13);
+            this.lblDwr.TabIndex = 0;
+            this.lblDwr.Text = "Drawing";
+            // 
             // frmFMS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1263, 695);
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.tabControl2);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.dgvMeasureData);
-            this.Controls.Add(this.gpbBanVe);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmFMS";
             this.Text = "frmFMS";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmFMS_FormClosing);
             this.Load += new System.EventHandler(this.frmFMS_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvMeasureData)).EndInit();
-            this.gpbBanVe.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.picbox)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.tabControl1.ResumeLayout(false);
@@ -727,6 +783,13 @@
             this.tpHeader.PerformLayout();
             this.tpFootder.ResumeLayout(false);
             this.tpFootder.PerformLayout();
+            this.tabControl2.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picMeasure)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picMain)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -750,7 +813,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.GroupBox gpbBanVe;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.DateTimePicker dtpKhungGio;
         private System.Windows.Forms.Label label12;
@@ -778,7 +840,6 @@
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label26;
-        private System.Windows.Forms.PictureBox picbox;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tpHeader;
         private System.Windows.Forms.TabPage tpFootder;
@@ -793,5 +854,12 @@
         private System.Windows.Forms.Timer TimeFMS;
         private System.Windows.Forms.ContextMenuStrip menuStrip;
         private System.IO.Ports.SerialPort serialPort1;
+        private System.Windows.Forms.TabControl tabControl2;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.PictureBox picMeasure;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.PictureBox picMain;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label lblDwr;
     }
 }

@@ -1,8 +1,11 @@
 ﻿using System;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Data;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
+using System.IO;
+using System.Reflection;
 
 
 namespace IPQC_Motor
@@ -21,7 +24,7 @@ namespace IPQC_Motor
             try
             {
                 xlApp = new Excel.Application();
-                xlWorkBook = xlApp.Workbooks.Open(@"D:\Form.xls", 0, true, 5, "", "", true, Microsoft.Office.Interop.Excel.XlPlatform.xlWindows, "\t", false, false, 0, true, 1, 0);
+                xlWorkBook = xlApp.Workbooks.Open(@"\\192.168.145.7\checkmanpart\Form.xls", 0, true, 5, "", "", true, Microsoft.Office.Interop.Excel.XlPlatform.xlWindows, "\t", false, false, 0, true, 1, 0);
 
                 #region Sheet 1
                 //Add data in Sheet 1
@@ -41,24 +44,15 @@ namespace IPQC_Motor
                 xlWorkSheet.Cells[41, 15] = memXacNhan;//member xac nhân
                 xlWorkSheet.Cells[41, 16] = memKiemTra;//member kiểm tra
 
-
-                //if (PhuongThuc == "Ngẫu Nhiên") //Ngẫu Nhiên Toàn Bộ
-                //{
-                //    xlWorkSheet.Cells[8, 5] = "全 数 ・ 抜 取" + System.Environment.NewLine + " £Toàn bộ -RNgẫu nhiên";
-                //}
-                //else
-                //{
-                //    xlWorkSheet.Cells[8, 5] = "全 数 ・ 抜 取" + System.Environment.NewLine + " RToàn bộ -£Ngẫu nhiên";
-                //}
-                //全 数 ・ 抜 取 £Toàn bộ -RNgẫu nhiên
-
-                
-                if (ngoaiquang.ToString() == "OK")
+                for (int i = 0; i < SlMau; i++)
                 {
-                    xlWorkSheet.Range[xlWorkSheet.Cells[11, 12], xlWorkSheet.Cells[13, 16]] = "OK";
+                    if (ngoaiquang.ToString() == "OK")
+                    {
+                        xlWorkSheet.Cells[11, 12 + i] = "OK"; xlWorkSheet.Cells[13, 12 + i] = "OK";
+                    }
+                    else { xlWorkSheet.Cells[11, 12 + i] = "NG"; xlWorkSheet.Cells[13, 12 + i] = "NG"; }
                 }
-                else xlWorkSheet.Range[xlWorkSheet.Cells[11, 12], xlWorkSheet.Cells[13, 16]] = "NG";
-
+                
                 xlRangeCopy = xlWorkSheet.Range[xlWorkSheet.Cells[1, 1], xlWorkSheet.Cells[44, 20]];
                 
                 int MaxItem = dgv.Rows.Cast<DataGridViewRow>().Max(r => int.Parse(r.Cells["item_measure"].Value.ToString()));
@@ -66,13 +60,13 @@ namespace IPQC_Motor
                 if ((MaxItem % 11) > 0)
                 {
                     CopyRange++;
-                }
 
-                if (CopyRange > 1)
-                {
-                    for (int i = 1; i < CopyRange; i++)
+                    if (CopyRange > 1)
                     {
-                        xlRangeCopy.Copy(xlWorkSheet.Range[xlWorkSheet.Cells[i * 45, 1], xlWorkSheet.Cells[(i * 45) + 43, 20]]);
+                        for (int i = 1; i < CopyRange; i++)
+                        {
+                            xlRangeCopy.Copy(xlWorkSheet.Range[xlWorkSheet.Cells[i * 45, 1], xlWorkSheet.Cells[(i * 45) + 43, 20]]);
+                        }
                     }
                 }
 
@@ -152,11 +146,11 @@ namespace IPQC_Motor
                 }
                     #endregion
 
-                    xlWorkBook.SaveAs(PathSave + "a.xls", Excel.XlFileFormat.xlWorkbookDefault, misValue, misValue, misValue,
+                    xlWorkBook.SaveAs(PathSave + ".xls", Excel.XlFileFormat.xlWorkbookDefault, misValue, misValue, misValue,
                             misValue, Excel.XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
                     MessageBox.Show("Excel file created, you can find in the folder D:\\Database IPQC", "Notice", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     xlWorkBook.Close(true, misValue, misValue);
-                    xlApp.Workbooks.Open(PathSave + "a.xls");
+                    xlApp.Workbooks.Open(PathSave + ".xls");
                     xlApp.Visible = true;
                 
             }

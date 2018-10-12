@@ -120,7 +120,9 @@ namespace IPQC_Motor
 
         private void registerUserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (username == "admin")
+            TfSQL tf = new TfSQL();
+            string pemission = tf.sqlExecuteScalarString("select distinct user_permision from m_user where user_name = '" + username + "'");
+            if (pemission == "admin")
             {
                 IPQC_Part.frmRegisterUser regisUser = new IPQC_Part.frmRegisterUser(username);
                 regisUser.ShowDialog();

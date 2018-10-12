@@ -187,13 +187,14 @@
             // 
             // dtpToDate
             // 
+            this.dtpToDate.CustomFormat = "";
             this.dtpToDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpToDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpToDate.Location = new System.Drawing.Point(838, 70);
             this.dtpToDate.Name = "dtpToDate";
             this.dtpToDate.Size = new System.Drawing.Size(94, 21);
             this.dtpToDate.TabIndex = 28;
-            this.dtpToDate.Value = new System.DateTime(2018, 10, 6, 0, 0, 0, 0);
+            this.dtpToDate.Value = new System.DateTime(2018, 10, 12, 0, 0, 0, 0);
             this.dtpToDate.ValueChanged += new System.EventHandler(this.dtpToDate_ValueChanged);
             // 
             // dtpFromDate
@@ -204,7 +205,7 @@
             this.dtpFromDate.Name = "dtpFromDate";
             this.dtpFromDate.Size = new System.Drawing.Size(95, 21);
             this.dtpFromDate.TabIndex = 27;
-            this.dtpFromDate.Value = new System.DateTime(2018, 10, 6, 0, 0, 0, 0);
+            this.dtpFromDate.Value = new System.DateTime(2018, 10, 10, 0, 0, 0, 0);
             this.dtpFromDate.ValueChanged += new System.EventHandler(this.dtpFromDate_ValueChanged);
             // 
             // btnTimKiem
