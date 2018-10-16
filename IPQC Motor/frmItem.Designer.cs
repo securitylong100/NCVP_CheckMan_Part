@@ -43,9 +43,9 @@
             this.registerUserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listTV = new System.Windows.Forms.TreeView();
             this.label19 = new System.Windows.Forms.Label();
-            this.dtpToDate = new System.Windows.Forms.DateTimePicker();
-            this.dtpFromDate = new System.Windows.Forms.DateTimePicker();
             this.btnTimKiem = new System.Windows.Forms.Button();
+            this.dtpFromDate = new System.Windows.Forms.DateTimePicker();
+            this.dtpToDate = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMeasureItem)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -185,29 +185,6 @@
             this.label19.TabIndex = 30;
             this.label19.Text = "--->";
             // 
-            // dtpToDate
-            // 
-            this.dtpToDate.CustomFormat = "";
-            this.dtpToDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpToDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpToDate.Location = new System.Drawing.Point(838, 70);
-            this.dtpToDate.Name = "dtpToDate";
-            this.dtpToDate.Size = new System.Drawing.Size(94, 21);
-            this.dtpToDate.TabIndex = 28;
-            this.dtpToDate.Value = new System.DateTime(2018, 10, 12, 0, 0, 0, 0);
-            this.dtpToDate.ValueChanged += new System.EventHandler(this.dtpToDate_ValueChanged);
-            // 
-            // dtpFromDate
-            // 
-            this.dtpFromDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpFromDate.Location = new System.Drawing.Point(713, 70);
-            this.dtpFromDate.Name = "dtpFromDate";
-            this.dtpFromDate.Size = new System.Drawing.Size(95, 21);
-            this.dtpFromDate.TabIndex = 27;
-            this.dtpFromDate.Value = new System.DateTime(2018, 10, 10, 0, 0, 0, 0);
-            this.dtpFromDate.ValueChanged += new System.EventHandler(this.dtpFromDate_ValueChanged);
-            // 
             // btnTimKiem
             // 
             this.btnTimKiem.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -219,6 +196,26 @@
             this.btnTimKiem.UseVisualStyleBackColor = true;
             this.btnTimKiem.Click += new System.EventHandler(this.btnTimKiem_Click);
             // 
+            // dtpFromDate
+            // 
+            this.dtpFromDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpFromDate.Location = new System.Drawing.Point(713, 70);
+            this.dtpFromDate.Name = "dtpFromDate";
+            this.dtpFromDate.Size = new System.Drawing.Size(95, 21);
+            this.dtpFromDate.TabIndex = 32;
+            this.dtpFromDate.ValueChanged += new System.EventHandler(this.dtpFromDate_ValueChanged_1);
+            // 
+            // dtpToDate
+            // 
+            this.dtpToDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpToDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpToDate.Location = new System.Drawing.Point(840, 70);
+            this.dtpToDate.Name = "dtpToDate";
+            this.dtpToDate.Size = new System.Drawing.Size(95, 21);
+            this.dtpToDate.TabIndex = 33;
+            this.dtpToDate.ValueChanged += new System.EventHandler(this.dtpToDate_ValueChanged_1);
+            // 
             // frmItem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -226,10 +223,10 @@
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1029, 708);
-            this.Controls.Add(this.btnTimKiem);
-            this.Controls.Add(this.label19);
             this.Controls.Add(this.dtpToDate);
             this.Controls.Add(this.dtpFromDate);
+            this.Controls.Add(this.btnTimKiem);
+            this.Controls.Add(this.label19);
             this.Controls.Add(this.listTV);
             this.Controls.Add(this.dgvMeasureItem);
             this.Controls.Add(this.cmbSubModel);
@@ -267,9 +264,9 @@
         private System.Windows.Forms.ToolStripMenuItem registerUserToolStripMenuItem;
         private System.Windows.Forms.TreeView listTV;
         private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.DateTimePicker dtpToDate;
-        private System.Windows.Forms.DateTimePicker dtpFromDate;
         private System.Windows.Forms.Button btnTimKiem;
+        private System.Windows.Forms.DateTimePicker dtpFromDate;
+        private System.Windows.Forms.DateTimePicker dtpToDate;
     }
 }
 

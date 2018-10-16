@@ -91,8 +91,8 @@
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.picMeasure = new System.Windows.Forms.PictureBox();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.picMain = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.lblDwr = new System.Windows.Forms.Label();
@@ -103,8 +103,8 @@
             this.tpFootder.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picMeasure)).BeginInit();
+            this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picMain)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -426,28 +426,28 @@
             // 
             // btnLuuXuat
             // 
-            this.btnLuuXuat.Location = new System.Drawing.Point(230, 169);
+            this.btnLuuXuat.Location = new System.Drawing.Point(232, 169);
             this.btnLuuXuat.Name = "btnLuuXuat";
             this.btnLuuXuat.Size = new System.Drawing.Size(74, 23);
             this.btnLuuXuat.TabIndex = 19;
-            this.btnLuuXuat.Text = "Lưu và Xuất";
+            this.btnLuuXuat.Text = "Xuất Excel";
             this.btnLuuXuat.UseVisualStyleBackColor = true;
             this.btnLuuXuat.Click += new System.EventHandler(this.btnLuuXuat_Click);
             // 
             // txtNoiLuu
             // 
-            this.txtNoiLuu.Location = new System.Drawing.Point(66, 171);
+            this.txtNoiLuu.Location = new System.Drawing.Point(88, 171);
             this.txtNoiLuu.Name = "txtNoiLuu";
-            this.txtNoiLuu.Size = new System.Drawing.Size(159, 20);
+            this.txtNoiLuu.Size = new System.Drawing.Size(137, 20);
             this.txtNoiLuu.TabIndex = 18;
             // 
             // btnNoiLuu
             // 
             this.btnNoiLuu.Location = new System.Drawing.Point(8, 169);
             this.btnNoiLuu.Name = "btnNoiLuu";
-            this.btnNoiLuu.Size = new System.Drawing.Size(52, 23);
+            this.btnNoiLuu.Size = new System.Drawing.Size(74, 23);
             this.btnNoiLuu.TabIndex = 17;
-            this.btnNoiLuu.Text = "Nơi Lưu";
+            this.btnNoiLuu.Text = "Đường dẫn";
             this.btnNoiLuu.UseVisualStyleBackColor = true;
             this.btnNoiLuu.Click += new System.EventHandler(this.btnNoiLuu_Click);
             // 
@@ -504,7 +504,11 @@
             "PinGau",
             "DaiGau",
             "Push",
-            "Pull"});
+            "Pull",
+            "M",
+            "N",
+            "TDG",
+            "SR"});
             this.cmbDongMay.Location = new System.Drawing.Point(87, 45);
             this.cmbDongMay.Name = "cmbDongMay";
             this.cmbDongMay.Size = new System.Drawing.Size(99, 21);
@@ -715,6 +719,14 @@
             this.tabPage1.Text = "Bản vẽ đo";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // picMeasure
+            // 
+            this.picMeasure.Location = new System.Drawing.Point(0, 0);
+            this.picMeasure.Name = "picMeasure";
+            this.picMeasure.Size = new System.Drawing.Size(297, 174);
+            this.picMeasure.TabIndex = 1;
+            this.picMeasure.TabStop = false;
+            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.picMain);
@@ -725,14 +737,6 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Bản vẽ kích thước";
             this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // picMeasure
-            // 
-            this.picMeasure.Location = new System.Drawing.Point(0, 0);
-            this.picMeasure.Name = "picMeasure";
-            this.picMeasure.Size = new System.Drawing.Size(297, 174);
-            this.picMeasure.TabIndex = 1;
-            this.picMeasure.TabStop = false;
             // 
             // picMain
             // 
@@ -785,8 +789,8 @@
             this.tpFootder.PerformLayout();
             this.tabControl2.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            this.tabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picMeasure)).EndInit();
+            this.tabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picMain)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

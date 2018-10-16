@@ -40,10 +40,10 @@ namespace IPQC_Motor
             this.picbox = new System.Windows.Forms.PictureBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.picbox_main = new System.Windows.Forms.PictureBox();
             this.btn_imageMeasure = new System.Windows.Forms.Button();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.btn_imageMain = new System.Windows.Forms.Button();
+            this.picbox_main = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTester)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picbox)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -169,26 +169,6 @@ namespace IPQC_Motor
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Drawing Measure";
             // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.btn_imageMain);
-            this.groupBox4.Controls.Add(this.picbox_main);
-            this.groupBox4.Location = new System.Drawing.Point(631, 358);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(385, 349);
-            this.groupBox4.TabIndex = 20;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Drawing Main";
-            // 
-            // picbox_main
-            // 
-            this.picbox_main.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.picbox_main.Location = new System.Drawing.Point(3, 34);
-            this.picbox_main.Name = "picbox_main";
-            this.picbox_main.Size = new System.Drawing.Size(379, 309);
-            this.picbox_main.TabIndex = 18;
-            this.picbox_main.TabStop = false;
-            // 
             // btn_imageMeasure
             // 
             this.btn_imageMeasure.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -200,6 +180,17 @@ namespace IPQC_Motor
             this.btn_imageMeasure.UseVisualStyleBackColor = true;
             this.btn_imageMeasure.Click += new System.EventHandler(this.btn_imageMeasure_Click);
             // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.btn_imageMain);
+            this.groupBox4.Controls.Add(this.picbox_main);
+            this.groupBox4.Location = new System.Drawing.Point(631, 358);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(385, 349);
+            this.groupBox4.TabIndex = 20;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Drawing Main";
+            // 
             // btn_imageMain
             // 
             this.btn_imageMain.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -210,6 +201,15 @@ namespace IPQC_Motor
             this.btn_imageMain.Text = "Choose Image";
             this.btn_imageMain.UseVisualStyleBackColor = true;
             this.btn_imageMain.Click += new System.EventHandler(this.btn_imageMain_Click);
+            // 
+            // picbox_main
+            // 
+            this.picbox_main.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.picbox_main.Location = new System.Drawing.Point(3, 34);
+            this.picbox_main.Name = "picbox_main";
+            this.picbox_main.Size = new System.Drawing.Size(379, 309);
+            this.picbox_main.TabIndex = 18;
+            this.picbox_main.TabStop = false;
             // 
             // frmItemMaster
             // 

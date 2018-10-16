@@ -32,6 +32,7 @@ namespace IPQC_Motor
             cmbModel.Text = "";
             txtUser.Text = username;
             dtInspectItems = new DataTable();
+            dtpFromDate.Value = DateTime.Now.AddDays(-7);
         }
 
         private void cmbModel_SelectedIndexChanged(object sender, EventArgs e)
@@ -149,7 +150,8 @@ namespace IPQC_Motor
                 else if (dgvMeasureItem.Columns[e.ColumnIndex] == colCon && curRow >= 0)//đo tiep
                 {
                     DateTime dateNow = DateTime.Now;
-                    TreeView(DrawingCd, dateNow.AddYears(-1).ToString(), dateNow.ToString(), 7);
+                    //TreeView(DrawingCd, dateNow.AddYears(-1).ToString(), dateNow.ToString(), 7);
+                    TreeView2(DrawingCd, dtpFromDate.Value.ToString(), dtpToDate.Value.ToString(), 7, true);
                     boolTV = true;
                 }
                 else if (dgvMeasureItem.Columns[e.ColumnIndex] == colEdit && curRow >= 0)//edit ban ve
@@ -161,64 +163,6 @@ namespace IPQC_Motor
                 }
             }
         }
-        private void TreeView(string dwr_cd, string dateFrom, string dateTo, int limit)
-        {
-            DataTable dtTreeNode = new DataTable();
-            listTV.Nodes.Clear();
-            IPQC_Motor.TfSQL tfSql = new IPQC_Motor.TfSQL();
-            StringBuilder sqlTV = new StringBuilder();
-            sqlTV.Append(@"select cast(a.registration_date_time as date) dates
-                            from m_header a left join m_data b on a.page_id = b.page_id left join m_item c on b.item_id = c.item_id 
-                            where c.dwr_id = (select dwr_id from m_drawing where dwr_cd = '" + dwr_cd + "') and a.registration_date_time >= '" + dateFrom.ToString() + 
-                            "' and cast(a.registration_date_time as date) <= '" + dateTo.ToString() + "' group by dates order by dates desc limit " + limit);
-            tfSql.sqlDataAdapterFillDatatable(sqlTV.ToString(), ref dtTreeNode);
-
-            if (dtTreeNode.Rows.Count > 0)
-            {
-                TreeNode[] headerN = new TreeNode[dtTreeNode.Rows.Count];
-                for (int i = 0; i < dtTreeNode.Rows.Count; i++)
-                {
-                    TreeNode tree = new TreeNode
-                    {
-                        Text = DateTime.Parse(dtTreeNode.Rows[i]["dates"].ToString()).ToString("yyyy-MM-dd"),
-                        Tag = DateTime.Parse(dtTreeNode.Rows[i]["dates"].ToString()).ToString("yyyy-MM-dd")
-                    };
-                    headerN[i] = tree;
-                    //listTV.Nodes.Add(child);
-                    DataTable dtChildNode = new DataTable();
-                    string sqlNodeChild = @"select * from (select a.page_id, header_machine, footer_result, cast(a.registration_date_time as date) dates,a.registration_date_time date 
-                            from m_header a left join m_data b on a.page_id = b.page_id left join m_item c on b.item_id = c.item_id where c.dwr_id = (select dwr_id from m_drawing where dwr_cd = '" + dwr_cd + "') group by a.page_id,a.registration_date_time, header_machine, footer_result) tb where tb.dates = '" + headerN[i].Text + "'";
-                    tfSql.sqlDataAdapterFillDatatable(sqlNodeChild, ref dtChildNode);
-
-                    TreeNode[] headerchild = new TreeNode[dtChildNode.Rows.Count];
-                    for (int j = 0; j < dtChildNode.Rows.Count; j++)
-                    {
-                        TreeNode childtree = new TreeNode
-                        {
-                            Text = "MM: " + dtChildNode.Rows[j]["header_machine"].ToString() + " -- Page Id: " + dtChildNode.Rows[j]["page_id"].ToString() + " " + dtChildNode.Rows[j]["footer_result"].ToString(),
-                            Tag = dtChildNode.Rows[j]["page_id"].ToString(),
-                            Checked = false,
-                        };
-
-                        headerchild[j] = childtree;
-
-                        if (dtChildNode.Rows[j]["footer_result"].ToString() == "NG")
-                        {
-                            headerchild[j].BackColor = Color.Red;
-                        }
-                        else if (dtChildNode.Rows[j]["footer_result"].ToString() == "OK")
-                        {
-                            headerchild[j].Text = childtree.Text;
-                        }
-                        else headerchild[j].BackColor = Color.Yellow;
-
-                        tree.Nodes.Add(childtree);
-                    }
-                    listTV.Nodes.Add(tree);
-                }
-            }
-        }
-
         private void listTV_DoubleClick(object sender, EventArgs e)
         {
             try
@@ -244,27 +188,23 @@ namespace IPQC_Motor
         }
         
         public bool boolTV = false;
-        private void dtpFromDate_ValueChanged(object sender, EventArgs e)
-        {
-            if (boolTV) { TreeView(DrawingCd, dtpFromDate.Value.ToString(), dtpToDate.Value.ToString(), 30); }
-        }
-
-        private void dtpToDate_ValueChanged(object sender, EventArgs e)
-        {
-            if (boolTV) { TreeView(DrawingCd, dtpFromDate.Value.ToString(), dtpToDate.Value.ToString(), 30); }
-        }
-
+        
         private void btnTimKiem_Click(object sender, EventArgs e)
         {
-            TreeView2(dtpFromDate.Value.ToString(), dtpToDate.Value.ToString(), 30);
+            TreeView2("", dtpFromDate.Value.ToString(), dtpToDate.Value.ToString(), 30,false);
         }
-        private void TreeView2( string dateFrom, string dateTo, int limit)
+        private void TreeView2(string DwrCd, string dateFrom, string dateTo, int limit,bool showDrawing)
         {
             DataTable dtTV = new DataTable();
             listTV.Nodes.Clear();
             IPQC_Motor.TfSQL tfSql = new IPQC_Motor.TfSQL();
 
-            string sqlTreeDr = "select dwr_cd, dwr_name from m_drawing where model_id in (select model_id from m_model where model_sub_cd = '" + cmbSubModel.Text + "')";
+            string sqlTreeDr = "select dwr_cd, dwr_name from m_drawing where model_id in (select model_id from m_model where model_sub_cd = '" + cmbSubModel.Text + "') ";
+            if(showDrawing)
+            {
+                sqlTreeDr += " and dwr_cd = '" + DwrCd + "' ";
+            }
+            sqlTreeDr += " order by dwr_cd";
             tfSql.sqlDataAdapterFillDatatable(sqlTreeDr, ref dtTV);
             if (dtTV.Rows.Count > 0)
             {
@@ -279,6 +219,8 @@ namespace IPQC_Motor
                     };
                     header[k] = treeheader;
 
+                    if (showDrawing) { header[k].Expand(); }
+                    
                     StringBuilder sqlTV = new StringBuilder();
                     sqlTV.Append(@"select cast(a.registration_date_time as date) dates
                             from m_header a left join m_data b on a.page_id = b.page_id left join m_item c on b.item_id = c.item_id 
@@ -331,6 +273,16 @@ namespace IPQC_Motor
                     listTV.Nodes.Add(header[k]);
                 }
             }
+        }
+
+        private void dtpFromDate_ValueChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dtpToDate_ValueChanged_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

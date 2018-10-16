@@ -55,7 +55,7 @@ namespace IPQC_Part
         private void item1_btn_Click(object sender, EventArgs e)
         {
             item = 1;
-            frmFms.readcsvFMS(8);
+            frmFms.readcsvFMS2(8);
             frmFms.updateData(ref frmFms.dtInspectItems, frmFms.pageid, "FMS");
             SetColor(item1_btn, item);
         }
@@ -63,7 +63,7 @@ namespace IPQC_Part
         private void item2_btn_Click(object sender, EventArgs e)
         {
             item = 1;
-            frmFms.readcsvFMS(9);
+            frmFms.readcsvFMS2(9);
             frmFms.updateData(ref frmFms.dtInspectItems, frmFms.pageid, "FMS");
             SetColor(item2_btn, item);
         }
@@ -71,7 +71,7 @@ namespace IPQC_Part
         private void item3_btn_Click(object sender, EventArgs e)
         {
             item = 1;
-            frmFms.readcsvFMS(10);
+            frmFms.readcsvFMS2(10);
             frmFms.updateData(ref frmFms.dtInspectItems, frmFms.pageid, "FMS");
             SetColor(item3_btn, item);
         }
@@ -79,7 +79,7 @@ namespace IPQC_Part
         private void item4_btn_Click(object sender, EventArgs e)
         {
             item = 1;
-            frmFms.readcsvFMS(11);
+            frmFms.readcsvFMS2(11);
             frmFms.updateData(ref frmFms.dtInspectItems, frmFms.pageid, "FMS");
             SetColor(item4_btn, item);
         }
@@ -87,7 +87,7 @@ namespace IPQC_Part
         private void item5_btn_Click(object sender, EventArgs e)
         {
             item = 1;
-            frmFms.readcsvFMS(12);
+            frmFms.readcsvFMS2(12);
             frmFms.updateData(ref frmFms.dtInspectItems, frmFms.pageid, "FMS");
             SetColor(item5_btn, item);
         }

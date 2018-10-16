@@ -12,7 +12,7 @@ namespace IPQC_Motor
 {
     public class ExcelClassFMS
     {
-        public void exportExcel(string model, string Drawingcd, string DocName, string QuiTrinh, int SlMau, string PhuongThuc, string KhuVucSX, string ngoaiquang,DataGridView dgv, string DanhGia, string DateGiaCong, string Lot, string DateKiemtra, string memXacNhan, string memKiemTra, string PathSave)
+        public void exportExcel(string model, string Drawingcd, string DwrName, string QuiTrinh, int SlMau, string PhuongThuc, string KhuVucSX, string ngoaiquang,DataGridView dgv, string DanhGia, string DateGiaCong, string Lot, string DateKiemtra, string memXacNhan, string memKiemTra, string PathSave)
         {
             Excel.Application xlApp;
             Excel.Workbook xlWorkBook;
@@ -32,7 +32,7 @@ namespace IPQC_Motor
                 //header
                 xlWorkSheet.Cells[6, 1] = model; //model
                 xlWorkSheet.Cells[6, 5] = Drawingcd; //Model
-                xlWorkSheet.Cells[6, 12] = DocName; //document name
+                xlWorkSheet.Cells[6, 12] = DwrName; //document name
                 xlWorkSheet.Cells[8, 1] = QuiTrinh; //Process
                 xlWorkSheet.Cells[8, 12] = SlMau; //soluong mau
 
@@ -148,7 +148,7 @@ namespace IPQC_Motor
 
                     xlWorkBook.SaveAs(PathSave + ".xls", Excel.XlFileFormat.xlWorkbookDefault, misValue, misValue, misValue,
                             misValue, Excel.XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
-                    MessageBox.Show("Excel file created, you can find in the folder D:\\Database IPQC", "Notice", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Excel file created!", "Notice", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     xlWorkBook.Close(true, misValue, misValue);
                     xlApp.Workbooks.Open(PathSave + ".xls");
                     xlApp.Visible = true;

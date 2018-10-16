@@ -193,7 +193,6 @@ namespace IPQC_Part
 
                 command2.ExecuteNonQuery();
                 connection.Close();
-                MessageBox.Show("Successful!", "Database Responce", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
@@ -281,7 +280,6 @@ namespace IPQC_Part
                 txtPageId.Text = con.sqlExecuteScalarString(sqlPageID);
                 if (checkdata())
                 {
-
                     //insert data  
                     insertintodatabase();
                     pageid = int.Parse(txtPageId.Text);
@@ -331,29 +329,33 @@ namespace IPQC_Part
                 int rowdtt = 1;
                 for (int i = 0; i < dgvMeasureData.RowCount; i++)
                 {
-                    
                     if (dtt.Rows.Count > 0 && rowdtt < dtt.Rows.Count)
                     {
                         string a = dtt.Rows[rowdtt]["ItemMeasure"].ToString();
-                        if (a.Substring(1,a.Length-2) == dgvMeasureData.Rows[i].Cells["item_measure"].Value.ToString() && dgvMeasureData.Rows[i].Cells["item_tool"].Value.ToString() == "FMS")
+                        if (a.Substring(1,a.Length-2) == dgvMeasureData.Rows[i].Cells["item_measure"].Value.ToString())//kiem tra cùng item ko
                         {
-                            if (dgvMeasureData.Rows[i].Cells["item_detail"].Value.ToString() == "MIN" || dgvMeasureData.Rows[i].Cells["item_detail"].Value.ToString() == "MAX")
+                            if (dgvMeasureData.Rows[i].Cells["item_tool"].Value.ToString() == "FMS")//kiêm tra col tool = FMS ko
                             {
-                                double datai = double.Parse(dtt.Rows[rowdtt]["ItemData"].ToString());
-                                dgvMeasureData.Rows[i].Cells[column].Value = datai;
-                                if (rowdtt < dtt.Rows.Count - 1)//kiem tra dtt đến dong cuối chưa 
+                                if (dgvMeasureData.Rows[i].Cells["item_detail"].Value.ToString() == "MIN" || dgvMeasureData.Rows[i].Cells["item_detail"].Value.ToString() == "MAX")
                                 {
-                                    double dataii = double.Parse(dtt.Rows[rowdtt + 1]["ItemData"].ToString());//lay gia tri dong ke tiep
-                                    double max = datai > dataii ? datai : dataii;//get max
-                                    double min = datai > dataii ? dataii : datai;//get min
-                                    dgvMeasureData.Rows[i].Cells[column].Value = (dgvMeasureData.Rows[i].Cells["item_detail"].Value.ToString() == "MAX") ? max : min;
-                                    dgvMeasureData.Rows[i + 1].Cells[column].Value = (dgvMeasureData.Rows[i + 1].Cells["item_detail"].Value.ToString() == "MAX") ? max : min;
-                                    i++;
-                                    rowdtt++;
+                                    double datai = double.Parse(dtt.Rows[rowdtt]["ItemData"].ToString());
+                                    dgvMeasureData.Rows[i].Cells[column].Value = datai;
+                                    if (rowdtt <= dtt.Rows.Count - 1)//kiem tra dtt đến dong cuối chưa 
+                                    {
+                                        double dataii = double.Parse(dtt.Rows[rowdtt + 1]["ItemData"].ToString());//lay gia tri dong ke tiep
+                                        double max = datai > dataii ? datai : dataii;//get max
+                                        double min = datai > dataii ? dataii : datai;//get min
+                                        dgvMeasureData.Rows[i].Cells[column].Value = (dgvMeasureData.Rows[i].Cells["item_detail"].Value.ToString() == "MAX") ? max : min;
+                                        dgvMeasureData.Rows[i + 1].Cells[column].Value = (dgvMeasureData.Rows[i + 1].Cells["item_detail"].Value.ToString() == "MAX") ? max : min;
+                                        i++;
+                                        rowdtt++;
+                                        //dgvMeasureData.Rows[i].Cells["item_tool"].Value.ToString() == "FMS"
+                                    }
                                 }
+                                else dgvMeasureData.Rows[i].Cells[column].Value = dtt.Rows[rowdtt]["ItemData"].ToString();
+                                rowdtt++;
                             }
-                            else dgvMeasureData.Rows[i].Cells[column].Value = dtt.Rows[rowdtt]["ItemData"].ToString();
-                            rowdtt++;
+                            else rowdtt++;
                         }
                     }
                 }
@@ -364,9 +366,95 @@ namespace IPQC_Part
                 MessageBox.Show("Chưa khởi tạo file EMAX !", "NOTE", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
-        public void deleteEmax()
+        public void readcsvFMS2(int column)
         {
-            File.Delete(SaveEmax);
+            if (File.Exists(SaveEmax))
+            {
+                var reader = new StreamReader(SaveEmax);
+                string[] mang;
+                DataTable dtt = new DataTable();
+                dtt.Columns.Add("ItemMeasure", typeof(string));
+                dtt.Columns.Add("ItemData", typeof(string));
+                while (!reader.EndOfStream)
+                {
+                    mang = reader.ReadLine().Split(',');
+                    DataRow dr = dtt.NewRow();
+                    dr[0] = mang[0];
+                    dr[1] = mang[6];
+                    dtt.Rows.Add(dr);
+                }
+                reader.Close();
+                for (int j = 1; j < dtt.Rows.Count; j++)
+                {
+                    for (int i = 0; i < dgvMeasureData.RowCount; i++)
+                    {
+                        string a = dtt.Rows[j]["ItemMeasure"].ToString();
+                        if (a.Substring(1, a.Length - 2) == dgvMeasureData.Rows[i].Cells["item_measure"].Value.ToString())//kiem tra cùng item ko
+                        {
+                            if (dgvMeasureData.Rows[i].Cells["item_tool"].Value.ToString() == "FMS")//kiêm tra col tool = FMS ko
+                            {
+                                if (i < dgvMeasureData.RowCount - 1 && dgvMeasureData.Rows[i].Cells["item_measure"].Value.ToString() == dgvMeasureData.Rows[i + 1].Cells["item_measure"].Value.ToString())
+                                {
+                                    if (dgvMeasureData.Rows[i].Cells["item_detail"].Value.ToString() == "MIN" || dgvMeasureData.Rows[i].Cells["item_detail"].Value.ToString() == "MAX")
+                                    {
+                                        double datai = double.Parse(dtt.Rows[j]["ItemData"].ToString());
+                                        dgvMeasureData.Rows[i].Cells[column].Value = datai;
+                                        if (j < dtt.Rows.Count -1 && dtt.Rows[j]["ItemMeasure"].ToString() == dtt.Rows[j+1]["ItemMeasure"].ToString())
+                                        {
+                                            double dataii = double.Parse(dtt.Rows[j + 1]["ItemData"].ToString());//lay gia tri dong ke tiep
+                                            double max = datai > dataii ? datai : dataii;//get max
+                                            double min = datai > dataii ? dataii : datai;//get min
+                                            dgvMeasureData.Rows[i].Cells[column].Value = (dgvMeasureData.Rows[i].Cells["item_detail"].Value.ToString() == "MAX") ? max : min;
+                                            dgvMeasureData.Rows[i + 1].Cells[column].Value = (dgvMeasureData.Rows[i + 1].Cells["item_detail"].Value.ToString() == "MAX") ? max : min;
+                                            j++;
+                                        }
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        dgvMeasureData.Rows[i].Cells[column].Value = dtt.Rows[j]["ItemData"].ToString();
+                                        if (i < dgvMeasureData.RowCount - 1 && j < dtt.Rows.Count - 1)
+                                        {
+                                            if (dgvMeasureData.Rows[i + 1].Cells["item_detail"].Value.ToString() == "MID")//kiem tra 
+                                            {
+                                                dgvMeasureData.Rows[i + 1].Cells[column].Value = dtt.Rows[j + 1]["ItemData"].ToString();
+                                                if (i < dgvMeasureData.RowCount - 2 && dgvMeasureData.Rows[i + 2].Cells["item_detail"].Value.ToString() == "RIGHT")
+                                                {
+                                                    if (j < dtt.Rows.Count - 2 && dtt.Rows[j + 1]["ItemMeasure"].ToString() == dtt.Rows[j + 2]["ItemMeasure"].ToString())
+                                                    {
+                                                        dgvMeasureData.Rows[i + 2].Cells[column].Value = dtt.Rows[j + 2]["ItemData"].ToString();
+                                                        j++;
+                                                    }
+                                                }
+                                                j++;
+                                            }
+                                            else
+                                            {
+                                                if (dtt.Rows[j]["ItemMeasure"].ToString() == dtt.Rows[j + 1]["ItemMeasure"].ToString())
+                                                {
+                                                    dgvMeasureData.Rows[i + 1].Cells[column].Value = dtt.Rows[j + 1]["ItemData"].ToString(); j++;
+                                                }
+                                            }
+                                        }
+                                        break;
+                                    }
+                                }
+                                else if (i < dgvMeasureData.RowCount)
+                                {
+                                    dgvMeasureData.Rows[i].Cells[column].Value = dtt.Rows[j]["ItemData"].ToString();
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                File.Delete(SaveEmax);
+                CalculatorDataX();
+            }
+            else
+            {
+                MessageBox.Show("Chưa khởi tạo file EMAX !", "NOTE", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
         }
         public int colTam;
         private void dgvMeasureData_MouseClick(object sender, MouseEventArgs e)
@@ -374,6 +462,7 @@ namespace IPQC_Part
             if (e.Button == MouseButtons.Right)
             {
                 int currentMouseCol = dgvMeasureData.HitTest(e.X, e.Y).ColumnIndex;
+                int slM = int.Parse(cmbSLMau.Text);
                 if (currentMouseCol >= 8 && currentMouseCol <= 12 && cmbDongMay.Text == "FMS")
                 {
                     ContextMenu m = new ContextMenu();
@@ -462,28 +551,35 @@ namespace IPQC_Part
         frmMenu frmenu;
         private void cmbDongMay_SelectedIndexChanged(object sender, EventArgs e)
         {//DG FMS PinGau DaiGau Push Pull
-            if (cmbSLMau.Text != "")
+            if (btnTaoForm.Enabled == false)
             {
-                if (cl == 0) { frmenu = new frmMenu(this,int.Parse(cmbSLMau.Text)); }
+                if (cmbSLMau.Text != "")
+                {
+                    if (cl == 0) { frmenu = new frmMenu(this, int.Parse(cmbSLMau.Text)); }
 
-                if (cmbDongMay.Text == "DaiGau" || cmbDongMay.Text == "PinGau")
-                {
-                    if (cl == 1) { frmenu.Close(); cl = 0; }
-                    if (cmbDongMay.Text == "DaiGau") { DisableReadOnlyDGV("DG"); PutCurrentCell("DG"); }
-                    else if (cmbDongMay.Text == "PinGau") { DisableReadOnlyDGV("PG"); PutCurrentCell("PG"); }
-                }
-                else if (cmbDongMay.Text == "Pull" || cmbDongMay.Text == "Push")
-                {
-                    dgvMeasureData.ReadOnly = false;
-                    if (cl == 1) { frmenu.Close(); cl = 0; }
-                    DisableReadOnlyDGV(cmbDongMay.Text);
-                }
-                else if (cmbDongMay.Text == "FMS")
-                {
-                    dgvMeasureData.ReadOnly = true;
-                    if (cl == 0) { frmenu.Show(); cl += 1; }
+                    if (cmbDongMay.Text == "FMS")
+                    {
+                        dgvMeasureData.ReadOnly = true;
+                        if (cl == 0) { frmenu.Show(); cl += 1; }
+                    }
+                    else if (cmbDongMay.Text == "Pull" || cmbDongMay.Text == "Push")
+                    {
+                        dgvMeasureData.ReadOnly = false;
+                        if (cl == 1) { frmenu.Close(); cl = 0; }
+                        DisableReadOnlyDGV(cmbDongMay.Text);
+                    }
+                    else
+                    {
+                        if (cl == 1) { frmenu.Close(); cl = 0; }
+                        dgvMeasureData.Focus();
+                        if (cmbDongMay.Text == "DaiGau") { DisableReadOnlyDGV("DG"); PutCurrentCell("DG"); }
+                        else if (cmbDongMay.Text == "PinGau") { DisableReadOnlyDGV("PG"); PutCurrentCell("PG"); }
+                        else { DisableReadOnlyDGV(cmbDongMay.Text); PutCurrentCell(cmbDongMay.Text); }
+                    }
                 }
             }
+            else if (btnTaoForm.Enabled == true && cmbDongMay.Text.Length > 0)
+            { MessageBox.Show("Chưa khởi tạo form", "Note", MessageBoxButtons.OK, MessageBoxIcon.Warning); cmbDongMay.Text = null; }
         }
         public void DisableReadOnlyDGV(string dongmay)//On/Off ReadOnly DGVMeasure
         {
@@ -584,10 +680,35 @@ namespace IPQC_Part
             }
             else
             {
-                if (cmbDongMay.Text == "DaiGau") { NextRow("DG"); }
-                else if (cmbDongMay.Text == "PinGau") { NextRow("PG"); }
+                if (cmbDongMay.Text == "DaiGau") { CalMaxMin(); NextRow("DG"); }
+                else if (cmbDongMay.Text == "PinGau") { CalMaxMin(); NextRow("PG"); }
                 else if (cmbDongMay.Text == "Pull") { NextRow("Pull"); }
                 else if (cmbDongMay.Text == "Push") { NextRow("Push"); }
+                else { NextRow(cmbDongMay.Text); }
+            }
+        }
+        public void CalMaxMin()
+        {
+            int i = dgvMeasureData.CurrentRow.Index;
+            int col = dgvMeasureData.CurrentCell.ColumnIndex;
+            if (i > 0 && col > 7 && col < 13)
+            {
+                string dgvDetaili = dgvMeasureData.Rows[i].Cells["item_detail"].Value.ToString();
+                if (dgvDetaili == "MIN" || dgvDetaili == "MAX")
+                {
+                    if (dgvMeasureData.Rows[i - 1].Cells["item_measure"].Value.ToString() == dgvMeasureData.Rows[i].Cells["item_measure"].Value.ToString())
+                    {
+                        double datai = double.Parse(dgvMeasureData.Rows[i].Cells[col].Value.ToString());
+                        if (dgvMeasureData.Rows[i - 1].Cells[col].Value.ToString().Length > 0)
+                        {
+                            double datai_1 = double.Parse(dgvMeasureData.Rows[i - 1].Cells[col].Value.ToString());
+                            double max = datai > datai_1 ? datai : datai_1;
+                            double min = datai > datai_1 ? datai_1 : datai;
+                            dgvMeasureData.Rows[i].Cells[col].Value = dgvDetaili == "MAX" ? max : min;
+                            dgvMeasureData.Rows[i - 1].Cells[col].Value = dgvMeasureData.Rows[i - 1].Cells["item_detail"].Value.ToString() == "MIN" ? min : max;
+                        }
+                    }
+                }
             }
         }
         public bool IsDouble(string Str)//kiểm tra du liêu nhap vào cell dgv
@@ -607,7 +728,10 @@ namespace IPQC_Part
                     {
                         SendKeys.Send("{down}");
                     }
-                    else { break; }
+                    else
+                    {
+                        break;
+                    }
                 }
                 CalculatorDataX();
                 updateData(ref dtInspectItems, pageid, dongmay);
@@ -651,6 +775,7 @@ namespace IPQC_Part
                     else if (cmbDongMay.Text == "PinGau") { NextRow("PG"); }
                     else if (cmbDongMay.Text == "Pull") { NextRow("Pull"); }
                     else if (cmbDongMay.Text == "Push") { NextRow("Push"); }
+                    else { NextRow(cmbDongMay.Text); }
                 }
             }
             catch { }
@@ -718,11 +843,6 @@ namespace IPQC_Part
                 }
             }
         }
-
-        private void btnTimKiem_Click(object sender, EventArgs e)
-        {
-            
-        }
         private void cmbDanhGia_SelectedIndexChanged(object sender, EventArgs e)
         {
             int tb = 0;
@@ -774,6 +894,11 @@ namespace IPQC_Part
                     }
                 }
             }
+            else if (dgvMeasureData.RowCount <= 0 && cmbDanhGia.Text.Length > 0 && pageid <1)
+            {
+                MessageBox.Show("Chưa khởi tạo Form", "Note", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                cmbDanhGia.Text = null;
+            }
         }
         private void btnNoiLuu_Click(object sender, EventArgs e)
         {
@@ -782,6 +907,10 @@ namespace IPQC_Part
             if(folder.ShowDialog() == DialogResult.OK)
             {
                 txtNoiLuu.Text = folder.SelectedPath;
+                if(txtNoiLuu.Text.Length > 3)
+                {
+                    txtNoiLuu.Text += "\\";
+                }
             }
         }
 
@@ -790,11 +919,20 @@ namespace IPQC_Part
             if (Directory.Exists(txtNoiLuu.Text))
             {
                 IPQC_Motor.ExcelClassFMS ex = new IPQC_Motor.ExcelClassFMS();
+                IPQC_Motor.ExcelClassCut exCut = new IPQC_Motor.ExcelClassCut();
                 IPQC_Motor.TfSQL tfSql = new IPQC_Motor.TfSQL();
                 string model = tfSql.sqlExecuteScalarString("select model_cd from m_model where model_id = (select model_id from m_drawing where dwr_cd = '" + drawingcd + "')");
-                string DocName = tfSql.sqlExecuteScalarString("select doc_name from m_drawing where dwr_cd = '" + drawingcd + "'");
+                string DwrName = tfSql.sqlExecuteScalarString("select dwr_name from m_drawing where dwr_cd = '" + drawingcd + "'");
 
-                ex.exportExcel(model, drawingcd, DocName, cmbQuiTrinh.Text, int.Parse(cmbSLMau.Text), cmbPhuongThuc.Text, cmbKhuVuc.Text, cmbNgoaiQuan.Text, dgvMeasureData, cmbDanhGia.Text, dtpGiaCong.Value.ToString("yyyy-MM-dd"), txtLot.Text, dtpDoHang.Value.ToString("yyyy-MM-dd"), "", username, txtNoiLuu.Text + DocName+DateTime.Now.ToString(" yyyy-MM-dd HH.mm"));
+                string Dept = tfSql.sqlExecuteScalarString("select user_dept_cd from m_user where user_name = '" + username + "'");
+                if (Dept == "CT")
+                {
+                    exCut.exportExcel(model, drawingcd, DwrName,cmbMaSo.Text, cmbQuiTrinh.Text, dtpKhungGio.Value, cmbKhuVuc.Text, cmbNgoaiQuan.Text, dgvMeasureData, cmbDanhGia.Text, dtpGiaCong.Value.ToString("yyyy-MM-dd"), txtLot.Text, dtpDoHang.Value.ToString("yyyy-MM-dd"), "", username, txtNoiLuu.Text + drawingcd + DateTime.Now.ToString(" yyyy-MM-dd HH.mm"));
+                }
+                else
+                {
+                    ex.exportExcel(model, drawingcd, DwrName, cmbQuiTrinh.Text, int.Parse(cmbSLMau.Text), cmbPhuongThuc.Text, cmbKhuVuc.Text, cmbNgoaiQuan.Text, dgvMeasureData, cmbDanhGia.Text, dtpGiaCong.Value.ToString("yyyy-MM-dd"), txtLot.Text, dtpDoHang.Value.ToString("yyyy-MM-dd"), "", username, txtNoiLuu.Text + drawingcd + DateTime.Now.ToString(" yyyy-MM-dd HH.mm"));
+                }
             }
 
             else MessageBox.Show("Đường dẫn không hợp lệ !" + System.Environment.NewLine + "Hãy chọn lại thư mục lưu trữ ", "Note", MessageBoxButtons.OK, MessageBoxIcon.Warning);

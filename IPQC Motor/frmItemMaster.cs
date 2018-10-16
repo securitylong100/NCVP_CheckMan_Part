@@ -79,7 +79,7 @@ namespace IPQC_Motor
                 ms.Close();
             }
         }
-
+        int itemId;
         private void btnAdd_Click(object sender, EventArgs e)
         {
             dgvTester.ReadOnly = false;
@@ -87,6 +87,8 @@ namespace IPQC_Motor
             btnSave.Enabled = true;
             btnAdd.Enabled = false;
             btnDelete.Enabled = false;
+            TfSQL tf = new TfSQL();
+            itemId = int.Parse(tf.sqlExecuteScalarString("select max(item_id) from m_item"));
         }
 
         // Šù‘¶ƒŒƒR[ƒh‚Ìíœ
@@ -128,10 +130,11 @@ namespace IPQC_Motor
         {
             if (btnAdd.Enabled == false)
             {
+                itemId++;
                 TfSQL tf = new TfSQL();
-                string itemId = tf.sqlExecuteScalarString("select max(item_id) +1 from m_item");
+                //string itemId = tf.sqlExecuteScalarString("select max(item_id) +1 from m_item");
                 string drwId = tf.sqlExecuteScalarString("select dwr_id from m_drawing where dwr_cd = '" + DrawingCd + "'");
-                if (dgvTester.Rows.Count >= 1)
+                    if (dgvTester.Rows.Count >= 1)
                 {
                     dgvTester.Rows[dgvTester.Rows.Count - 2].Cells["item_id"].Value = itemId;
                     dgvTester.Rows[dgvTester.Rows.Count - 2].Cells["dwr_id"].Value = drwId;
