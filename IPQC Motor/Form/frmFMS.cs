@@ -19,9 +19,9 @@ namespace IPQC_Part
         public string username;
         public string drawingcd;
         public int pageid;
-  
+
         public DataTable dtInspectItems;
-        public frmFMS(int PageId,string username_, string drawingcd_)
+        public frmFMS(int PageId, string username_, string drawingcd_)
         {
             InitializeComponent();
             username = username_;
@@ -30,10 +30,8 @@ namespace IPQC_Part
             lblDwr.Text = drawingcd;
             pageid = PageId;
         }
-        public void callpic(string bytePic,PictureBox pic)
+        public void callpic(string bytePic, PictureBox pic)
         {
-            //IPQC_Motor.TfSQL tfSql = new IPQC_Motor.TfSQL();
-            //string bytePic = tfSql.sqlExecuteScalarString("select dwr_image from m_drawing where dwr_cd = '" + drawingcd + "'");
             if (bytePic != "")
             {
                 byte[] imgBytes = Convert.FromBase64String(bytePic);
@@ -45,6 +43,8 @@ namespace IPQC_Part
                 pic.SizeMode = PictureBoxSizeMode.Zoom;
             }
         }
+        public string byteMeasure;
+        public string byteMain;
         private void frmFMS_Load(object sender, EventArgs e)
         {
             IPQC_Motor.TfSQL con = new IPQC_Motor.TfSQL();
@@ -101,13 +101,11 @@ namespace IPQC_Part
                 btnTaoForm.Enabled = false;
                 AlarmColor();
             }
-            string byteMeasure = con.sqlExecuteScalarString("select dwr_image from m_drawing where dwr_cd = '" + drawingcd + "'");
+            byteMeasure = con.sqlExecuteScalarString("select dwr_image from m_drawing where dwr_cd = '" + drawingcd + "'");
             callpic(byteMeasure, picMeasure);
-            string byteMain = con.sqlExecuteScalarString("select dwr_image_main from m_drawing where dwr_cd = '" + drawingcd + "'");
+            byteMain = con.sqlExecuteScalarString("select dwr_image_main from m_drawing where dwr_cd = '" + drawingcd + "'");
             callpic(byteMain, picMain);
         }
-
-
         bool checkdata()
         {
             if (cmbQuiTrinh.Text == "")
@@ -219,8 +217,8 @@ namespace IPQC_Part
             sql.Append("order by registration_date_time desc, item_measure,item_id asc ");
             IPQC_Motor.TfSQL con = new IPQC_Motor.TfSQL();
             con.sqlDataAdapterFillDatatable(sql.ToString(), ref dtInspectItems);
-            dgv.DataSource = dtInspectItems;                
-            if(dgv.Columns.Count > 0)
+            dgv.DataSource = dtInspectItems;
+            if (dgv.Columns.Count > 0)
             {
                 foreach (DataGridViewColumn cl in dgv.Columns) { cl.SortMode = DataGridViewColumnSortMode.NotSortable; };
                 dgv.Columns["item_measure"].HeaderText = "Item";//0
@@ -243,7 +241,7 @@ namespace IPQC_Part
                 dgv.Columns["data_est"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 dgv.Columns["registration_date_time"].HeaderText = "Date Time";//15
                 dgv.Columns["item_id"].Visible = false;
-                
+
                 dgv.Columns["registration_date_time"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
                 dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             }
@@ -296,7 +294,7 @@ namespace IPQC_Part
                 MessageBox.Show("Ban đang ở thuộc tính Đo Tiếp. Thoát Form nay và login với New Form để tạo Form", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
             }
         }
-    
+
         bool checkdataMeasure()
         {
             if (dgvMeasureData.RowCount == 0)
@@ -332,7 +330,7 @@ namespace IPQC_Part
                     if (dtt.Rows.Count > 0 && rowdtt < dtt.Rows.Count)
                     {
                         string a = dtt.Rows[rowdtt]["ItemMeasure"].ToString();
-                        if (a.Substring(1,a.Length-2) == dgvMeasureData.Rows[i].Cells["item_measure"].Value.ToString())//kiem tra cùng item ko
+                        if (a.Substring(1, a.Length - 2) == dgvMeasureData.Rows[i].Cells["item_measure"].Value.ToString())//kiem tra cùng item ko
                         {
                             if (dgvMeasureData.Rows[i].Cells["item_tool"].Value.ToString() == "FMS")//kiêm tra col tool = FMS ko
                             {
@@ -362,7 +360,8 @@ namespace IPQC_Part
                 File.Delete(SaveEmax);
                 CalculatorDataX();
             }
-            else {
+            else
+            {
                 MessageBox.Show("Chưa khởi tạo file EMAX !", "NOTE", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
@@ -399,7 +398,7 @@ namespace IPQC_Part
                                     {
                                         double datai = double.Parse(dtt.Rows[j]["ItemData"].ToString());
                                         dgvMeasureData.Rows[i].Cells[column].Value = datai;
-                                        if (j < dtt.Rows.Count -1 && dtt.Rows[j]["ItemMeasure"].ToString() == dtt.Rows[j+1]["ItemMeasure"].ToString())
+                                        if (j < dtt.Rows.Count - 1 && dtt.Rows[j]["ItemMeasure"].ToString() == dtt.Rows[j + 1]["ItemMeasure"].ToString())
                                         {
                                             double dataii = double.Parse(dtt.Rows[j + 1]["ItemData"].ToString());//lay gia tri dong ke tiep
                                             double max = datai > dataii ? datai : dataii;//get max
@@ -471,15 +470,15 @@ namespace IPQC_Part
                     m.Show(dgvMeasureData, new Point(e.X, e.Y));
                     colTam = currentMouseCol;
                     Mn.Click += menuItem_Click;
-                }                
+                }
             }
         }
-        public void menuItem_Click(object sender,EventArgs e)
+        public void menuItem_Click(object sender, EventArgs e)
         {
             readcsvFMS(colTam);
             updateData(ref dtInspectItems, pageid, "FMS");
         }
-        public void updateData(ref DataTable dtMeasure, int page_Id,string dongmay)
+        public void updateData(ref DataTable dtMeasure, int page_Id, string dongmay)
         {
             if (dtMeasure.Rows.Count > 0)
             {
@@ -540,8 +539,8 @@ namespace IPQC_Part
                     {
                         updateDGVMeasure += " where page_id =" + page_Id + " and item_id = " + int.Parse(dr[16].ToString());
                         bool up = tfSql.sqlExecuteNonQuery(updateDGVMeasure, true);
-                        if(up) { t = 0; }
-                    }   
+                        if (up) { t = 0; }
+                    }
                 }
                 AlarmColor();
             }
@@ -591,7 +590,7 @@ namespace IPQC_Part
                 else
                 { this.dgvMeasureData.Rows[i].ReadOnly = true; }
             }
-            if(cmbSLMau.Text != "")
+            if (cmbSLMau.Text != "")
             {
                 int slMau = 5 - int.Parse(cmbSLMau.Text);
                 for (int i = 1; i <= slMau; i++)
@@ -616,6 +615,10 @@ namespace IPQC_Part
         private void frmFMS_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (cl == 1) { frmenu.Close(); }
+            if (li.Count > 0)
+            {
+                foreach (frmImageView i in li) { i.Close(); }
+            }
         }
         private void btnKetNoi_Click(object sender, EventArgs e)
         {
@@ -654,8 +657,8 @@ namespace IPQC_Part
                 MessageBox.Show(ex.Message);
             }
         }
-        void data ()
-            {
+        void data()
+        {
             string content1 = "";
             if (cmbDongMay.Text == "Push")
             {
@@ -787,7 +790,7 @@ namespace IPQC_Part
                 foreach (DataRow dr in dtInspectItems.Rows)
                 {
                     double datatb = 0;
-                    if(dr[8].ToString()!= "")
+                    if (dr[8].ToString() != "")
                     {
                         datatb += double.Parse(dr[8].ToString());
                     }
@@ -807,7 +810,7 @@ namespace IPQC_Part
                     {
                         datatb += double.Parse(dr[12].ToString());
                     }
-                    dr[13] = Math.Round((datatb / int.Parse(cmbSLMau.Text)),4);
+                    dr[13] = Math.Round((datatb / int.Parse(cmbSLMau.Text)), 4);
                 }
             }
         }
@@ -824,7 +827,7 @@ namespace IPQC_Part
                     if (dgvMeasureData.Rows[i].Cells["data_4"].Style.BackColor == Color.Red) { ++estx; }
                     if (dgvMeasureData.Rows[i].Cells["data_5"].Style.BackColor == Color.Red) { ++estx; }
 
-                    if(estx > 0)
+                    if (estx > 0)
                     {
                         dgvMeasureData.Rows[i].Cells["data_est"].Value = "X";
                     }
@@ -894,7 +897,7 @@ namespace IPQC_Part
                     }
                 }
             }
-            else if (dgvMeasureData.RowCount <= 0 && cmbDanhGia.Text.Length > 0 && pageid <1)
+            else if (dgvMeasureData.RowCount <= 0 && cmbDanhGia.Text.Length > 0 && pageid < 1)
             {
                 MessageBox.Show("Chưa khởi tạo Form", "Note", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 cmbDanhGia.Text = null;
@@ -904,10 +907,10 @@ namespace IPQC_Part
         {
             FolderBrowserDialog folder = new FolderBrowserDialog();
             folder.SelectedPath = "D:\\";
-            if(folder.ShowDialog() == DialogResult.OK)
+            if (folder.ShowDialog() == DialogResult.OK)
             {
                 txtNoiLuu.Text = folder.SelectedPath;
-                if(txtNoiLuu.Text.Length > 3)
+                if (txtNoiLuu.Text.Length > 3)
                 {
                     txtNoiLuu.Text += "\\";
                 }
@@ -927,7 +930,7 @@ namespace IPQC_Part
                 string Dept = tfSql.sqlExecuteScalarString("select user_dept_cd from m_user where user_name = '" + username + "'");
                 if (Dept == "CT")
                 {
-                    exCut.exportExcel(model, drawingcd, DwrName,cmbMaSo.Text, cmbQuiTrinh.Text, dtpKhungGio.Value, cmbKhuVuc.Text, cmbNgoaiQuan.Text, dgvMeasureData, cmbDanhGia.Text, dtpGiaCong.Value.ToString("yyyy-MM-dd"), txtLot.Text, dtpDoHang.Value.ToString("yyyy-MM-dd"), "", username, txtNoiLuu.Text + drawingcd + DateTime.Now.ToString(" yyyy-MM-dd HH.mm"));
+                    exCut.exportExcel(model, drawingcd, DwrName, cmbMaSo.Text, cmbQuiTrinh.Text, dtpKhungGio.Value, cmbKhuVuc.Text, cmbNgoaiQuan.Text, dgvMeasureData, cmbDanhGia.Text, dtpGiaCong.Value.ToString("yyyy-MM-dd"), txtLot.Text, dtpDoHang.Value.ToString("yyyy-MM-dd"), "", username, txtNoiLuu.Text + drawingcd + DateTime.Now.ToString(" yyyy-MM-dd HH.mm"));
                 }
                 else
                 {
@@ -936,6 +939,21 @@ namespace IPQC_Part
             }
 
             else MessageBox.Show("Đường dẫn không hợp lệ !" + System.Environment.NewLine + "Hãy chọn lại thư mục lưu trữ ", "Note", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
+        private void picMeasure_DoubleClick(object sender, EventArgs e)
+        {
+            img = new frmImageView(drawingcd, byteMeasure);
+            img.Show();
+            li.Add(img);
+        }
+        public frmImageView img;
+        public List<frmImageView> li = new List<frmImageView>();
+        private void picMain_DoubleClick(object sender, EventArgs e)
+        {
+            img = new frmImageView(drawingcd, byteMain);
+            img.Show();
+            li.Add(img);
         }
     }
 }

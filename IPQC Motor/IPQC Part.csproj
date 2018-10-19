@@ -114,6 +114,12 @@
   <ItemGroup>
     <Compile Include="Class\ExcelClassCut.cs" />
     <Compile Include="Class\ExcelClassFMS.cs" />
+    <Compile Include="Form\frmImageView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\frmImageView.Designer.cs">
+      <DependentUpon>frmImageView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form\frmMenu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -166,6 +172,9 @@
     <Compile Include="Class\TfGeneral.cs" />
     <Compile Include="Class\TfSQL.cs" />
     <Compile Include="Class\VBStrings.cs" />
+    <EmbeddedResource Include="Form\frmImageView.resx">
+      <DependentUpon>frmImageView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form\frmMenu.resx">
       <DependentUpon>frmMenu.cs</DependentUpon>
     </EmbeddedResource>

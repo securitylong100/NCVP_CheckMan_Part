@@ -726,6 +726,7 @@
             this.picMeasure.Size = new System.Drawing.Size(297, 174);
             this.picMeasure.TabIndex = 1;
             this.picMeasure.TabStop = false;
+            this.picMeasure.DoubleClick += new System.EventHandler(this.picMeasure_DoubleClick);
             // 
             // tabPage2
             // 
@@ -745,6 +746,7 @@
             this.picMain.Size = new System.Drawing.Size(297, 178);
             this.picMain.TabIndex = 1;
             this.picMain.TabStop = false;
+            this.picMain.DoubleClick += new System.EventHandler(this.picMain_DoubleClick);
             // 
             // panel1
             // 
