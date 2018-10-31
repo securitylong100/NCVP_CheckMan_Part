@@ -63,8 +63,6 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label26 = new System.Windows.Forms.Label();
             this.btnLuuXuat = new System.Windows.Forms.Button();
-            this.txtNoiLuu = new System.Windows.Forms.TextBox();
-            this.btnNoiLuu = new System.Windows.Forms.Button();
             this.btnKetNoi = new System.Windows.Forms.Button();
             this.label17 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
@@ -396,8 +394,6 @@
             // 
             this.groupBox4.Controls.Add(this.label26);
             this.groupBox4.Controls.Add(this.btnLuuXuat);
-            this.groupBox4.Controls.Add(this.txtNoiLuu);
-            this.groupBox4.Controls.Add(this.btnNoiLuu);
             this.groupBox4.Controls.Add(this.btnKetNoi);
             this.groupBox4.Controls.Add(this.label17);
             this.groupBox4.Controls.Add(this.label18);
@@ -433,23 +429,6 @@
             this.btnLuuXuat.Text = "Xuất Excel";
             this.btnLuuXuat.UseVisualStyleBackColor = true;
             this.btnLuuXuat.Click += new System.EventHandler(this.btnLuuXuat_Click);
-            // 
-            // txtNoiLuu
-            // 
-            this.txtNoiLuu.Location = new System.Drawing.Point(88, 171);
-            this.txtNoiLuu.Name = "txtNoiLuu";
-            this.txtNoiLuu.Size = new System.Drawing.Size(137, 20);
-            this.txtNoiLuu.TabIndex = 18;
-            // 
-            // btnNoiLuu
-            // 
-            this.btnNoiLuu.Location = new System.Drawing.Point(8, 169);
-            this.btnNoiLuu.Name = "btnNoiLuu";
-            this.btnNoiLuu.Size = new System.Drawing.Size(74, 23);
-            this.btnNoiLuu.TabIndex = 17;
-            this.btnNoiLuu.Text = "Đường dẫn";
-            this.btnNoiLuu.UseVisualStyleBackColor = true;
-            this.btnNoiLuu.Click += new System.EventHandler(this.btnNoiLuu_Click);
             // 
             // btnKetNoi
             // 
@@ -826,8 +805,6 @@
         private System.Windows.Forms.DateTimePicker dtpDoHang;
         private System.Windows.Forms.DateTimePicker dtpGiaCong;
         private System.Windows.Forms.Button btnLuuXuat;
-        private System.Windows.Forms.TextBox txtNoiLuu;
-        private System.Windows.Forms.Button btnNoiLuu;
         private System.Windows.Forms.Button btnKetNoi;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label18;

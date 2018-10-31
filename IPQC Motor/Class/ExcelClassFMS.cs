@@ -144,15 +144,19 @@ namespace IPQC_Motor
                         rowExcel = rowExcel + 2;
                     }
                 }
-                    #endregion
+                #endregion
 
-                    xlWorkBook.SaveAs(PathSave + ".xls", Excel.XlFileFormat.xlWorkbookDefault, misValue, misValue, misValue,
-                            misValue, Excel.XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
-                    MessageBox.Show("Excel file created!", "Notice", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    xlWorkBook.Close(true, misValue, misValue);
-                    xlApp.Workbooks.Open(PathSave + ".xls");
-                    xlApp.Visible = true;
-                
+                if (File.Exists(@"D:\Book1.xlsx"))
+                {
+                    File.Delete(@"D:\Book1.xlsx");
+                }
+                xlWorkBook.SaveAs(@"D:\Book1.xlsx", Excel.XlFileFormat.xlWorkbookDefault, misValue, misValue, misValue,
+                misValue, Excel.XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
+                MessageBox.Show("Excel file created", "Notice", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                xlWorkBook.Close(true, misValue, misValue);
+                xlApp.Workbooks.Open(@"D:\Book1.xlsx");
+                xlApp.Visible = true;
+
             }
             catch (Exception ex)
             {

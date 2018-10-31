@@ -15,7 +15,7 @@
     <framework targetVersion="4.0" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="IPQC Part.exe.manifest" size="7312">
+    <dependentAssembly dependencyType="install" codebase="Application Files\IPQC Part_1_0_0_10\IPQC Part.exe.manifest" size="7312">
       <assemblyIdentity name="IPQC Part.exe" version="1.0.0.10" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>

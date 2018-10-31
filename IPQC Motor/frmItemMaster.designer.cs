@@ -34,30 +34,34 @@ namespace IPQC_Motor
             this.btnAdd = new System.Windows.Forms.Button();
             this.dgvTester = new System.Windows.Forms.DataGridView();
             this.btnSave = new System.Windows.Forms.Button();
-            this.btnDelete = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.txtDwr = new System.Windows.Forms.TextBox();
             this.picbox = new System.Windows.Forms.PictureBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.btn_imageMeasure = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.btn_imageMain = new System.Windows.Forms.Button();
             this.picbox_main = new System.Windows.Forms.PictureBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnRun = new System.Windows.Forms.Button();
+            this.btnImport = new System.Windows.Forms.Button();
+            this.txtLink = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTester)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picbox)).BeginInit();
-            this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picbox_main)).BeginInit();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnAdd
             // 
             this.btnAdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAdd.Location = new System.Drawing.Point(181, 25);
+            this.btnAdd.Location = new System.Drawing.Point(188, 23);
             this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(120, 33);
+            this.btnAdd.Size = new System.Drawing.Size(74, 36);
             this.btnAdd.TabIndex = 11;
             this.btnAdd.Text = "Add / Edit";
             this.btnAdd.UseVisualStyleBackColor = true;
@@ -66,17 +70,20 @@ namespace IPQC_Motor
             // dgvTester
             // 
             this.dgvTester.AllowUserToAddRows = false;
+            this.dgvTester.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvTester.BackgroundColor = System.Drawing.Color.NavajoWhite;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvTester.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvTester.ColumnHeadersHeight = 30;
-            this.dgvTester.Location = new System.Drawing.Point(0, 84);
+            this.dgvTester.Location = new System.Drawing.Point(6, 79);
             this.dgvTester.Name = "dgvTester";
             this.dgvTester.ReadOnly = true;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -88,40 +95,31 @@ namespace IPQC_Motor
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvTester.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvTester.RowHeadersVisible = false;
+            this.dgvTester.RowHeadersWidth = 42;
             this.dgvTester.RowTemplate.Height = 21;
             this.dgvTester.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgvTester.Size = new System.Drawing.Size(625, 623);
+            this.dgvTester.Size = new System.Drawing.Size(625, 629);
             this.dgvTester.TabIndex = 12;
+            this.dgvTester.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvTester_CellContentClick);
             this.dgvTester.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dgvTester_RowsAdded);
             // 
             // btnSave
             // 
             this.btnSave.Enabled = false;
             this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSave.Location = new System.Drawing.Point(433, 25);
+            this.btnSave.Location = new System.Drawing.Point(268, 23);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(120, 33);
+            this.btnSave.Size = new System.Drawing.Size(74, 36);
             this.btnSave.TabIndex = 11;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
-            // btnDelete
-            // 
-            this.btnDelete.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDelete.Location = new System.Drawing.Point(307, 25);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(120, 33);
-            this.btnDelete.TabIndex = 11;
-            this.btnDelete.Text = "Delete";
-            this.btnDelete.UseVisualStyleBackColor = true;
-            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(33, 19);
+            this.label1.Location = new System.Drawing.Point(10, 16);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(73, 13);
             this.label1.TabIndex = 13;
@@ -130,9 +128,9 @@ namespace IPQC_Motor
             // txtDwr
             // 
             this.txtDwr.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtDwr.Location = new System.Drawing.Point(40, 35);
+            this.txtDwr.Location = new System.Drawing.Point(17, 32);
             this.txtDwr.Name = "txtDwr";
-            this.txtDwr.Size = new System.Drawing.Size(130, 20);
+            this.txtDwr.Size = new System.Drawing.Size(161, 20);
             this.txtDwr.TabIndex = 14;
             // 
             // picbox
@@ -143,21 +141,6 @@ namespace IPQC_Motor
             this.picbox.Size = new System.Drawing.Size(379, 309);
             this.picbox.TabIndex = 15;
             this.picbox.TabStop = false;
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.btnAdd);
-            this.groupBox2.Controls.Add(this.btnDelete);
-            this.groupBox2.Controls.Add(this.btnSave);
-            this.groupBox2.Controls.Add(this.txtDwr);
-            this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.Location = new System.Drawing.Point(6, 2);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(566, 76);
-            this.groupBox2.TabIndex = 17;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Edit";
             // 
             // groupBox3
             // 
@@ -211,6 +194,63 @@ namespace IPQC_Motor
             this.picbox_main.TabIndex = 18;
             this.picbox_main.TabStop = false;
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.btnSave);
+            this.groupBox1.Controls.Add(this.btnAdd);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.txtDwr);
+            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox1.Location = new System.Drawing.Point(6, 2);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(349, 71);
+            this.groupBox1.TabIndex = 18;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Edit";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.txtLink);
+            this.groupBox2.Controls.Add(this.btnRun);
+            this.groupBox2.Controls.Add(this.btnImport);
+            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox2.Location = new System.Drawing.Point(361, 2);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(264, 71);
+            this.groupBox2.TabIndex = 19;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Run Excel";
+            // 
+            // btnRun
+            // 
+            this.btnRun.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRun.Location = new System.Drawing.Point(208, 23);
+            this.btnRun.Name = "btnRun";
+            this.btnRun.Size = new System.Drawing.Size(50, 36);
+            this.btnRun.TabIndex = 12;
+            this.btnRun.Text = "Run";
+            this.btnRun.UseVisualStyleBackColor = true;
+            // 
+            // btnImport
+            // 
+            this.btnImport.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnImport.Location = new System.Drawing.Point(6, 23);
+            this.btnImport.Name = "btnImport";
+            this.btnImport.Size = new System.Drawing.Size(74, 36);
+            this.btnImport.TabIndex = 13;
+            this.btnImport.Text = "Import";
+            this.btnImport.UseVisualStyleBackColor = true;
+            // 
+            // txtLink
+            // 
+            this.txtLink.Enabled = false;
+            this.txtLink.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtLink.Location = new System.Drawing.Point(86, 23);
+            this.txtLink.Multiline = true;
+            this.txtLink.Name = "txtLink";
+            this.txtLink.Size = new System.Drawing.Size(116, 36);
+            this.txtLink.TabIndex = 15;
+            // 
             // frmItemMaster
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -219,6 +259,7 @@ namespace IPQC_Motor
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1023, 708);
             this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.picbox);
             this.Controls.Add(this.dgvTester);
             this.Controls.Add(this.groupBox3);
@@ -233,11 +274,13 @@ namespace IPQC_Motor
             this.Load += new System.EventHandler(this.Form7_2_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvTester)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picbox)).EndInit();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picbox_main)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -247,16 +290,19 @@ namespace IPQC_Motor
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.DataGridView dgvTester;
         private System.Windows.Forms.Button btnSave;
-        private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtDwr;
         private System.Windows.Forms.PictureBox picbox;
-        private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.PictureBox picbox_main;
         private System.Windows.Forms.Button btn_imageMeasure;
         private System.Windows.Forms.Button btn_imageMain;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button btnRun;
+        private System.Windows.Forms.Button btnImport;
+        private System.Windows.Forms.TextBox txtLink;
     }
 }
 

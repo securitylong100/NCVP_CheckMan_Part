@@ -27,7 +27,7 @@
     <InstallUrl>\\192.168.145.7\checkmanpart\</InstallUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.html</WebPage>
-    <ApplicationRevision>8</ApplicationRevision>
+    <ApplicationRevision>11</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -161,6 +161,30 @@
     <Compile Include="frmLogin.Designer.cs">
       <DependentUpon>frmLogin.cs</DependentUpon>
     </Compile>
+    <Compile Include="Drawing\frmAddDrawing.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Drawing\frmAddDrawing.Designer.cs">
+      <DependentUpon>frmAddDrawing.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Drawing\frmDrawing.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Drawing\frmDrawing.Designer.cs">
+      <DependentUpon>frmDrawing.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Model\frmAddModel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Model\frmAddModel.Designer.cs">
+      <DependentUpon>frmAddModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Model\frmModel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Model\frmModel.Designer.cs">
+      <DependentUpon>frmModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmRegisterUser.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -192,6 +216,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmLogin.resx">
       <DependentUpon>frmLogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Drawing\frmAddDrawing.resx">
+      <DependentUpon>frmAddDrawing.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Drawing\frmDrawing.resx">
+      <DependentUpon>frmDrawing.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Model\frmAddModel.resx">
+      <DependentUpon>frmAddModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Model\frmModel.resx">
+      <DependentUpon>frmModel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmRegisterUser.resx">
       <DependentUpon>frmRegisterUser.cs</DependentUpon>

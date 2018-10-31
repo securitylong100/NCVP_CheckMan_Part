@@ -903,23 +903,10 @@ namespace IPQC_Part
                 cmbDanhGia.Text = null;
             }
         }
-        private void btnNoiLuu_Click(object sender, EventArgs e)
-        {
-            FolderBrowserDialog folder = new FolderBrowserDialog();
-            folder.SelectedPath = "D:\\";
-            if (folder.ShowDialog() == DialogResult.OK)
-            {
-                txtNoiLuu.Text = folder.SelectedPath;
-                if (txtNoiLuu.Text.Length > 3)
-                {
-                    txtNoiLuu.Text += "\\";
-                }
-            }
-        }
 
         private void btnLuuXuat_Click(object sender, EventArgs e)
         {
-            if (Directory.Exists(txtNoiLuu.Text))
+            if (pageid > 0)
             {
                 IPQC_Motor.ExcelClassFMS ex = new IPQC_Motor.ExcelClassFMS();
                 IPQC_Motor.ExcelClassCut exCut = new IPQC_Motor.ExcelClassCut();
@@ -928,17 +915,19 @@ namespace IPQC_Part
                 string DwrName = tfSql.sqlExecuteScalarString("select dwr_name from m_drawing where dwr_cd = '" + drawingcd + "'");
 
                 string Dept = tfSql.sqlExecuteScalarString("select user_dept_cd from m_user where user_name = '" + username + "'");
+
+                string ManMeasure = tfSql.sqlExecuteScalarString("select user_name from m_user where user_id = (select user_id from m_header where page_id = " + pageid + ")");
                 if (Dept == "CT")
                 {
-                    exCut.exportExcel(model, drawingcd, DwrName, cmbMaSo.Text, cmbQuiTrinh.Text, dtpKhungGio.Value, cmbKhuVuc.Text, cmbNgoaiQuan.Text, dgvMeasureData, cmbDanhGia.Text, dtpGiaCong.Value.ToString("yyyy-MM-dd"), txtLot.Text, dtpDoHang.Value.ToString("yyyy-MM-dd"), "", username, txtNoiLuu.Text + drawingcd + DateTime.Now.ToString(" yyyy-MM-dd HH.mm"));
+                    exCut.exportExcel(model, drawingcd, DwrName, cmbMaSo.Text, cmbQuiTrinh.Text, dtpKhungGio.Value,cmbPhuongThuc.Text,cmbSLMau.Text, cmbKhuVuc.Text, cmbNgoaiQuan.Text, dgvMeasureData, cmbDanhGia.Text, dtpGiaCong.Value.ToString("yyyy-MM-dd"), txtLot.Text, dtpDoHang.Value.ToString("yyyy-MM-dd"), "", ManMeasure, drawingcd + DateTime.Now.ToString(" yyyy-MM-dd HH.mm"));
                 }
                 else
                 {
-                    ex.exportExcel(model, drawingcd, DwrName, cmbQuiTrinh.Text, int.Parse(cmbSLMau.Text), cmbPhuongThuc.Text, cmbKhuVuc.Text, cmbNgoaiQuan.Text, dgvMeasureData, cmbDanhGia.Text, dtpGiaCong.Value.ToString("yyyy-MM-dd"), txtLot.Text, dtpDoHang.Value.ToString("yyyy-MM-dd"), "", username, txtNoiLuu.Text + drawingcd + DateTime.Now.ToString(" yyyy-MM-dd HH.mm"));
+                    ex.exportExcel(model, drawingcd, DwrName, cmbQuiTrinh.Text, int.Parse(cmbSLMau.Text), cmbPhuongThuc.Text, cmbKhuVuc.Text, cmbNgoaiQuan.Text, dgvMeasureData, cmbDanhGia.Text, dtpGiaCong.Value.ToString("yyyy-MM-dd"), txtLot.Text, dtpDoHang.Value.ToString("yyyy-MM-dd"), "", ManMeasure, drawingcd + DateTime.Now.ToString(" yyyy-MM-dd HH.mm"));
                 }
             }
 
-            else MessageBox.Show("Đường dẫn không hợp lệ !" + System.Environment.NewLine + "Hãy chọn lại thư mục lưu trữ ", "Note", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            else MessageBox.Show("Chưa khởi tạo form", "Note", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
         private void picMeasure_DoubleClick(object sender, EventArgs e)

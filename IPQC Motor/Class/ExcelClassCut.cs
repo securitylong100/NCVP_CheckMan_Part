@@ -12,7 +12,7 @@ namespace IPQC_Motor
 {
     public class ExcelClassCut
     {
-        public void exportExcel(string model, string Drawingcd, string DwrName,string SoMay, string QuiTrinh, DateTime KhungGio, string KhuVucSX, string ngoaiquang,DataGridView dgv, string DanhGia, string DateGiaCong, string Lot, string DateKiemtra, string memXacNhan, string memKiemTra, string PathSave)
+        public void exportExcel(string model, string Drawingcd, string DwrName, string SoMay, string QuiTrinh, DateTime KhungGio,string phuongthuc,string soluongmau, string KhuVucSX, string ngoaiquang, DataGridView dgv, string DanhGia, string DateGiaCong, string Lot, string DateKiemtra, string memXacNhan, string memKiemTra, string PathSave)
         {
             Excel.Application xlApp;
             Excel.Workbook xlWorkBook;
@@ -36,11 +36,11 @@ namespace IPQC_Motor
                 xlWorkSheet.Cells[6, 13] = DwrName; //document name
                 xlWorkSheet.Cells[6, 19] = SoMay; //So May
                 xlWorkSheet.Cells[8, 1] = QuiTrinh; //Qui Trinh
-
+                xlWorkSheet.Cells[8, 6] = phuongthuc;// phuong thuc
+                xlWorkSheet.Cells[8, 11] = soluongmau;//so luong mau thu
+                xlWorkSheet.Cells[8, 14] = KhuVucSX;//Khu Vuc SX
+                
                 xlWorkSheet.Cells[10, 10] = KhungGio.ToString("HH:mm"); //Khung gio
-                if(KhungGio.Hour >= 6 && KhungGio.Hour < 14) { xlWorkSheet.Cells[9, 10] = "Shift 1";  }
-                else if (KhungGio.Hour >= 14 && KhungGio.Hour < 22) { xlWorkSheet.Cells[9, 10] = "Shift 2"; }
-                else if (KhungGio.Hour >= 22 && KhungGio.Hour < 6) { xlWorkSheet.Cells[9, 10] = "Shift 3"; }
 
                 //footer
                 xlWorkSheet.Cells[44, 19] = DanhGia; //danhgia
@@ -48,13 +48,13 @@ namespace IPQC_Motor
                 xlWorkSheet.Cells[47, 20] = DateKiemtra; //lot
                 xlWorkSheet.Cells[43, 10] = memKiemTra; //Nguoi danh gia
 
-                xlWorkSheet.Range[xlWorkSheet.Cells[10, 11], xlWorkSheet.Cells[10, 12]] = ngoaiquang;//Ngoai Quang
+                xlWorkSheet.Range[xlWorkSheet.Cells[11, 11], xlWorkSheet.Cells[12, 11]] = ngoaiquang;//Ngoai Quang
 
                 xlRangeCopy = xlWorkSheet.Range[xlWorkSheet.Cells[39, 1], xlWorkSheet.Cells[40, 21]];
-                
+
                 int MaxItem = dgv.Rows.Cast<DataGridViewRow>().Max(r => int.Parse(r.Cells["item_measure"].Value.ToString()));
-                int RowAdd = MaxItem % 15;
-                if ((MaxItem/15) > 1 &&  RowAdd > 0)
+                int RowAdd = MaxItem - 15;
+                if ((MaxItem / 15) >= 1 && RowAdd > 0)
                 {
                     for (int i = 1; i <= RowAdd; i++)
                     {
@@ -63,14 +63,14 @@ namespace IPQC_Motor
                         xlRangeCopy.Copy(xlWorkSheet.Range[xlWorkSheet.Cells[41, 1], xlWorkSheet.Cells[42, 21]]);
                     }
                 }
-                
+
                 int rowExcel = 13;
                 for (int i = 0; i < dgv.Rows.Count; i++) //dong
                 {
                     xlWorkSheet.Cells[rowExcel, 1] = dgv.Rows[i].Cells["item_measure"].Value.ToString();
                     xlWorkSheet.Cells[rowExcel, 4] = dgv.Rows[i].Cells["item_spec_x"].Value.ToString();//spec X
                     double torUp; double torDown;
-                    if(double.TryParse(dgv.Rows[i].Cells["tolerance_up"].Value.ToString(), out torUp) && double.TryParse(dgv.Rows[i].Cells["tolerances_low"].Value.ToString(), out torDown))
+                    if (double.TryParse(dgv.Rows[i].Cells["tolerance_up"].Value.ToString(), out torUp) && double.TryParse(dgv.Rows[i].Cells["tolerances_low"].Value.ToString(), out torDown))
                     {
                         xlWorkSheet.Cells[rowExcel, 5] = torUp.ToString("#,###0.###");
                         xlWorkSheet.Cells[rowExcel + 1, 5] = torDown.ToString("#,###0.###");
@@ -91,29 +91,19 @@ namespace IPQC_Motor
                         xlWorkSheet.Range[xlWorkSheet.Cells[rowExcel, 10], xlWorkSheet.Cells[rowExcel + 1, 10]].Merge();
                     }
                     rowExcel = rowExcel + 2;
-                    //    xlWorkSheet.Range[xlWorkSheet.Cells[rowExcel, 13], xlWorkSheet.Cells[rowExcel + 1, 13]].Merge();
-                    //    xlWorkSheet.Range[xlWorkSheet.Cells[rowExcel, 14], xlWorkSheet.Cells[rowExcel + 1, 14]].Merge();
-                    //    xlWorkSheet.Range[xlWorkSheet.Cells[rowExcel, 15], xlWorkSheet.Cells[rowExcel + 1, 15]].Merge();
-                    //    xlWorkSheet.Range[xlWorkSheet.Cells[rowExcel, 16], xlWorkSheet.Cells[rowExcel + 1, 16]].Merge();
-
-                    //    xlWorkSheet.Cells[rowExcel, 12] = dgv.Rows[i].Cells["data_1"].Value.ToString();
-                    //    xlWorkSheet.Cells[rowExcel, 13] = dgv.Rows[i].Cells["data_2"].Value.ToString();
-                    //    xlWorkSheet.Cells[rowExcel, 14] = dgv.Rows[i].Cells["data_3"].Value.ToString();
-                    //    xlWorkSheet.Cells[rowExcel, 15] = dgv.Rows[i].Cells["data_4"].Value.ToString();
-                    //    xlWorkSheet.Cells[rowExcel, 16] = dgv.Rows[i].Cells["data_5"].Value.ToString();
-
-                    //    rowExcel = rowExcel + 2;
-                    //}
                 }
                 #endregion
+                if (File.Exists(@"D:\Book1.xlsx"))
+                {
+                    File.Delete(@"D:\Book1.xlsx");
+                }
+                xlWorkBook.SaveAs(@"D:\Book1.xlsx", Excel.XlFileFormat.xlWorkbookDefault, misValue, misValue, misValue,
+                misValue, Excel.XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
+                MessageBox.Show("Excel file created", "Notice", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                xlWorkBook.Close(true, misValue, misValue);
+                xlApp.Workbooks.Open(@"D:\Book1.xlsx");
+                xlApp.Visible = true;
 
-                xlWorkBook.SaveAs(PathSave + ".xlsx", Excel.XlFileFormat.xlWorkbookDefault, misValue, misValue, misValue,
-                            misValue, Excel.XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
-                    MessageBox.Show("Excel file created", "Notice", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    xlWorkBook.Close(true, misValue, misValue);
-                    xlApp.Workbooks.Open(PathSave + ".xlsx");
-                    xlApp.Visible = true;
-                
             }
             catch (Exception ex)
             {

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using Excel = Microsoft.Office.Interop.Excel;
 using System.Threading.Tasks;
 using System.Management;
 using System.Drawing.Drawing2D;
@@ -18,13 +19,19 @@ namespace IPQC_Motor
     public partial class frmItemMaster : Form
     {
         public string Model;
+        public int DrawingId;
         public string DrawingCd;
+        public string DrawingName;
+        public string DocName;
         public string User;
         // ƒRƒ“ƒXƒgƒ‰ƒNƒ^
-        public frmItemMaster(string drawing_cd, string user)
+        public frmItemMaster(int drawing_id, string drawing_cd,string drawing_name, string doc_name, string user)
         {
             InitializeComponent();
+            DrawingId = drawing_id;
             DrawingCd = drawing_cd;
+            DrawingName = drawing_name;
+            DocName = doc_name;
             User = user;
         }
         
@@ -33,14 +40,20 @@ namespace IPQC_Motor
             LoadItem();
         }
         public DataTable dt;
+        DataGridViewButtonColumn colDel;
         public void LoadItem()
         {
+            dgvTester.Columns.Clear();
             txtDwr.Text = DrawingCd;
             string sql = "select item_id,a.dwr_id , item_measure,  item_symbol,item_tool,item_row,item_detail,item_spec_x,  item_lower, item_upper  from m_item a left join m_drawing b on a.dwr_id = b.dwr_id where b.dwr_cd = '" + DrawingCd + "' order by item_measure,item_id asc ";
             TfSQL tfSql = new TfSQL();
             dt = new DataTable();
             tfSql.sqlDataAdapterFillDatatable(sql, ref dt);
             dgvTester.DataSource = dt;
+
+            //add columns Delete
+            colDel = new DataGridViewButtonColumn() { Text = "Delete", UseColumnTextForButtonValue = true };
+            dgvTester.Columns.Add(colDel);
 
             //Fix DGV            
             dgvTester.Columns["item_id"].Visible = false;
@@ -53,9 +66,10 @@ namespace IPQC_Motor
             dgvTester.Columns["item_tool"].HeaderText = "Tool";
             dgvTester.Columns["item_detail"].HeaderText = "Detail";
             dgvTester.Columns["item_row"].HeaderText = "Row";
+            dgvTester.Columns[10].HeaderText = "Delete";
             
             dgvTester.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvTester.Columns["item_measure"].Width = 100;
+            dgvTester.Columns["item_measure"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
 
             //Load Image to picture box
             string bytePic = tfSql.sqlExecuteScalarString("select dwr_image from m_drawing where dwr_cd = '" + DrawingCd + "'");
@@ -86,7 +100,6 @@ namespace IPQC_Motor
             dgvTester.AllowUserToAddRows = true;
             btnSave.Enabled = true;
             btnAdd.Enabled = false;
-            btnDelete.Enabled = false;
             TfSQL tf = new TfSQL();
             itemId = int.Parse(tf.sqlExecuteScalarString("select max(item_id) from m_item"));
         }
@@ -123,7 +136,6 @@ namespace IPQC_Motor
                 dgvTester.ReadOnly = true;
                 btnSave.Enabled = false;
                 btnAdd.Enabled = true;
-                btnDelete.Enabled = true;
             }
         }
         private void dgvTester_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
@@ -216,6 +228,31 @@ namespace IPQC_Motor
         private void btn_imageMain_Click(object sender, EventArgs e)
         {
             SaveImage(picbox_main, "dwr_image_main");
+        }
+        public bool Check()
+        {
+            if (txtDwr.Text == "") { return false; }
+            return true;
+        }
+
+        private void dgvTester_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dgvTester.RowCount > 0)
+            {
+                if (dgvTester.Columns[e.ColumnIndex] == colDel)
+                {
+                    TfSQL tf = new TfSQL();
+                    int itemId = int.Parse(dgvTester.Rows[e.RowIndex].Cells["item_id"].Value.ToString());
+                    string sqlDelete = "delete from m_item where item_id = " + itemId;
+
+                    DialogResult dialog = MessageBox.Show("Do you want to delete Measure item no " + dgvTester.Rows[e.RowIndex].Cells["item_measure"].Value.ToString(), "Note !", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                    if (dialog == DialogResult.Yes)
+                    {
+                        tf.sqlExecuteNonQuery(sqlDelete, false);
+                        LoadItem();
+                    }
+                }
+            }
         }
     }
 }

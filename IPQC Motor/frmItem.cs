@@ -23,7 +23,6 @@ namespace IPQC_Motor
         }
         private void frmItem_Load(object sender, EventArgs e)
         {
-
             TfSQL con = new TfSQL();
             string sql = @"select distinct model_cd from(select model_cd ,user_dept_cd from m_model a,m_user b where a.user_id = b.user_id )t,m_user a 
             where a.user_dept_cd = t.user_dept_cd and a.user_name = '" + username + "'";
@@ -64,23 +63,26 @@ namespace IPQC_Motor
             dgv.Columns.Clear();
             dtInspectItems.Clear();
             dgv.RowTemplate.MinimumHeight = 28;
-            string sql = @"select   b.model_sub_cd as model, a.dwr_cd, a.dwr_name, a.doc_name, a.registration_date_time from m_drawing a
+            string sql = @"select b.model_sub_cd as model, a.dwr_cd, a.dwr_name, a.doc_name, a.registration_date_time,a.dwr_id from m_drawing a
                             left join m_model b on a.model_id = b.model_id
                             where b.model_cd = '" + cmbModel.Text + "' and b.model_sub_cd = '" + cmbSubModel.Text + "' order by dwr_cd";
             TfSQL tf = new TfSQL();
             tf.sqlDataAdapterFillDatatable(sql, ref dtInspectItems);
             dgv.DataSource = dtInspectItems;
-            if(dgv.RowCount > 0)
-            {                
-                colNew = new DataGridViewButtonColumn {
+            if (dgv.RowCount > 0)
+            {
+                colNew = new DataGridViewButtonColumn
+                {
                     Text = "Measure New",
                     UseColumnTextForButtonValue = true,
                 };
-                colCon = new DataGridViewButtonColumn {
+                colCon = new DataGridViewButtonColumn
+                {
                     Text = "Continue",
                     UseColumnTextForButtonValue = true,
                 };
-                colEdit = new DataGridViewButtonColumn {
+                colEdit = new DataGridViewButtonColumn
+                {
                     Text = "Edit",
                     UseColumnTextForButtonValue = true,
                 };
@@ -91,7 +93,7 @@ namespace IPQC_Motor
                 if (tf.sqlExecuteScalarString(sqlpermision) == "admin")
                 {
                     dgv.Columns.Add(colEdit);
-                    dgv.Columns[7].HeaderText = "Edit";
+                    dgv.Columns[8].HeaderText = "Edit";
                 }
 
                 dgv.Columns["model"].HeaderText = "Model";
@@ -99,8 +101,8 @@ namespace IPQC_Motor
                 dgv.Columns["dwr_name"].HeaderText = "Drawing Name";
                 dgv.Columns["doc_name"].HeaderText = "Document";
                 dgv.Columns["registration_date_time"].HeaderText = "Date";
-                dgv.Columns[5].HeaderText = "New";
-                dgv.Columns[6].HeaderText = "Continue";
+                dgv.Columns[6].HeaderText = "New";
+                dgv.Columns[7].HeaderText = "Continue";
 
                 dgv.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
@@ -109,7 +111,8 @@ namespace IPQC_Motor
                 dgv.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
                 dgv.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
                 dgv.Columns[4].Visible = false;
-                dgv.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;                
+                dgv.Columns[5].Visible = false;
+                dgv.Columns[7].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
                 dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             }
         }
@@ -131,7 +134,7 @@ namespace IPQC_Motor
             else
             {
                 MessageBox.Show("Your have not permision", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
-            }          
+            }
         }
         public string DrawingCd;
         private void dgvMeasureItem_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -156,10 +159,11 @@ namespace IPQC_Motor
                 }
                 else if (dgvMeasureItem.Columns[e.ColumnIndex] == colEdit && curRow >= 0)//edit ban ve
                 {
-                    frmItemMaster frmitemM = new frmItemMaster(dgvMeasureItem.CurrentRow.Cells["dwr_cd"].Value.ToString(), username);
+                    frmItemMaster frmitemM = new frmItemMaster(int.Parse(dgvMeasureItem.CurrentRow.Cells["dwr_id"].Value.ToString()), dgvMeasureItem.CurrentRow.Cells["dwr_cd"].Value.ToString(), dgvMeasureItem.CurrentRow.Cells["dwr_name"].Value.ToString(), dgvMeasureItem.CurrentRow.Cells["doc_name"].Value.ToString(), username);
                     this.Hide();
                     frmitemM.ShowDialog();
                     this.Show();
+                    cmbSubModel_SelectedIndexChanged(sender, e);
                 }
             }
         }
@@ -176,7 +180,9 @@ namespace IPQC_Motor
 
                     if (checkPage > 0)
                     {
-                        IPQC_Part.frmFMS from = new IPQC_Part.frmFMS(pageId, username, DrawingCd);
+                        string[] a = listTV.SelectedNode.FullPath.ToString().Split('\\');
+                        string DWRCd = a[0];
+                        IPQC_Part.frmFMS from = new IPQC_Part.frmFMS(pageId, username, DWRCd);
                         this.Hide();
                         from.ShowDialog();
                         this.Show();
@@ -186,21 +192,21 @@ namespace IPQC_Motor
             }
             catch { return; }
         }
-        
+
         public bool boolTV = false;
-        
+
         private void btnTimKiem_Click(object sender, EventArgs e)
         {
-            TreeView2("", dtpFromDate.Value.ToString(), dtpToDate.Value.ToString(), 30,false);
+            TreeView2("", dtpFromDate.Value.ToString(), dtpToDate.Value.ToString(), 30, false);
         }
-        private void TreeView2(string DwrCd, string dateFrom, string dateTo, int limit,bool showDrawing)
+        private void TreeView2(string DwrCd, string dateFrom, string dateTo, int limit, bool showDrawing)
         {
             DataTable dtTV = new DataTable();
             listTV.Nodes.Clear();
             IPQC_Motor.TfSQL tfSql = new IPQC_Motor.TfSQL();
 
             string sqlTreeDr = "select dwr_cd, dwr_name from m_drawing where model_id in (select model_id from m_model where model_sub_cd = '" + cmbSubModel.Text + "') ";
-            if(showDrawing)
+            if (showDrawing)
             {
                 sqlTreeDr += " and dwr_cd = '" + DwrCd + "' ";
             }
@@ -220,7 +226,7 @@ namespace IPQC_Motor
                     header[k] = treeheader;
 
                     if (showDrawing) { header[k].Expand(); }
-                    
+
                     StringBuilder sqlTV = new StringBuilder();
                     sqlTV.Append(@"select cast(a.registration_date_time as date) dates
                             from m_header a left join m_data b on a.page_id = b.page_id left join m_item c on b.item_id = c.item_id 
@@ -265,24 +271,43 @@ namespace IPQC_Motor
 
                                 }
                                 else headerchild[j].BackColor = Color.Yellow;
-                                
+
                                 headerN[i].Nodes.Add(treeheaderchild);
                             }
-                        }                        
+                        }
                     }
                     listTV.Nodes.Add(header[k]);
                 }
             }
         }
-
-        private void dtpFromDate_ValueChanged_1(object sender, EventArgs e)
+        private void modelToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            TfSQL tf = new TfSQL();
+            string pemission = tf.sqlExecuteScalarString("select distinct user_permision from m_user where user_name = '" + username + "'");
+            if (pemission == "admin")
+            {
+                IPQC_Part.frmModel modelfrm = new IPQC_Part.frmModel(username);
+                modelfrm.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Your have not permision", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+            }
         }
 
-        private void dtpToDate_ValueChanged_1(object sender, EventArgs e)
+        private void drawingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            TfSQL tf = new TfSQL();
+            string pemission = tf.sqlExecuteScalarString("select distinct user_permision from m_user where user_name = '" + username + "'");
+            if (pemission == "admin")
+            {
+                IPQC_Part.frmDrawing dwrFrm = new IPQC_Part.frmDrawing(username);
+                dwrFrm.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Your have not permision", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+            }
         }
     }
 }

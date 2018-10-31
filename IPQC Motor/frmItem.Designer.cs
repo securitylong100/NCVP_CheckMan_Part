@@ -41,6 +41,9 @@
             this.userInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changePasswordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.registerUserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.drawingMasterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.modelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.drawingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listTV = new System.Windows.Forms.TreeView();
             this.label19 = new System.Windows.Forms.Label();
             this.btnTimKiem = new System.Windows.Forms.Button();
@@ -136,7 +139,9 @@
             this.menuStrip1.BackColor = System.Drawing.Color.White;
             this.menuStrip1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.userInfoToolStripMenuItem});
+            this.userInfoToolStripMenuItem,
+            this.drawingMasterToolStripMenuItem});
+            this.menuStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1029, 24);
@@ -165,6 +170,29 @@
             this.registerUserToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
             this.registerUserToolStripMenuItem.Text = "RegisterUser";
             this.registerUserToolStripMenuItem.Click += new System.EventHandler(this.registerUserToolStripMenuItem_Click);
+            // 
+            // drawingMasterToolStripMenuItem
+            // 
+            this.drawingMasterToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.modelToolStripMenuItem,
+            this.drawingToolStripMenuItem});
+            this.drawingMasterToolStripMenuItem.Name = "drawingMasterToolStripMenuItem";
+            this.drawingMasterToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
+            this.drawingMasterToolStripMenuItem.Text = "Master";
+            // 
+            // modelToolStripMenuItem
+            // 
+            this.modelToolStripMenuItem.Name = "modelToolStripMenuItem";
+            this.modelToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.modelToolStripMenuItem.Text = "Model";
+            this.modelToolStripMenuItem.Click += new System.EventHandler(this.modelToolStripMenuItem_Click);
+            // 
+            // drawingToolStripMenuItem
+            // 
+            this.drawingToolStripMenuItem.Name = "drawingToolStripMenuItem";
+            this.drawingToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.drawingToolStripMenuItem.Text = "Drawing";
+            this.drawingToolStripMenuItem.Click += new System.EventHandler(this.drawingToolStripMenuItem_Click);
             // 
             // listTV
             // 
@@ -204,7 +232,6 @@
             this.dtpFromDate.Name = "dtpFromDate";
             this.dtpFromDate.Size = new System.Drawing.Size(95, 21);
             this.dtpFromDate.TabIndex = 32;
-            this.dtpFromDate.ValueChanged += new System.EventHandler(this.dtpFromDate_ValueChanged_1);
             // 
             // dtpToDate
             // 
@@ -214,7 +241,6 @@
             this.dtpToDate.Name = "dtpToDate";
             this.dtpToDate.Size = new System.Drawing.Size(95, 21);
             this.dtpToDate.TabIndex = 33;
-            this.dtpToDate.ValueChanged += new System.EventHandler(this.dtpToDate_ValueChanged_1);
             // 
             // frmItem
             // 
@@ -267,6 +293,9 @@
         private System.Windows.Forms.Button btnTimKiem;
         private System.Windows.Forms.DateTimePicker dtpFromDate;
         private System.Windows.Forms.DateTimePicker dtpToDate;
+        private System.Windows.Forms.ToolStripMenuItem drawingMasterToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem modelToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem drawingToolStripMenuItem;
     }
 }
 

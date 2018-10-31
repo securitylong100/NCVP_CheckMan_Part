@@ -25,7 +25,13 @@ D:\GIT\NCVP_CheckMan_Part\IPQC Motor\obj\Debug\IPQC_Part.frmFMS.resources
 D:\GIT\NCVP_CheckMan_Part\IPQC Motor\obj\Debug\IPQC Part.csprojResolveAssemblyReference.cache
 D:\GIT\NCVP_CheckMan_Part\IPQC Motor\obj\Debug\IPQC_Part.frmContinue.resources
 D:\GIT\NCVP_CheckMan_Part\IPQC Motor\obj\Debug\IPQC_Part.frmMenu.resources
+D:\NCVP_GIT\NCVP_CheckMan_Part\IPQC Motor\bin\Debug\IPQC Part.exe.config
+D:\NCVP_GIT\NCVP_CheckMan_Part\IPQC Motor\bin\Debug\IPQC Part.exe.manifest
+D:\NCVP_GIT\NCVP_CheckMan_Part\IPQC Motor\bin\Debug\IPQC Part.application
+D:\NCVP_GIT\NCVP_CheckMan_Part\IPQC Motor\bin\Debug\IPQC Part.exe
+D:\NCVP_GIT\NCVP_CheckMan_Part\IPQC Motor\bin\Debug\IPQC Part.pdb
 D:\NCVP_GIT\NCVP_CheckMan_Part\IPQC Motor\obj\Debug\IPQC Part.csproj.ResolveComReference.cache
+D:\NCVP_GIT\NCVP_CheckMan_Part\IPQC Motor\obj\Debug\IPQC_Part.frmImageView.resources
 D:\NCVP_GIT\NCVP_CheckMan_Part\IPQC Motor\obj\Debug\IPQC_Part.frmMenu.resources
 D:\NCVP_GIT\NCVP_CheckMan_Part\IPQC Motor\obj\Debug\IPQC_Part.frmFMS.resources
 D:\NCVP_GIT\NCVP_CheckMan_Part\IPQC Motor\obj\Debug\IPQC_Part.frmChangePass.resources
@@ -35,15 +41,17 @@ D:\NCVP_GIT\NCVP_CheckMan_Part\IPQC Motor\obj\Debug\IPQC_Motor.frmLogin.resource
 D:\NCVP_GIT\NCVP_CheckMan_Part\IPQC Motor\obj\Debug\IPQC_Part.frmRegisterUser.resources
 D:\NCVP_GIT\NCVP_CheckMan_Part\IPQC Motor\obj\Debug\IPQC_Part.Properties.Resources.resources
 D:\NCVP_GIT\NCVP_CheckMan_Part\IPQC Motor\obj\Debug\IPQC Part.csproj.GenerateResource.Cache
-D:\NCVP_GIT\NCVP_CheckMan_Part\IPQC Motor\bin\Debug\IPQC Part.exe.config
-D:\NCVP_GIT\NCVP_CheckMan_Part\IPQC Motor\bin\Debug\IPQC Part.exe.manifest
-D:\NCVP_GIT\NCVP_CheckMan_Part\IPQC Motor\bin\Debug\IPQC Part.application
-D:\NCVP_GIT\NCVP_CheckMan_Part\IPQC Motor\bin\Debug\IPQC Part.exe
-D:\NCVP_GIT\NCVP_CheckMan_Part\IPQC Motor\bin\Debug\IPQC Part.pdb
 D:\NCVP_GIT\NCVP_CheckMan_Part\IPQC Motor\obj\Debug\IPQC Part.TrustInfo.xml
 D:\NCVP_GIT\NCVP_CheckMan_Part\IPQC Motor\obj\Debug\IPQC Part.exe.manifest
 D:\NCVP_GIT\NCVP_CheckMan_Part\IPQC Motor\obj\Debug\IPQC Part.application
 D:\NCVP_GIT\NCVP_CheckMan_Part\IPQC Motor\obj\Debug\IPQC Part.exe
 D:\NCVP_GIT\NCVP_CheckMan_Part\IPQC Motor\obj\Debug\IPQC Part.pdb
+D:\NCVP_GIT\NCVP_CheckMan_Part\IPQC Motor\obj\Debug\IPQC_Part.frmModel.resources
+D:\NCVP_GIT\NCVP_CheckMan_Part\IPQC Motor\obj\Debug\IPQC_Part.frmAddModel.resources
+D:\NCVP_GIT\NCVP_CheckMan_Part\IPQC Motor\obj\Debug\IPQC_Part.frmAddDrawing.resources
+D:\NCVP_GIT\NCVP_CheckMan_Part\IPQC Motor\obj\Debug\IPQC_Part.frmDrawing.resources
 D:\NCVP_GIT\NCVP_CheckMan_Part\IPQC Motor\obj\Debug\IPQC Part.csprojResolveAssemblyReference.cache
-D:\NCVP_GIT\NCVP_CheckMan_Part\IPQC Motor\obj\Debug\IPQC_Part.frmImageView.resources
+C:\Users\mt-fa14\Desktop\NCVP_CheckMan_Part\IPQC Motor\bin\Debug\IPQC Part.exe.config
+C:\Users\mt-fa14\Desktop\NCVP_CheckMan_Part\IPQC Motor\obj\Debug\IPQC Part.csproj.ResolveComReference.cache
+C:\Users\mt-fa14\Desktop\NCVP_CheckMan_Part\IPQC Motor\obj\Debug\IPQC Part.exe
+C:\Users\mt-fa14\Desktop\NCVP_CheckMan_Part\IPQC Motor\obj\Debug\IPQC Part.pdb
