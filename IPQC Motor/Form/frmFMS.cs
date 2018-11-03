@@ -207,7 +207,7 @@ namespace IPQC_Part
             sql.Append(@"
                         select a.item_measure, a.item_spec_x, a.item_lower, a.item_upper,
                        (a.item_upper  - a.item_spec_x) as tolerance_up , (a.item_lower  - a.item_spec_x) as tolerances_low,a.item_tool, a.item_detail,  
-                        b.data_1, b.data_2, b.data_3, b.data_4, b.data_5, b.data_x, b.data_est, b.registration_date_time,a.item_id   from m_item a left join
+                        b.data_1, b.data_2, b.data_3, b.data_4, b.data_5, b.data_x, b.data_est, b.registration_date_time,a.item_id, data_id from m_item a left join
                         (select dwr_cd,dwr_id, user_dept_cd from m_drawing a, m_user b where a.user_id = b.user_id) c on a.dwr_id = c.dwr_id
                         left join m_data b on a.item_id = b.item_id where c.dwr_cd = '" + drawingcd + "' and c.user_dept_cd = (select distinct user_dept_cd from m_user where user_name = '" + username + @"')");
             if (pageid > 0)
@@ -241,6 +241,7 @@ namespace IPQC_Part
                 dgv.Columns["data_est"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 dgv.Columns["registration_date_time"].HeaderText = "Date Time";//15
                 dgv.Columns["item_id"].Visible = false;
+                dgv.Columns["data_id"].Visible = false;
 
                 dgv.Columns["registration_date_time"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
                 dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
@@ -263,7 +264,7 @@ namespace IPQC_Part
             dt.Columns.Add("data_3", Type.GetType("System.String"));//10
             dt.Columns.Add("data_4", Type.GetType("System.String"));//11
             dt.Columns.Add("data_5", Type.GetType("System.String"));//12
-            dt.Columns.Add("data_x", Type.GetType("System.Double"));//13
+            dt.Columns.Add("data_x", Type.GetType("System.String"));//13
             dt.Columns.Add("data_est", Type.GetType("System.String"));//14
             dt.Columns.Add("registration_date_time", Type.GetType("System.DateTime"));
 
@@ -456,27 +457,59 @@ namespace IPQC_Part
             }
         }
         public int colTam;
+        public int rowTam;
+        public int Data_Id;
         private void dgvMeasureData_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
             {
                 int currentMouseCol = dgvMeasureData.HitTest(e.X, e.Y).ColumnIndex;
+                int currentMouseRow = dgvMeasureData.HitTest(e.X, e.Y).RowIndex;
                 int slM = int.Parse(cmbSLMau.Text);
-                if (currentMouseCol >= 8 && currentMouseCol <= 12 && cmbDongMay.Text == "FMS")
+                if (currentMouseCol >= 8 && currentMouseCol <= 12)
                 {
                     ContextMenu m = new ContextMenu();
-                    MenuItem Mn = new MenuItem(string.Format("Add data no {0}", (currentMouseCol - 7).ToString()));
+                    MenuItem Mn = new MenuItem(string.Format("Delete item {0}", dgvMeasureData.Rows[currentMouseRow].Cells["item_measure"].Value.ToString()));
                     m.MenuItems.Add(Mn);
                     m.Show(dgvMeasureData, new Point(e.X, e.Y));
+                    Data_Id = int.Parse(dgvMeasureData.Rows[currentMouseRow].Cells["data_id"].Value.ToString());
                     colTam = currentMouseCol;
+                    rowTam = currentMouseRow;
                     Mn.Click += menuItem_Click;
                 }
             }
         }
         public void menuItem_Click(object sender, EventArgs e)
         {
-            readcsvFMS(colTam);
-            updateData(ref dtInspectItems, pageid, "FMS");
+            DeleteItem();
+            //readcsvFMS(colTam);
+            //updateData(ref dtInspectItems, pageid, "FMS");
+        }
+        public void DeleteItem()
+        {
+            if (colTam >= 8 && colTam <= 12)
+            {
+                dgvMeasureData.Rows[rowTam].Cells[colTam].Value = "";
+                dgvMeasureData.Rows[rowTam].Cells[colTam].Style.BackColor = SystemColors.Window;
+                CalculatorDataX();
+                CalculatorEst();
+                IPQC_Motor.TfSQL tfSql = new IPQC_Motor.TfSQL();
+                string sqlDeleteItem = "update m_data set  ";
+
+                if (!String.IsNullOrEmpty(dgvMeasureData.Rows[rowTam].Cells["data_x"].Value.ToString()))
+                { sqlDeleteItem += " data_x = " + double.Parse(dgvMeasureData.Rows[rowTam].Cells["data_x"].Value.ToString()); }
+                else { sqlDeleteItem += " data_x = null "; }
+                if (!String.IsNullOrEmpty(dgvMeasureData.Rows[rowTam].Cells["data_est"].Value.ToString()))
+                { sqlDeleteItem += " ,data_est = '" + dgvMeasureData.Rows[rowTam].Cells["data_est"].Value.ToString() + "'"; }
+                else { sqlDeleteItem += " ,data_est = null "; }
+                if (colTam == 8) { sqlDeleteItem += " ,data_1 = null "; }
+                if (colTam == 9) { sqlDeleteItem += " ,data_2 = null "; }
+                if (colTam == 10) { sqlDeleteItem += " ,data_3 = null "; }
+                if (colTam == 11) { sqlDeleteItem += " ,data_4 = null "; }
+                if (colTam == 12) { sqlDeleteItem += " ,data_5 = null "; }
+                sqlDeleteItem += " where data_id = " + Data_Id;
+                tfSql.sqlExecuteNonQuery(sqlDeleteItem, false);            
+            }
         }
         public void updateData(ref DataTable dtMeasure, int page_Id, string dongmay)
         {
@@ -750,7 +783,7 @@ namespace IPQC_Part
                     double upper = 0;
                     double.TryParse(dgvMeasureData.Rows[i].Cells["item_lower"].Value.ToString(), out lower);
                     double.TryParse(dgvMeasureData.Rows[i].Cells["item_upper"].Value.ToString(), out upper);
-                    for (int j = 8; j <= (int.Parse(cmbSLMau.Text) + 8); j++)
+                    for (int j = 8; j <= 12; j++)
                     {
                         if (dgvMeasureData.Rows[i].Cells[j].Value.ToString() != "")
                         {
@@ -810,7 +843,9 @@ namespace IPQC_Part
                     {
                         datatb += double.Parse(dr[12].ToString());
                     }
-                    dr[13] = Math.Round((datatb / int.Parse(cmbSLMau.Text)), 4);
+                    if (datatb != 0) { dr[13] = Math.Round((datatb / int.Parse(cmbSLMau.Text)), 4).ToString(); }
+                    else
+                        dr[13] = "";
                 }
             }
         }
@@ -827,10 +862,7 @@ namespace IPQC_Part
                     if (dgvMeasureData.Rows[i].Cells["data_4"].Style.BackColor == Color.Red) { ++estx; }
                     if (dgvMeasureData.Rows[i].Cells["data_5"].Style.BackColor == Color.Red) { ++estx; }
 
-                    if (estx > 0)
-                    {
-                        dgvMeasureData.Rows[i].Cells["data_est"].Value = "X";
-                    }
+                    if (estx > 0) { dgvMeasureData.Rows[i].Cells["data_est"].Value = "X"; }
 
                     int esto = 0;
                     if (dgvMeasureData.Rows[i].Cells["data_1"].Value.ToString() != "" && dgvMeasureData.Rows[i].Cells["data_1"].Style.BackColor == SystemColors.Window) { esto++; }
@@ -839,10 +871,16 @@ namespace IPQC_Part
                     if (dgvMeasureData.Rows[i].Cells["data_4"].Value.ToString() != "" && dgvMeasureData.Rows[i].Cells["data_4"].Style.BackColor == SystemColors.Window) { esto++; }
                     if (dgvMeasureData.Rows[i].Cells["data_5"].Value.ToString() != "" && dgvMeasureData.Rows[i].Cells["data_5"].Style.BackColor == SystemColors.Window) { esto++; }
 
-                    if (estx == 0 && esto > 0)
-                    {
-                        dgvMeasureData.Rows[i].Cells["data_est"].Value = "O";
-                    }
+                    if (estx == 0 && esto > 0) { dgvMeasureData.Rows[i].Cells["data_est"].Value = "O"; }
+
+                    int estNull = 0;
+                    if (dgvMeasureData.Rows[i].Cells["data_1"].Value.ToString() == "" && dgvMeasureData.Rows[i].Cells["data_1"].Style.BackColor == SystemColors.Window) { estNull++; }
+                    if (dgvMeasureData.Rows[i].Cells["data_2"].Value.ToString() == "" && dgvMeasureData.Rows[i].Cells["data_2"].Style.BackColor == SystemColors.Window) { estNull++; }
+                    if (dgvMeasureData.Rows[i].Cells["data_3"].Value.ToString() == "" && dgvMeasureData.Rows[i].Cells["data_3"].Style.BackColor == SystemColors.Window) { estNull++; }
+                    if (dgvMeasureData.Rows[i].Cells["data_4"].Value.ToString() == "" && dgvMeasureData.Rows[i].Cells["data_4"].Style.BackColor == SystemColors.Window) { estNull++; }
+                    if (dgvMeasureData.Rows[i].Cells["data_5"].Value.ToString() == "" && dgvMeasureData.Rows[i].Cells["data_5"].Style.BackColor == SystemColors.Window) { estNull++; }
+
+                    if (estx == 0 && estNull == 5) { dgvMeasureData.Rows[i].Cells["data_est"].Value = ""; }
                 }
             }
         }

@@ -118,6 +118,7 @@
             this.dgvMeasureData.Name = "dgvMeasureData";
             this.dgvMeasureData.ReadOnly = true;
             this.dgvMeasureData.RowHeadersVisible = false;
+            this.dgvMeasureData.RowTemplate.DefaultCellStyle.BackColor = System.Drawing.SystemColors.Window;
             this.dgvMeasureData.Size = new System.Drawing.Size(1265, 500);
             this.dgvMeasureData.TabIndex = 15;
             this.dgvMeasureData.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMeasureData_CellEndEdit);
